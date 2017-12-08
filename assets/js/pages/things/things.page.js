@@ -10,10 +10,14 @@ parasails.registerPage('things', {
     virtualPageSlug: '',
 
     // Form data
-    formData: {
+    uploadFormData: {
       photo: undefined,
       label: '',
       previewImageSrc: ''
+    },
+    borrowFormData: {
+      returnTime: undefined,
+      pickupTime: undefined
     },
 
     // For tracking client-side validation errors in our form.
@@ -25,6 +29,8 @@ parasails.registerPage('things', {
 
     // Server error state
     cloudError: '',
+
+    selectedThing: undefined
   },
 
   virtualPages: true,
@@ -48,11 +54,25 @@ parasails.registerPage('things', {
       // Close modal
       this.goto('/things');
       // Reset form data
-      this.formData = {
+      this.uploadFormData = {
         photo: undefined,
         label: '',
         previewImageSrc: ''
       };
+      // Clear error states
+      this.formErrors = {};
+      this.cloudError = '';
+    },
+
+    _clearBorrowThingModal: function() {
+      // Close modal
+      this.goto('/things');
+      // Reset form data
+      this.borrowFormData = {
+        returnTime: undefined,
+        pickupTime: undefined
+      };
+      this.selectedThing = undefined;
       // Clear error states
       this.formErrors = {};
       this.cloudError = '';
@@ -71,7 +91,7 @@ parasails.registerPage('things', {
       // Clear out any pre-existing error messages.
       this.formErrors = {};
 
-      var argins = this.formData;
+      var argins = this.uploadFormData;
 
       if(!argins.photo) {
         this.formErrors.photo = true;
@@ -107,12 +127,12 @@ parasails.registerPage('things', {
         throw new Error('Consistency violation: `changeFileInput` was somehow called with an empty array of files, or with more than one file in the array!');
       }
       var selectedFile = files[0];
-      this.formData.photo = selectedFile;
+      this.uploadFormData.photo = selectedFile;
 
       // Set up the file preview for the UI:
       var reader = new FileReader();
       reader.onload = (event)=>{
-        this.formData.previewImageSrc = event.target.result;
+        this.uploadFormData.previewImageSrc = event.target.result;
 
         // Unbind this "onload" event.
         delete reader.onload;
@@ -121,6 +141,39 @@ parasails.registerPage('things', {
       this.formErrors.photo = false;
       reader.readAsDataURL(selectedFile);
 
+    },
+
+    clickBorrow: function(thingId) {
+      this.selectedThing = _.find(this.things, {id: thingId});
+
+      // Open the modal.
+      this.goto('/things/borrow');
+    },
+
+    closeBorrowThingModal: function() {
+      this._clearBorrowThingModal();
+    },
+
+    handleParsingBorrowThingForm: function() {
+      // Clear out any pre-existing error messages.
+      this.formErrors = {};
+
+      var argins = this.borrowFormData;
+
+      // If there were any issues, they've already now been communicated to the user,
+      // so simply return undefined.  (This signifies that the submission should be
+      // cancelled.)
+      if (Object.keys(this.formErrors).length > 0) {
+        return;
+      }
+
+      return argins;
+    },
+
+    submittedBorrowThingForm: function() {
+
+      // Close the modal.
+      this._clearBorrowThingModal();
     },
   }
 });

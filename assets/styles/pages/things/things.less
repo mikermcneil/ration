@@ -1,5 +1,4 @@
 #things {
-
   .page-header {
     .page-header();
   }
@@ -9,15 +8,53 @@
     margin: 0 auto;
     column-width: 230px;
     column-gap: 10px;
+    margin-bottom: 100px;
     .card {
       break-inside: avoid;
       margin-bottom: 10px;
       padding: 10px;
+      position: relative;
       img {
         display: block;
         width: 100%;
         height: auto;
         margin-bottom: 10px;
+        position: relative;
+        z-index: 10;
+      }
+      .card-options.dropdown {
+        position: absolute;
+        top: 15px;
+        right: 15px;
+        z-index: 50;
+        .options-toggle {
+          width: 30px;
+          height: 30px;
+          line-height: 30px;
+          text-align: center;
+          display: inline-block;
+          cursor: pointer;
+          font-size: 22px;
+          color: @accent-white;
+          background-color: rgba(0,0,0,0.3);
+          border-radius: 3px;
+          opacity: 0;
+          transition: opacity 250ms;
+        }
+        .dropdown-menu {
+          left: auto;
+          right: 0px;
+          .dropdown-item {
+            cursor: pointer;
+          }
+        }
+      }
+      &:hover {
+        .card-options {
+          .options-toggle {
+            opacity: 1;
+          }
+        }
       }
     }
   }
@@ -69,6 +106,18 @@
       // background-color: @bg-lt-gray;
       .image-wrapper {
         min-height: 150px;
+      }
+    }
+  }
+
+  .item-preview {
+    .card {
+      padding: 10px;
+      width: 100%;
+      max-width: 250px;
+      img {
+        width: 100%;
+        height: auto;
       }
     }
   }
