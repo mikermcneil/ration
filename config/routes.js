@@ -17,11 +17,12 @@ module.exports.routes = {
   'GET /':                   { action: 'view-homepage-or-redirect' },
   'GET /welcome':            { action: 'dashboard/view-welcome' },
   'GET /friends/:virtualPageSlug?':   { action: 'friends/view-friends' },
+  'GET /things':                      { action: 'things/view-things' },
 
   'GET /faq':                { view:   'pages/faq' },
   'GET /legal/terms':        { view:   'pages/legal/terms' },
   'GET /legal/privacy':      { view:   'pages/legal/privacy' },
-  'GET /contact':            { view:   'pages/contact' },
+  'GET /contact':            { view:   'pages/contact', locals: { currentSection: 'contact' }},
 
   'GET /signup':             { action: 'entrance/view-signup' },
   'GET /email/confirm':      { action: 'entrance/confirm-email' },
