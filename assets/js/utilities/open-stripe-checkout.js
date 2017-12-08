@@ -43,7 +43,7 @@ parasails.registerUtility('openStripeCheckout', async function openStripeCheckou
       // Open Stripe checkout.
       // (https://stripe.com/docs/checkout#integration-custom)
       checkoutHandler.open({
-        name: 'NEW_APP_NAME',
+        name: 'Ration',
         description: 'Link your credit card.',
         panelLabel: 'Save card',
         email: billingEmailAddress,
