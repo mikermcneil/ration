@@ -4,6 +4,28 @@
     .page-header();
   }
 
+  .listings {
+    max-width: 1000px;
+    margin: 0 auto;
+    column-width: 230px;
+    column-gap: 10px;
+    .card {
+      break-inside: avoid;
+      margin-bottom: 10px;
+      padding: 10px;
+      img {
+        display: block;
+        width: 100%;
+        height: auto;
+        margin-bottom: 10px;
+      }
+    }
+  }
+
+  .empty {
+    border-top: 1px solid @border-lt-gray;
+    padding-top: 25px;
+  }
 
   .photo-uploader {
     // padding: 5px;

@@ -4,15 +4,15 @@ module.exports = {
   friendlyName: 'Upload thing',
 
 
-  description: '',
+  description: 'Upload info about an item that will be visible for friends to borrow.',
 
+  files: ['photo'],
 
   inputs: {
 
     photo: {
       description: 'Upstream for an incoming file upload.',
       type: 'ref',
-      required: true
     },
 
     label: {
@@ -26,18 +26,22 @@ module.exports = {
   exits: {
 
     success: {
-      outputDescription: 'The ID of the newly created `Thing`.',
-      outputExample: 1
+      outputDescription: 'The newly created `Thing`.',
+      outputExample: {}
     },
 
     imageUploadFailed: {
-      description: 'The provided `photo` failed to upload.'
+      description: 'The provided photo failed to upload.'
     },
 
   },
 
 
   fn: async function (inputs, exits) {
+
+    var url = require('url');
+
+    // console.log('photo', inputs.photo);
 
     // Upload the image.
     var uploadedFile = await sails.uploadOne(inputs.photo)
@@ -47,11 +51,14 @@ module.exports = {
     var newThing = await Thing.create({
       imageUploadFd: uploadedFile.fd,
       imageUploadMime: uploadedFile.type,
-      label: inputs.label
+      label: inputs.label,
+      owner: this.req.me.id
     }).fetch();
 
-    // Return the ID of the newly-created thing.
-    return exits.success(newThing.id);
+    newThing.imageSrc = url.resolve(sails.config.custom.baseUrl, '/api/v1/things/'+newThing.id+'/photo');
+
+    // Return the newly-created thing, with its `imageSrc`
+    return exits.success(newThing);
 
   }
 

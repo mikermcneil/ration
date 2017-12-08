@@ -4,7 +4,7 @@ parasails.registerPage('things', {
   //  ╩╝╚╝╩ ╩ ╩╩ ╩╩═╝  ╚═╝ ╩ ╩ ╩ ╩ ╚═╝
   data: {
 
-    friends: [],
+    things: [],
 
     // The "virtual" portion of the URL which is managed by this page script.
     virtualPageSlug: '',
@@ -25,10 +25,6 @@ parasails.registerPage('things', {
 
     // Server error state
     cloudError: '',
-
-    // Success state when form has been submitted
-    cloudSuccess: false,
-
   },
 
   virtualPages: true,
@@ -47,17 +43,28 @@ parasails.registerPage('things', {
   //  ║║║║ ║ ║╣ ╠╦╝╠═╣║   ║ ║║ ║║║║╚═╗
   //  ╩╝╚╝ ╩ ╚═╝╩╚═╩ ╩╚═╝ ╩ ╩╚═╝╝╚╝╚═╝
   methods: {
+
+    _clearUploadThingModal: function() {
+      // Close modal
+      this.goto('/things');
+      // Reset form data
+      this.formData = {
+        photo: undefined,
+        label: '',
+        previewImageSrc: ''
+      };
+      // Clear error states
+      this.formErrors = {};
+      this.cloudError = '';
+    },
+
     clickAddButton: function() {
       // Open the modal.
       this.goto('/things/new');
     },
 
-    openedUploadThingModal: function() {
-      // TODO: focus first field
-    },
-
     closeUploadThingModal: function() {
-      this.goto('/things');
+      this._clearUploadThingModal();
     },
 
     handleParsingUploadThingForm: function() {
@@ -66,6 +73,10 @@ parasails.registerPage('things', {
 
       var argins = this.formData;
 
+      if(!argins.photo) {
+        this.formErrors.photo = true;
+      }
+
       // If there were any issues, they've already now been communicated to the user,
       // so simply return undefined.  (This signifies that the submission should be
       // cancelled.)
@@ -73,12 +84,22 @@ parasails.registerPage('things', {
         return;
       }
 
-      return argins;
+      return _.omit(argins, ['previewImageSrc']);
     },
 
-    submittedUploadThingForm: function() {
+    submittedUploadThingForm: function(result) {
+      var newItem = _.extend(result, {
+        owner: {
+          id: this.me.id,
+          fullName: this.me.fullName
+        }
+      });
+
       // Add the new thing to the list
-      // TODO
+      this.things.unshift(newItem);
+
+      // Close the modal.
+      this._clearUploadThingModal();
     },
 
     changeFileInput: function(files) {
@@ -86,8 +107,7 @@ parasails.registerPage('things', {
         throw new Error('Consistency violation: `changeFileInput` was somehow called with an empty array of files, or with more than one file in the array!');
       }
       var selectedFile = files[0];
-      this.photoFileName = selectedFile.name;
-      this.photoFile = selectedFile;
+      this.formData.photo = selectedFile;
 
       // Set up the file preview for the UI:
       var reader = new FileReader();

@@ -8,17 +8,26 @@
         <button class="btn btn-outline-primary" @click="clickAddButton()">Add an item</button>
       </div>
     </div>
+    <div class="listings">
+      <div class="card" :class="[thing.owner.id === me.id ? 'mine' : '']" v-for="thing in things">
+        <img :alt="thing.label ? thing.label : 'A mysterious item'" :src="thing.imageSrc"/>
+        <span class="label" v-if="thing.label">{{thing.label}}<br/></span>
+        <small class="owner text-primary" v-if="thing.owner.id !== me.id">{{thing.owner.fullName}}</small>
+        <small class="owner text-success" v-else><span class="fa fa-star-o mr-1"></span> Mine</small>
+      </div>
+    </div>
+    <div class="empty text-center" v-if="things.length === 0"><p>You and your friends have not uploaded any items. <a href="" @click="clickAddButton()">Add something</a> to get started!</p></div>
   </div>
 
   <% /* "Add thing" modal */ %>
-  <modal v-if="virtualPageSlug === 'new'" v-cloak key="new" @close="closeUploadThingModal()" @opened="openedUploadThingModal()">
+  <modal v-if="virtualPageSlug === 'new'" v-cloak key="new" @close="closeUploadThingModal()">
     <div class="modal-header">
       <h5 class="modal-title">Upload a new thing</h5>
       <button type="button" class="close" data-dismiss="modal" aria-label="Close">
         <span>&times;</span>
       </button>
     </div>
-    <ajax-form action="uploadThing" :syncing.sync="syncing" :cloud-error.sync="cloudError" :handle-parsing="handleParsingUploadThingForm" @submitted="submittedUploadThingForm()">
+    <ajax-form action="uploadThing" :syncing.sync="syncing" :cloud-error.sync="cloudError" :handle-parsing="handleParsingUploadThingForm" @submitted="submittedUploadThingForm($event)">
       <div class="modal-body">
         <div class="form-group">
           <label>Add a photo:</label>
@@ -31,12 +40,13 @@
                 </div>
               </div>
               <div class="col d-flex-column justify-content-center">
-                <span class="file-upload-button btn btn-sm" :class="[!formData.previewImageSrc ? 'btn-outline-success' : 'btn-outline-secondary mr-3']">
+                <span class="file-upload-button btn btn-sm" :class="[formErrors.photo ? 'btn-outline-danger' : !formData.previewImageSrc ? 'btn-outline-success' : 'btn-outline-secondary mr-3']">
                   <span class="button-text" v-if="!formData.previewImageSrc">Select image</span>
                   <span class="button-text" v-else>Change image</span>
                   <input type="file" name="design-image-upload" :disabled="syncing" accept="image/*" class="file-input" @change="changeFileInput($event.target.files)"/>
                 </span>
-                <p class="image-advice text-muted"><strong>Tip</strong>: Make sure the item is front and center in the photo, so people know exactly what you're offering to share.</p>
+                <p class="image-advice text-muted" v-if="!formErrors.photo"><strong>Tip</strong>: Make sure the item is front and center in the photo, so people know exactly what you're offering to share.</p>
+                <p class="image-advice text-danger" v-if="formErrors.photo">A photo is required in order to add a new item.</p>
               </div>
             </div>
           </div>
@@ -45,6 +55,7 @@
           <label>What is it?</label>
           <input class="form-control" type="text" v-model="formData.label" placeholder="Waffle Iron">
         </div>
+        <p class="text-danger" v-if="cloudError"><small>An error occured while processing your request. Please check your information and try again, or <a href="/support">contact support</a> if the error persists.</small></p>
       </div>
       <div class="modal-footer">
         <button data-dismiss="modal" class="btn btn-outline-primary mr-1">Cancel</button>
