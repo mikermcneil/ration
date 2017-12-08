@@ -20,8 +20,22 @@
     </div>
     <ajax-form action="uploadThing" :syncing.sync="syncing" :cloud-error.sync="cloudError" :handle-parsing="handleParsingUploadThingForm" @submitted="submittedUploadThingForm()">
       <div class="modal-body">
-        <div>
-          <button>Choose photo</button>
+        <div class="form-group">
+          <label>Add a photo of the item:</label>
+          <div class="photo-uploader" :class="!formData.previewImageSrc ? 'empty' :  ''">
+            <div class="photo-upload-field row d-flex align-items-center" :class="!formData.previewImageSrc ? 'justify-content-center' :  'justify-content-start'" >
+              <div class="photo-preview col" v-if="formData.previewImageSrc">
+                <img alt="A preview of the selected item" :src="formData.previewImageSrc"/>
+              </div>
+              <div class="text-center" :class="formData.previewImageSrc ? 'col' : ''">
+                <span class="file-upload-button btn" :class="[!formData.previewImageSrc ? 'btn-outline-success' : 'btn-outline-secondary mr-3']">
+                  <span class="button-text" v-if="!formData.previewImageSrc">Choose image</span>
+                  <span class="button-text" v-else>Change image</span>
+                  <input type="file" name="design-image-upload" :disabled="syncing" accept="image/*" class="file-input" @change="changeFileInput($event.target.files)"/>
+                </span>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
       <div class="modal-footer">

@@ -11,7 +11,9 @@ parasails.registerPage('things', {
 
     // Form data
     formData: {
-      // ...
+      photo: undefined,
+      label: '',
+      previewImageSrc: ''
     },
 
     // For tracking client-side validation errors in our form.
@@ -77,6 +79,28 @@ parasails.registerPage('things', {
     submittedUploadThingForm: function() {
       // Add the new thing to the list
       // TODO
+    },
+
+    changeFileInput: function(files) {
+      if (files.length !== 1) {
+        throw new Error('Consistency violation: `changeFileInput` was somehow called with an empty array of files, or with more than one file in the array!');
+      }
+      var selectedFile = files[0];
+      this.photoFileName = selectedFile.name;
+      this.photoFile = selectedFile;
+
+      // Set up the file preview for the UI:
+      var reader = new FileReader();
+      reader.onload = (event)=>{
+        this.formData.previewImageSrc = event.target.result;
+
+        // Unbind this "onload" event.
+        delete reader.onload;
+      };
+      // Clear out any error messages about not providing an image.
+      this.formErrors.photo = false;
+      reader.readAsDataURL(selectedFile);
+
     },
   }
 });

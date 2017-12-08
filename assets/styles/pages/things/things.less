@@ -4,4 +4,34 @@
     .page-header();
   }
 
+
+  .photo-uploader {
+    // padding: 5px;
+    .photo-upload-field {
+      min-height: 150px;
+      .file-upload-button {
+        position: relative;
+        cursor: pointer;
+        .file-input {
+          opacity: 0;
+          width: 100%;
+          height: 100%;
+          top: 0px;
+          left: 0px;
+          position: absolute;
+          cursor: pointer;
+        }
+      }
+
+      .photo-preview {
+        img {
+          width: 100%;
+        }
+      }
+    }
+    &.empty {
+      background-color: @bg-lt-gray;
+    }
+  }
+
 }

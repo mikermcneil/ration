@@ -16,7 +16,7 @@ module.exports.routes = {
   //  ╚╩╝╚═╝╚═╝╩  ╩ ╩╚═╝╚═╝╚═╝
   'GET /':                   { action: 'view-homepage-or-redirect' },
   'GET /friends/:virtualPageSlug?':   { action: 'friends/view-friends' },
-  'GET /things':                      { action: 'things/view-things' },
+  'GET /things/:virtualPageSlug?':     { action: 'things/view-things' },
 
   'GET /faq':                { view:   'pages/faq' },
   'GET /legal/terms':        { view:   'pages/legal/terms' },
