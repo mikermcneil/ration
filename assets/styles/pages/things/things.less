@@ -24,13 +24,30 @@
       }
 
       .photo-preview {
-        img {
+        .image-wrapper {
+          background-color: @bg-lt-gray;
           width: 100%;
+          img {
+            width: 100%;
+          }
+          .placeholder-icon {
+            color: @text-muted;
+            font-size: 42px;
+          }
         }
+      }
+
+      .image-advice {
+        margin-top: 15px;
+        font-size: 13px;
+        line-height: 16px;
       }
     }
     &.empty {
-      background-color: @bg-lt-gray;
+      // background-color: @bg-lt-gray;
+      .image-wrapper {
+        min-height: 150px;
+      }
     }
   }
 
