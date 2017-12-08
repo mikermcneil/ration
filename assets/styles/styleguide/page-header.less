@@ -1,0 +1,30 @@
+.page-header() {
+  text-align: center;
+  padding-top: 25px;
+  padding-bottom: 50px;
+  h1 {
+    .container-sm();
+    font-size: 22px;
+    font-weight: 900;
+    margin-bottom: 10px;
+  }
+  h2 {
+    .container-sm();
+    font-size: 15px;
+    color: @text-muted;
+  }
+  .header-buttons {
+    padding-top: 10px;
+    .btn {
+      margin-left: 5px;
+      margin-right: 5px;
+      cursor: pointer;
+      &:first-child {
+        margin-left: 0px;
+      }
+      &:last-child {
+        margin-right: 0px;
+      }
+    }
+  }
+}
