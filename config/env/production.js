@@ -365,6 +365,46 @@ module.exports = {
 
   /**************************************************************************
   *                                                                         *
+  * Tell Sails how it should upload files in production.                    *
+  *                                                                         *
+  * (https://sailsjs.com/config/uploads)                                    *
+  *                                                                         *
+  **************************************************************************/
+  uploads: {
+
+    /***************************************************************************
+    *                                                                          *
+    * Configure a production filesystem adapter:                               *
+    *                                                                          *
+    * 1. Choose an adapter:                                                    *
+    *    https://sailsjs.com/plugins/uploads                                   *
+    *                                                                          *
+    * 2. Install it as a dependency of your Sails app.                         *
+    *    (For example:  npm install skipper-s3 --save)                         *
+    *                                                                          *
+    * 3. Then pass it in, with any other config.                               *
+    *    (See https://sailsjs.com/config/uploads for help.)                    *
+    *                                                                          *
+    ***************************************************************************/
+    // adapter: 'skipper-s3',
+    // s3Bucket: 'profile_images',
+    // s3Secret: 'AB2g1939eaGAdeAdamdaio38103onaDs',
+    //--------------------------------------------------------------------------
+    //  /\   To avoid checking them in to version control, you might opt to set
+    //  ||   sensitive credentials like `s3Secret` using an environment variable.
+    //
+    //  For example:
+    //  ```
+    //  sails_uploads__s3Secret=AB2g1939eaGAdeAdamdaio38103onaDs
+    //  ```
+    //--------------------------------------------------------------------------
+
+  },
+
+
+
+  /**************************************************************************
+  *                                                                         *
   * Production overrides for any custom settings specific to your app.      *
   * (for example, production credentials for 3rd party APIs like Stripe)    *
   *                                                                         *

@@ -69,6 +69,11 @@ module.exports = Object.assign({}, PRODUCTION_CONFIG, {
     //--------------------------------------------------------------------------
   }),
 
+  uploads: Object.assign({}, PRODUCTION_CONFIG.uploads, {
+    // In staging, just upload files to the local server disk:
+    adapter: require('skipper-disk')
+  }),
+
   custom: Object.assign({}, PRODUCTION_CONFIG.custom, {
 
     baseUrl: 'https://staging.example.com',
