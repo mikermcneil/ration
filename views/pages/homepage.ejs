@@ -1,0 +1,108 @@
+<div id="homepage" :class="[heroHeightSet ? '' : 'uninitialized']" v-cloak>
+  <div class="hero d-flex flex-column justify-content-center" full-page-hero>
+    <div class="container text-center">
+      <div class="hero-image">
+        <img class="sky" src="/images/hero-sky.png"/>
+        <img class="cloud cloud-1" src="/images/hero-cloud.png"/>
+        <img class="cloud cloud-2" src="/images/hero-cloud.png"/>
+        <img class="ship" src="/images/hero-ship.png"/>
+        <img class="water" src="/images/hero-water.png"/>
+      </div>
+      <h1 class="display-4">A new <strong>Sails</strong> app.</h1>
+      <div>
+        <div class="more-info-text" @click="clickHeroButton()">
+          <div class="text">Dive in</div>
+          <div class="icon">&darr;</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="about-wrapper" role="scroll-destination">
+    <div class="container">
+      <div class="about text-center">
+        <h3>This is your freshly-generated project + a few extras.</h3>
+        <p>In our time <a target="_blank" href="https://sailsjs.com/studio">building apps for customers</a>, we've found ourselves re-rolling some of the same key features over and over again between projects.  So we picked some of the things that kept popping up, implemented our own opinionated solutions for them, and then included it all in this free and open-source starter app.  We hope it helps you as much as it helps us!</p>
+      </div>
+      <div class="features text-center">
+        <div class="row">
+          <div class="feature col-sm">
+            <div class="icon">
+              <i class="fa fa-envelope"></i>
+            </div>
+            <h4>Emails</h4>
+            <p class="text-muted">Built-in support for internal emails from the <a href="/contact">contact form</a>, as well as transactional emails for users.</p>
+          </div>
+          <div class="col-sm feature">
+            <div class="icon">
+              <i class="fa fa-lock"></i>
+            </div>
+            <h4>Authentication</h4>
+            <p class="text-muted">Ready-to-go, customizable <a href="/signup">sign up</a>, <a href="/login">login</a>, and <a href="/password/forgot">password recovery</a> flows for your users.</p>
+          </div>
+          <div class="col-sm feature">
+            <div class="icon">
+              <i class="fa fa-credit-card"></i>
+            </div>
+            <h4>Billing</h4>
+            <p class="text-muted">Hook up to your Stripe account for managing customers and payment sources.</p>
+          </div>
+        </div>
+        <a class="btn btn-outline-info mt-5" href="/faq">Learn more</a>
+      </div>
+    </div>
+  </div>
+  <div class="container">
+    <div class="setup">
+      <h3 class="text-center">How to get started:</h3>
+      <div class="step">
+        <div class="step-image">
+        <img alt="computer with email symbol on screen" src="/images/setup-email.png"/>
+        </div>
+        <h5>Configure email settings</h5>
+        <p>In order for this app to send and receive emails, you'll need to create a <a target="_blank" href="https://mailgun.com">Mailgun</a> account. (If you don't have a domain, you can always use the sandbox credentials they provide you.) Then, in <code>config/custom.js</code>, configure the following:</p>
+        <div class="card bg-light mb-4">
+          <div class="card-body"><pre><code><span class="text-muted">// Recipient of contact form messages</span>
+internalEmailAddress: my.email@example.com,
+
+<span class="text-muted">// For outgoing emails</span>
+fromEmailAddress: 'noreply@example.com',
+fromName: 'The Sails.js Team',
+
+<span class="text-muted">// Mailgun settings</span>
+mailgunDomain: 'transactional-mail.example.com',
+mailgunSecret: 'key-testkeyb183848139913858e8abd9a3'</code></pre>
+          </div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-image">
+        <img alt="computer with credit card icon on screen" src="/images/setup-payment.png"/>
+        </div>
+        <h5>Configure Stripe settings</h5>
+        <p>To configure payments, you'll need to make a <a target="_blank" href="https://stripe.com">Stripe</a> account, then include your test credentials like so:</p>
+        <div class="card bg-light mb-4">
+          <div class="card-body"><pre><code><span class="text-muted">// Stripe credentials</span>
+stripePublishableKey: 'pk_test_Zzd814nldl91104qor5911gjald',
+stripeSecret: 'sk_test_Zzd814nldl91104qor5911gjald'</code></pre>
+          </div>
+        </div>
+        <p>If your app doesn't need payment processing, it will still work without Stripe configuration. In this case, any references to billing will just be omitted from the UI.</p>
+      </div>
+      <div class="step">
+        <div class="step-image">
+        <img alt="computer with sails logo on screen" src="/images/setup-customize.png"/>
+        </div>
+        <h5>Customize</h5>
+        <p>Once the initial configuration is done, you're ready to start building out the rest of your app.</p>
+        <p>We tried to keep the app structure consistent and the files as bare-bones as possible, so it's easy to add new pages and endpoints following the conventions we've set up. If you run into trouble, have a look at the <a href="/faq">FAQ</a> page for more info about the tools we've used and how to customize. For a deeper dive, check out the Sails <a href="https://sailsjs.com/documentation">documentation</a> and <a href="https://sailsjs.com/support">support</a> pages.</p>
+      </div>
+    </div>
+    <hr/>
+    <div class="pep-talk text-center">
+      <h3>Let's get to work.</h3>
+      <p>We think this project is a pretty good starting point, but of course there's no one-size-fits-all solution. The good news is, this app is in your hands now, so you can jump into the files and make it your own. Change some code around. Break stuff. Fix it. And above all: <strong>do something awesome</strong>.</p>
+      <p><span class="text-muted">&hearts;</span> <a href="https://sailsjs.com/about">The Sails Team</a></p>
+    </div>
+  </div>
+</div>
+<%- /* Expose locals as `window.SAILS_LOCALS` :: */ exposeLocalsToBrowser() %>

@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>New Sails App++</title>
+
+    <% /* Viewport tag for sensible mobile support */ %>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+    <% /* Script tags should normally be included further down the page- but scripts
+    that load fonts are a special exception to the rule.  (We include them up here
+    above the <body> to prevent the page flickering when fonts load.)  */ %>
+    <script src="https://use.fontawesome.com/96cbd61ead.js"></script>
+
+    <% /*
+        Stylesheets
+        ========================
+
+        Stylesheets can be hard-coded as `<link>` tags, automatically injected
+        by the asset pipeline between "STYLES" and "STYLES END", or both.
+        (https://sailsjs.com/docs/concepts/assets/task-automation)
+    */ %>
+
+    <% /* Auto-injected <link> tags: */ %>
+    <!--STYLES-->
+    <!--STYLES END-->
+  </head>
+
+  <body>
+    <div id="page-wrap">
+      <header id="page-header" class="navbar navbar-expand-sm navbar-dark bg-dark flex-column flex-md-row justify-content-between">
+        <a class="navbar-brand mr-0" href="/">NEW_APP_NAME</a>
+        <div class="navbar-nav flex-row">
+          <!-- LOGGED-IN NAVIGATION -->
+          <% if(me) { %>
+          <a class="nav-item nav-link ml-2 ml-md-0 mr-2 mr-md-0" href="/contact">Help</a>
+          <!-- Only in desktop nav -->
+          <div class="nav-item dropdown d-none d-sm-block">
+            <a class="nav-link dropdown-toggle" id="header-account-menu-link" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Account</a>
+            <div class="dropdown-menu account-menu" aria-labelledby="header-account-menu-link">
+              <a class="dropdown-item" href="/account">Settings</a>
+              <a class="dropdown-item" href="/logout">Sign out</a>
+            </div>
+          </div>
+          <!-- Only in mobile nav -->
+          <a class="nav-item nav-link ml-2 mr-2 d-block d-sm-none" href="/account">Account Settings</a>
+          <a class="nav-item nav-link ml-2 mr-2 d-block d-sm-none" href="/logout">Sign out</a>
+          <% } else { %>
+          <!-- LOGGED-OUT NAVIGATION -->
+          <a class="nav-item nav-link ml-2 ml-md-0 mr-2" href="/faq">FAQ</a>
+          <a class="nav-item nav-link ml-2 ml-md-0 mr-2" href="/login">Log in</a>
+          <!-- Only in desktop nav -->
+          <div class="form-inline d-none ml-2 d-md-block" >
+            <a class="btn btn-outline-info" href="/signup">Sign up</a>
+          </div>
+          <!-- Only in mobile nav -->
+          <a class="nav-item nav-link text-info ml-2 d-block d-md-none" href="/signup">Sign up</a>
+          <% } %>
+        </div>
+      </header>
+
+      <!-- Alert if email has not been confirmed -->
+      <% if(me&&me.emailChangeCandidate) { %>
+      <div class="container-fluid">
+        <div class="alert alert-secondary mt-2" role="alert">
+        Your updated email address needs verification. Until you click the link sent to <strong><%= me.emailChangeCandidate %></strong>, you'll still need to sign in as <strong><%= me.emailAddress %></strong>.
+        </div>
+      </div>
+      <% } else if(me&&me.emailStatus === 'unconfirmed') { %>
+      <div class="container-fluid">
+        <div class="alert alert-secondary mt-2" role="alert">
+        Your email address still needs verification. Your account access may be limited until you click the link sent to <strong><%= me.emailChangeCandidate ? me.emailChangeCandidate : me.emailAddress%></strong>.
+        </div>
+      </div>
+      <% } %>
+
+      <%- body %>
+
+      <footer id="page-footer" class="navbar navbar-light justify-content-between flex-row-reverse">
+        <div class="nav">
+          <small class="nav-item"><a class="nav-link text-info" href="/contact">Contact us</a></small>
+          <small class="nav-item"><a class="nav-link text-info" href="/legal/terms">Terms of Use</a></small>
+          <small class="nav-item"><a class="nav-link text-info" href="/legal/privacy">Privacy policy</a></small>
+          <% if(me) { %>
+          <small class="nav-item"><a class="nav-link text-info" href="/logout">Sign out</a></small>
+          <% } %>
+        </div>
+        <small class="copy">Copyright &copy; 2017 NEW_APP_COMPANY. <br class="xs-only"/>All rights reserved.</small>
+      </footer>
+    </div>
+
+
+    <% /*
+      Client-side JavaScript
+      ========================
+
+      Scripts can be hard-coded as <script> tags, automatically injected
+      by the asset pipeline between "SCRIPTS" and "SCRIPTS END", or both.
+      (https://sailsjs.com/docs/concepts/assets/task-automation)
+    */ %>
+
+    <% /* Load Stripe Checkout */ %>
+    <script src="https://checkout.stripe.com/checkout.js"></script>
+
+    <% /* Delete the global `self` to help avoid client-side bugs.
+    (see https://developer.mozilla.org/en-US/docs/Web/API/Window/self) */ %>
+    <script>delete window.self;</script>
+
+    <% /* Auto-injected <script> tags: */ %>
+    <!--SCRIPTS-->
+    <!--SCRIPTS END-->
+  </body>
+</html>

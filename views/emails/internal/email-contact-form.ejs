@@ -1,0 +1,16 @@
+<% /* Note: Unlike other emails, this is NOT intended for use with a layout! */ %>
+<div style="width: 100%; background-color: #efefef; font-family: 'Helvetica Neue', 'Helvetica', sans-serif; box-sizing: border-box; padding-bottom: 25px; padding-top: 25px;" >
+  <div style="width: 90%; max-width: 800px; margin: 0px auto;">
+    <div style="padding: 25px; margin-top:10px; background-color: #14acc2; border-top-left-radius: 6px; border-top-right-radius: 6px; border: 1px solid #0c8da0;">
+      <h2 style="text-align: center; color: #ffffff; margin:0px; font-size: 34px;">New contact form message</h2>
+    </div>
+    <div style="background-color: #ffffff; padding: 25px; margin-bottom: 25px; color: #303030; border-bottom-left-radius: 6px; border-bottom-right-radius: 6px; border: 1px solid #cccccc;">
+      <p style="margin-bottom: 35px;">Dear admin,</p>
+      <p>We have received the following message through the contact form:</p>
+      <p><strong>From:</strong> <%= contactName %> &lt;<%= contactEmail %>&gt;</p>
+      <p><strong>Topic:</strong> <%= topic %></p>
+      <p style="margin-bottom: 35px;"><strong>Message:</strong> <%= message %></p>
+    </div>
+  </div>
+</div>
+

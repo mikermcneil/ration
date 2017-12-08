@@ -1,0 +1,113 @@
+<div id="faq">
+  <div class="container">
+    <h1>FAQ</h1>
+    <div class="q-and-a">
+      <hr/>
+      <h4>Other than Sails, what technologies, frameworks, or services does this app rely on?</h4>
+      <p>This app includes several tools and integrations that we use frequently on top of Sails.  They've worked well for us in the past; allowing us to focus on developing new features with minimal overhead.  Some are files we've rolled ourselves, and the rest are 3rd party services and frameworks. While a couple of these will require you to make an account (or obtain an API key, etc.), we want to emphasize that we only included trusted, reliable tools that we feel comfortable using on our own projects, and our customers' projects.</p>
+      <ul>
+        <li><a target="_blank" href="http://getbootstrap.com/docs/4.0/getting-started/introduction/"><strong>Bootstrap 4</strong></a> - Front-end component library</li>
+        <li><a target="_blank" href="http://fontawesome.io/icons/"><strong>Font Awesome</strong></a> - Icons</li>
+        <li><a target="_blank" href="https://vuejs.org/"><strong>Vue.js</strong></a> - Front-end framework</li>
+        <li><strong>parasails.js</strong> - Thin layer of bundled conventions for using Vue.js with Sails.js (More info on usage below.)</li>
+        <li><strong>cloud.js</strong> - SDK for handling requests from the front-end to the endpoints in your Sails app. (More info on usage below.)</li>
+        <li><a target="_blank" href="https://www.mailgun.com/"><strong>Mailgun</strong></a>* - Emails</li>
+        <li><a target="_blank" href="https://stripe.com/docs"><strong>Stripe</strong></a>* - Payments</li>
+      </ul>
+      <p><small>* requires an API key</small></p>
+    </div>
+    <div class="q-and-a">
+      <hr/>
+      <h4>How do I configure an endpoint to use with cloud.js?</h4>
+      <p>Once you've created a controller action and added it to your routes (see the <a target="_blank" href="http://sailsjs.com/documentation">Sails.js docs for more info on how to do that</a>), there are just a few simple steps to add it to your global <code>Cloud</code> SDK:</p>
+      <ul>
+        <li>Rebuild the method definitions in your <code>assets/js/cloud.setup.js</code> file using <code>sails run scripts/rebuild-cloud-sdk</code>.</li>
+        <li>You can then call that method in your frontend code like so: <code>await Cloud.doSomething({…})</code></li>
+      </ul>
+      <p><em>If you're unsure, <a href="https://sailsjs.com/support">click here</a>.</em></p>
+    </div>
+    <div class="q-and-a">
+      <hr/>
+      <h4>How do I register a new page with parasails.js?</h4>
+      <p>To register a new page, make sure the top-level element of the view you wish to register has an <code>id</code> property (e.g. <code>&lt;div id="my-new-page"&gt;...&lt;/div&gt;</code>). Then, create a new javascript file, and include <code>parasails.registerPage('my-new-page', { /* options for the Vue.js instance */ })</code>. For more thorough examples, dig around in <code>assets/js/pages/</code>.</p>
+    </div>
+    <div class="q-and-a">
+      <hr/>
+      <h4>How do I deploy to Heroku?</h4>
+      <p>In your heroku dashboard, configure your app to auto-deploy from the <code>deploy</code> branch of this project's GitHub repository. Then, from the command line, run <code>sails run deploy</code>.</p>
+    </div>
+    <div class="q-and-a">
+      <hr/>
+      <h4>How do I finish setting up Mailgun?</h4>
+      <p>To use Mailgun, you'll need to sign up for an account <a target="_blank" href="https://www.mailgun.com/">here</a>. (While this <em>is</em> a paid service at higher usage levels, you should be able to use Mailgun as much as you need to in development without having to provide any credit card information.)</p>
+      <p>After you've created an account, you'll need to add your Mailgun domain and API secret to your custom config. (In development, this will be either in <code>config/custom.js</code>, or in a <code>local.js</code> file you add to your <code>config/</code> folder. For your production deployment, you'll want to set these using config variables.)</p>
+      <p>If you already own a domain for your app, you can follow Mailgun's instructions for configuring a sending domain.</p>
+      <p>Otherwise, to send emails from this app <em>without</em> configuring a sending domain, you can use the sandbox domain &amp; test API secret that comes with your Mailgun account. Just be sure to configure the authorized recipents for your sandbox domain first, or there will be errors from the endpoints that attempt to send emails.</p>
+    </div>
+    <div class="q-and-a">
+      <hr/>
+      <h4>How do I finish setting up Stripe?</h4>
+      <p>To use Stripe for your app's payment processing, you'll need to sign up for an account <a target="_blank" href="https://stripe.com/">here</a>.</p>
+      <p>Once you have an account, you'll need to include your publishable and secret keys in your app's custom config as <code>sails.config.custom.stripePublishableKey</code> and <code>sails.config.custom.stripeSecret</code>. In development, you can add your test keys to <code>config/custom.js</code>, or in a <code>local.js</code> file you add to your <code>config/</code> folder.</p>
+      <p>In your production deployment, you'll want to set your API keys using config variables, and you will need ensure that your site meets Stripe's HTTPS requirements in order for Stripe Checkout to work. For more information, see Stripe's <a target="_blank" href="https://stripe.com/docs/checkout">Detailed Checkout Guide</a>.</p>
+    </div>
+    <div class="q-and-a">
+      <hr/>
+      <h4>How do I disable ___________?</h4>
+      <p class="pt-4 text-muted"><strong><em>To disable Bootstrap:</em></strong></p>
+      <ul>
+        <li>Delete the folder <code>assets/dependencies/bootstrap/</code></li>
+        <li>In <code>tasks/pipeline.js</code>, delete <code>'dependencies/bootstrap/dependencies/**/*.js',</code> from <code>jsFilesToInject</code></li>
+      </ul>
+      <p class="pt-4 text-muted"><strong><em>To disable FontAwesome:</em></strong></p>
+      <ul>
+        <li>In the <code>&lt;head&gt;</code> of <code>layouts/layout.ejs</code>, delete the link labeled <code>&lt;!-- Font Awesome --&gt;</code></li>
+      </ul>
+      <p class="pt-4 text-muted"><strong><em>To enable email address verification:</em></strong></p>
+      <p>
+        By default, email verification is not required for signup or for when an existing user changes their email address on their account page.  To require an email verification step for these actions, open <code>config/custom.js</code> and change <code>verifyEmailAddresses: false</code> to <code>verifyEmailAddresses: true</code>.
+      </p>
+      <p class="pt-4 text-muted"><strong><em>To use an email service other than Mailgun:</em></strong></p>
+      <p>Out-of-the box, if Mailgun is not configured for this app, the contact form and password recovery flow will fail outright unless an email address ending in "@example.com" is used.  Luckily, if you wish to use another email service, the logic for sending emails is fairly contained. To switch to a service other than Mailgun, you'll need to make the following changes to your code:</p>
+      <ul>
+        <li>Modify the code in <code>api/helpers/send-template-email.js</code> to use the email service of your choice.</li>
+        <li>In <code>api/hooks/custom/index.js</code>, remove the warnings related to Mailgun.</li>
+      </ul>
+      <p class="pt-4 text-muted"><strong><em>To remove Stripe integration:</em></strong></p>
+      <p>Any features related to billing are automatically disabled if you don't have a Stripe publishable key &amp; secret key in your custom config (<code>sails.config.custom.stripePublishableKey</code> and <code>sails.config.custom.stripeSecret</code>, respectively). Your app will not be negatively impacted or appear broken; it will merely have some extraneous code in places. If you don't anticipate integrating billing features into your app and want to remove this code entirely, you can make the following changes:</p>
+      <ul>
+        <li>In the <code>User</code> model definition at <code>api/models/User.js</code>, remove the <code>stripeCustomerId</code>, <code>billingCardBrand</code>, <code>billingCardLast4</code>, <code>billingCardExpMonth</code>, and <code>billingCardExpYear</code> attribute definitions.</li>
+        <li>In the signup controller at <code>api/controllers/entrance/signup.js</code>:
+          <ul>
+            <li>Remove the line at the top requiring the Stripe dependency</li>
+            <li>Remove the block of code creating a Stripe customer. (If you have trouble finding where this happens, be sure to read the comments.)</li>
+            <li>In the call to <code>User.create()</code>, remove the <code>stripeCustomerId</code> property.</li>
+          </ul>
+        </li>
+        <li>In the confirm email controller at <code>api/controllers/entrance/confirm-email.js</code>:
+          <ul>
+            <li>Remove the line at the top requiring the Stripe dependency.</li>
+            <li>Remove the block of code that handles creating/updating a Stripe customer. (If you have trouble finding where this happens, be sure to read the comments.)</li>
+          </ul>
+        </li>
+        <li>Remove the update billing card endpoint and all references to it by doing the following:
+          <ul>
+            <li>Delete the file at <code>api/account/update-billing-card.js</code>.</li>
+            <li>In <code>config/routes.js</code>, delete the route configuration for <code>'PUT /api/v1/account/update-billing-card'</code>.</li>
+            <li>In <code>assets/js/cloud.setup.js</code>, delete the <code>updateBillingCard</code> method.</li>
+            <li>In <code>assets/js/pages/account/my-account.page.js</code>, remove the <code>clickStripeCheckoutButton</code> method.</li>
+            <li>In <code>views/pages/account/my-account.ejs</code>, remove the HTML related to billing.</li>
+          </ul>
+        </li>
+        <li>In <code>api/hooks/custom/index.js</code>, remove the warnings related to Stripe.</li>
+        <li>In <code>api/hooks/custom/index.js</code>, remove <code>sails.config.custom.enableBillingFeatures = !isMissingStripeConfig;</code>.</li>
+      </ul>
+    </div>
+    <div class="q-and-a">
+      <hr/>
+      <h4>Where can I go for more help?</h4>
+      <p>If you run into trouble, you can often find the answer in the <a target="_blank" href="http://sailsjs.com/documentation">Sails.js documentation</a>.  If you're stumped, be sure to check out the resources available on the <a target="_blank" href="http://sailsjs.com/support">support page</a>.</p>
+    </div>
+  </div>
+</div>
+<%- /* Expose locals as `window.SAILS_LOCALS` :: */ exposeLocalsToBrowser() %>
