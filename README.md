@@ -1,4 +1,4 @@
-# ration-2
+# Ration
 
 a [Sails v1](https://sailsjs.com) application
 
