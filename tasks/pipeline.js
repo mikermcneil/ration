@@ -70,7 +70,7 @@ var jsFilesToInject = [
   'dependencies/lodash.js',
   'dependencies/jquery.min.js',
   'dependencies/vue.js',
-  'dependencies/vue-router.js'
+  'dependencies/vue-router.js',
   'dependencies/bootstrap-4/popper.js',
   'dependencies/**/*.js',
 
