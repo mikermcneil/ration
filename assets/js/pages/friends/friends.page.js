@@ -61,7 +61,7 @@ parasails.registerPage('friends', {
 
     clickInviteButton: function() {
       // Open the modal.
-      this.goto('/friends/invite');
+      this.goto('/friends/new');
     },
 
     openedInviteFriendsModal: function() {

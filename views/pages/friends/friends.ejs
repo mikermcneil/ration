@@ -9,7 +9,7 @@
     </div>
   </div>
   <% /* "Add friends" modal */ %>
-  <modal v-if="virtualPageSlug === 'invite'" v-cloak key="new" @close="closeInviteFriendsModal()" @opened="openedInviteFriendsModal()">
+  <modal v-if="virtualPageSlug === 'new'" v-cloak key="new" @close="closeInviteFriendsModal()" @opened="openedInviteFriendsModal()">
     <div class="modal-header">
       <h5 class="modal-title">Invite friends</h5>
       <button type="button" class="close" data-dismiss="modal" aria-label="Close">
