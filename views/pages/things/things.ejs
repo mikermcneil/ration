@@ -12,7 +12,16 @@
       <div class="card" :class="[thing.owner.id === me.id ? 'mine' : '']" v-for="thing in things">
         <div class="card-options dropdown">
           <span class="options-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="fa fa-ellipsis-v"></span></span>
-          <div class="dropdown-menu" v-if="thing.owner.id !== me.id && !thing.borrowedBy">
+          <div class="dropdown-menu dropdown-menu-right" v-if="thing.owner.id === me.id">
+            <span class="dropdown-item" @click="clickDeleteThing(thing.id)">Delete</span>
+            <span class="dropdown-item" v-if="thing.borrowedBy" @click="clickMarkReturned(thing.id)">Mark as returned</span>
+            <span class="dropdown-item" v-if="thing.borrowedBy" @click="clickContactBorrower(thing.id)">Contact {{thing.borrowedBy.fullname}}</span>
+          </div>
+          <div class="dropdown-menu dropdown-menu-right" v-else-if="thing.borrowedBy && thing.borrowedBy.id === me.id">
+            <span class="dropdown-item" @click="clickReturn(thing.id)">Give this back</span>
+            <span class="dropdown-item" @click="clickContactOwner(thing.id)">Contact {{thing.owner.fullName}}</span>
+          </div>
+          <div class="dropdown-menu dropdown-menu-right" v-else>
             <span class="dropdown-item" @click="clickBorrow(thing.id)">Borrow</span>
           </div>
         </div>

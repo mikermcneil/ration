@@ -175,5 +175,25 @@ parasails.registerPage('things', {
       // Close the modal.
       this._clearBorrowThingModal();
     },
+
+    clickDeleteThing: function(thingId) {
+      // ...
+    },
+
+    clickMarkReturned: function(thingId) {
+      // ...
+    },
+
+    clickContactBorrower: function(thingId) {
+      // ...
+    },
+
+    clickReturn: function(thingId) {
+      // ...
+    },
+
+    clickContactOwner: function(thingId) {
+      // ...
+    },
   }
 });

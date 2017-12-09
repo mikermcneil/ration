@@ -39,11 +39,12 @@
           background-color: rgba(0,0,0,0.3);
           border-radius: 3px;
           opacity: 0;
-          transition: opacity 250ms;
+          transition: all 250ms;
+          &:hover {
+            background-color: rgba(0,0,0,0.5);
+          }
         }
         .dropdown-menu {
-          left: auto;
-          right: 0px;
           .dropdown-item {
             cursor: pointer;
           }
@@ -103,7 +104,6 @@
       }
     }
     &.empty {
-      // background-color: @bg-lt-gray;
       .image-wrapper {
         min-height: 150px;
       }
