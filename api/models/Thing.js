@@ -30,11 +30,11 @@ module.exports = {
       example: 'Waffle Iron'
     },
 
-    // expectedReturnAt: {
-    //   type: 'number',
-    //   description: 'A JS timestamp (epoch ms) representing the moment of this item\'s expected return (or 0, if it is not currently lent out).',
-    //   example: 1502844074211
-    // },
+    expectedReturnAt: {
+      type: 'number',
+      description: 'A JS timestamp (epoch ms) representing the moment of this item\'s expected return (or 0, if it is not currently lent out).',
+      example: 1502844074211
+    },
 
     //  ╔═╗╔╦╗╔╗ ╔═╗╔╦╗╔═╗
     //  ║╣ ║║║╠╩╗║╣  ║║╚═╗
@@ -48,9 +48,9 @@ module.exports = {
       model: 'User'
     },
 
-    // borrowedBy: {
-    //   model: 'User'
-    // },
+    borrowedBy: {
+      model: 'User'
+    },
 
   },
 

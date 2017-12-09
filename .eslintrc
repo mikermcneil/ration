@@ -37,6 +37,7 @@
     "sails": true,
     "_": true,
     "async": true,
+    "moment": true,
     "User": true,
     "Thing": true
     // ...and any other backend globals (e.g. `"Organization": true`)

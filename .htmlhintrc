@@ -1,5 +1,5 @@
 {
-  "alt-require": true,
+  "alt-require": false,
   "attr-lowercase": ["viewBox"],
   "attr-no-duplication": true,
   "attr-unsafe-chars": true,

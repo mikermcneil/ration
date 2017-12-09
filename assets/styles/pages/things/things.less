@@ -60,6 +60,10 @@
           }
         }
       }
+      &.not-available {
+        opacity: 0.6;
+        background-color: darken(@accent-white, 4%);
+      }
     }
   }
 
@@ -125,6 +129,21 @@
     }
   }
 
+  .field-wrap {
+    position: relative;
+    .datepicker-wrapper {
+      .form-control {
+        padding-left: 50px;
+      }
+    }
+    .datepicker-label {
+      position: absolute;
+      top: 9px;
+      left: 10px;
+      font-size: 14px;
+    }
+  }
+
   @media (max-width: 550px) {
     .listings .card .card-options {
       .options-toggle, .options-button {
@@ -132,5 +151,4 @@
       }
     }
   }
-
 }

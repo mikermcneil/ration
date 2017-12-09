@@ -51,6 +51,7 @@ module.exports.routes = {
   'POST  /api/v1/entrance/update-password-and-login':    { action: 'entrance/update-password-and-login' },
   'POST  /api/v1/deliver-contact-form-message':          { action: 'deliver-contact-form-message' },
   'POST  /api/v1/things':                             { action: 'things/upload-thing' },
+  'PUT   /api/v1/things/:id/borrow':                    { action: 'things/borrow-thing' },
   'GET   /api/v1/things/:id/photo':                   { action: 'things/download-photo', skipAssets: false },
 
 

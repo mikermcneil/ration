@@ -16,8 +16,8 @@ parasails.registerPage('things', {
       previewImageSrc: ''
     },
     borrowFormData: {
-      returnTime: undefined,
-      pickupTime: undefined
+      returnDate: undefined,
+      pickupInfo: undefined
     },
 
     // For tracking client-side validation errors in our form.
@@ -30,7 +30,9 @@ parasails.registerPage('things', {
     // Server error state
     cloudError: '',
 
-    selectedThing: undefined
+    selectedThing: undefined,
+
+    borrowFormSuccess: false
   },
 
   virtualPages: true,
@@ -43,6 +45,7 @@ parasails.registerPage('things', {
   beforeMount: function() {
     // Attach any initial data from the server.
     _.extend(this, SAILS_LOCALS);
+    this.things = this._marshalEntries(this.things);
   },
 
   mounted: function() {
@@ -53,6 +56,31 @@ parasails.registerPage('things', {
   //  ║║║║ ║ ║╣ ╠╦╝╠═╣║   ║ ║║ ║║║║╚═╗
   //  ╩╝╚╝ ╩ ╚═╝╩╚═╩ ╩╚═╝ ╩ ╩╚═╝╝╚╝╚═╝
   methods: {
+
+    _marshalEntries: function(entries) {
+      // Marshal provided array of data and return the modified version.
+      return _.map(entries, (entry)=>{
+
+        var isBorrowed = !_.isNull(entry.borrowedBy);
+        // if(isBorrowed) {
+        //   console.log('borrowed by',entry.borrowedBy.id);
+        //   console.log('is me?',entry.borrowedBy.id === this.me.id);
+        // }
+        if(entry.owner.id === this.me.id) {
+          entry.unavailable = false;
+        }
+        else if(!isBorrowed) {
+          entry.unavailable = false;
+        }
+        else if(entry.borrowedBy.id === this.me.id) {
+          entry.unavailable = false;
+        }
+        else {
+          entry.unavailable = true;
+        }
+        return entry;
+      });
+    },
 
     _clearUploadThingModal: function() {
       // Close modal
@@ -73,8 +101,8 @@ parasails.registerPage('things', {
       this.goto('/things');
       // Reset form data
       this.borrowFormData = {
-        returnTime: undefined,
-        pickupTime: undefined
+        returnDate: undefined,
+        pickupInfo: undefined
       };
       this.selectedThing = undefined;
       // Clear error states
@@ -162,7 +190,19 @@ parasails.registerPage('things', {
       // Clear out any pre-existing error messages.
       this.formErrors = {};
 
-      var argins = this.borrowFormData;
+      var argins = _.extend({ id: this.selectedThing.id }, this.borrowFormData);
+
+      if(!argins.returnDate) {
+        this.formErrors.returnDate = true;
+      }
+
+      if(!argins.pickupInfo) {
+        this.formErrors.pickupInfo = true;
+      }
+
+      // Convert the return time into a real date.
+      argins.returnDate = new Date(this.$refs.datepickerref.doParseDate()).getTime();
+      // console.log('returnDate', argins.returnDate);
 
       // If there were any issues, they've already now been communicated to the user,
       // so simply return undefined.  (This signifies that the submission should be
@@ -176,8 +216,12 @@ parasails.registerPage('things', {
 
     submittedBorrowThingForm: function() {
 
-      // Close the modal.
-      this._clearBorrowThingModal();
+      // Show success message.
+      this.borrowFormSuccess = true;
+
+      // Update the borrowed item in the UI.
+      var borrowedItem = _.find(this.things, {id: this.selectedThing.id});
+      borrowedItem.borrowedBy = this.me.id;
     },
 
     clickDeleteThing: function(thingId) {

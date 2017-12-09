@@ -23,9 +23,15 @@ module.exports = {
     // Get the list of things this user can see.
     var friendThings = await Thing.find({
       owner: { 'in': _.pluck(this.req.me.friends, 'id')}
-    }).populate('owner');
+    })
+    .populate('owner')
+    .populate('borrowedBy');
 
-    var things = (await Thing.find({ owner: this.req.me.id }).populate('owner')).concat(friendThings);
+    var things = await Thing.find({ owner: this.req.me.id })
+    .populate('owner')
+    .populate('borrowedBy');
+
+    things = things.concat(friendThings);
 
     _.each(things, (thing)=> {
       thing.imageSrc = url.resolve(sails.config.custom.baseUrl, '/api/v1/things/'+thing.id+'/photo');

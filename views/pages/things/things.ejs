@@ -9,30 +9,31 @@
       </div>
     </div>
     <div class="listings">
-      <div class="card" :class="[thing.owner.id === me.id ? 'mine' : '']" v-for="thing in things">
-        <div class="card-options dropdown" v-if="thing.borrowedBy">
+      <div class="card" :class="[thing.owner.id === me.id ? 'mine' : '', thing.unavailable ? 'not-available' : '']" v-for="thing in things">
+        <div class="card-options dropdown" v-if="thing.borrowedBy && thing.owner.id === me.id">
           <span class="options-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="fa fa-ellipsis-v"></span></span>
-          <div class="dropdown-menu dropdown-menu-right" v-if="thing.owner.id === me.id">
+          <div class="dropdown-menu dropdown-menu-right">
             <span class="dropdown-item" @click="clickDeleteThing(thing.id)">Delete</span>
-            <span class="dropdown-item" v-if="thing.borrowedBy" @click="clickMarkReturned(thing.id)">Mark as returned</span>
-            <span class="dropdown-item" v-if="thing.borrowedBy" @click="clickContactBorrower(thing.id)">Contact {{thing.borrowedBy.fullname}}</span>
+            <span class="dropdown-item" @click="clickMarkReturned(thing.id)">Mark as returned</span>
+            <span class="dropdown-item" @click="clickContactBorrower(thing.id)">Contact {{thing.borrowedBy.fullname}}</span>
           </div>
-          <div class="dropdown-menu dropdown-menu-right" v-else-if="thing.borrowedBy && thing.borrowedBy.id === me.id">
+        </div>
+        <div class="card-options dropdown" v-else-if="thing.borrowedBy && thing.borrowedBy.id === me.id">
+          <span class="options-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="fa fa-ellipsis-v"></span></span>
+          <div class="dropdown-menu dropdown-menu-right">
             <span class="dropdown-item" @click="clickReturn(thing.id)">Give this back</span>
             <span class="dropdown-item" @click="clickContactOwner(thing.id)">Contact {{thing.owner.fullName}}</span>
           </div>
-          <div class="dropdown-menu dropdown-menu-right" v-else>
-            <span class="dropdown-item" @click="clickBorrow(thing.id)">Borrow</span>
-          </div>
         </div>
-        <div class="card-options" v-else>
+        <div class="card-options" v-else-if="!thing.borrowedBy">
           <span class="options-button" data-toggle="tooltip" data-placement="top" title="Delete" @click="clickDeleteThing(thing.id)" v-if="thing.owner.id === me.id"><span class="fa fa-trash-o text-danger"></span></span>
           <span class="options-button borrow" data-toggle="tooltip" data-placement="top" title="Borrow" @click="clickBorrow(thing.id)" v-else><span class="fa fa-handshake-o text-dark"></span></span>
         </div>
         <img :alt="thing.label ? thing.label : 'A mysterious item'" :src="thing.imageSrc"/>
         <span class="label" v-if="thing.label">{{thing.label}}<br/></span>
-        <small class="owner text-primary" v-if="thing.owner.id !== me.id">{{thing.owner.fullName}}</small>
-        <small class="owner text-success" v-else><span class="fa fa-star-o mr-1"></span> Mine</small>
+        <small class="owner text-secondary" v-if="thing.owner.id === me.id"><span class="fa fa-home mr-1"></span> Mine</small>
+        <small class="owner text-success" v-else-if="thing.borrowedBy && thing.borrowedBy.id === me.id"><span class="fa fa-star-o mr-1"></span> Borrowing</small>
+        <small class="owner text-primary" v-else>{{thing.owner.fullName}}</small>
       </div>
     </div>
     <div class="empty text-center" v-if="things.length === 0"><p>You and your friends have not uploaded any items. <a href="" @click="clickAddButton()">Add something</a> to get started!</p></div>
@@ -50,17 +51,17 @@
       <div class="modal-body">
         <div class="form-group">
           <label>Add a photo:</label>
-          <div class="photo-uploader" :class="!formData.previewImageSrc ? 'empty' :  ''">
-            <div class="photo-upload-field row d-flex align-items-center" :class="!formData.previewImageSrc ? 'justify-content-center' :  'justify-content-start'" >
+          <div class="photo-uploader" :class="!uploadFormData.previewImageSrc ? 'empty' :  ''">
+            <div class="photo-upload-field row d-flex align-items-center" :class="!uploadFormData.previewImageSrc ? 'justify-content-center' :  'justify-content-start'" >
               <div class="photo-preview col">
-                <div class="image-wrapper" :class="!formData.previewImageSrc ? 'd-flex align-items-center justify-content-center' : ''">
-                  <img v-if="formData.previewImageSrc" alt="A preview of the selected item" :src="formData.previewImageSrc"/>
+                <div class="image-wrapper" :class="!uploadFormData.previewImageSrc ? 'd-flex align-items-center justify-content-center' : ''">
+                  <img v-if="uploadFormData.previewImageSrc" alt="A preview of the selected item" :src="uploadFormData.previewImageSrc"/>
                   <span v-else class="placeholder-icon fa fa-picture-o"></span>
                 </div>
               </div>
               <div class="col d-flex-column justify-content-center">
-                <span class="file-upload-button btn btn-sm" :class="[formErrors.photo ? 'btn-outline-danger' : !formData.previewImageSrc ? 'btn-outline-success' : 'btn-outline-secondary mr-3']">
-                  <span class="button-text" v-if="!formData.previewImageSrc">Select image</span>
+                <span class="file-upload-button btn btn-sm" :class="[formErrors.photo ? 'btn-outline-danger' : !uploadFormData.previewImageSrc ? 'btn-outline-success' : 'btn-outline-secondary mr-3']">
+                  <span class="button-text" v-if="!uploadFormData.previewImageSrc">Select image</span>
                   <span class="button-text" v-else>Change image</span>
                   <input type="file" name="design-image-upload" :disabled="syncing" accept="image/*" class="file-input" @change="changeFileInput($event.target.files)"/>
                 </span>
@@ -70,9 +71,9 @@
             </div>
           </div>
         </div>
-        <div class="form-group" v-if="formData.previewImageSrc">
+        <div class="form-group" v-if="uploadFormData.previewImageSrc">
           <label>What is it?</label>
-          <input class="form-control" type="text" v-model="formData.label" placeholder="Waffle Iron">
+          <input class="form-control" type="text" v-model="uploadFormData.label" placeholder="Waffle Iron">
         </div>
         <p class="text-danger" v-if="cloudError"><small>An error occured while processing your request. Please check your information and try again, or <a href="/support">contact support</a> if the error persists.</small></p>
       </div>
@@ -86,17 +87,29 @@
   <% /* "Borrow thing" modal */ %>
   <modal v-if="virtualPageSlug === 'borrow' && selectedThing" v-cloak key="borrow" @close="closeBorrowThingModal()">
     <div class="modal-header">
-      <h5 class="modal-title">Borrow this {{selectedThing.label ? selectedThing.label : 'item'}}</h5>
+      <h5 class="modal-title">Borrow this {{selectedThing.label || 'item'}}</h5>
       <button type="button" class="close" data-dismiss="modal" aria-label="Close">
         <span>&times;</span>
       </button>
     </div>
-    <ajax-form action="borrowThing" :syncing.sync="syncing" :cloud-error.sync="cloudError" :handle-parsing="handleParsingBorrowThingForm" @submitted="submittedBorrowThingForm($event)">
+    <ajax-form action="borrowThing" :syncing.sync="syncing" :cloud-error.sync="cloudError" :handle-parsing="handleParsingBorrowThingForm" @submitted="submittedBorrowThingForm($event)" v-if="!borrowFormSuccess">
       <div class="modal-body">
         <div class="item-preview d-flex justify-content-center">
           <div class="card">
             <img :alt="selectedThing.label ? selectedThing.label : 'A mysterious item'" :src="selectedThing.imageSrc"/>
           </div>
+        </div>
+        <div class="form-group mt-4">
+          <label>How long do you want to borrow it?</label>
+          <div class="field-wrap">
+            <span class="datepicker-label">Until</span>
+            <datepicker ref="datepickerref" v-model="borrowFormData.returnDate" placeholder-text="(Choose return date)" :popup="true" :invalid="formErrors.returnDate" validation-error-message="Please let the owner know when you can return the item."></datepicker>
+          </div>
+        </div>
+        <div class="form-group mt-4">
+          <label>When can you pick it up?</label>
+          <input class="form-control" type="text" placeholder="e.g. This afternoon or anytime tomorrow" v-model="borrowFormData.pickupInfo" :class="[formErrors.pickupInfo ? 'is-invalid' : '']">
+          <div class="invalid-feedback" v-if="formErrors.pickupInfo">Please add your pickup availability.</div>
         </div>
         <p class="text-danger" v-if="cloudError"><small>An error occured while processing your request. Please check your information and try again, or <a href="/support">contact support</a> if the error persists.</small></p>
       </div>
@@ -105,6 +118,13 @@
         <ajax-button type="submit" :syncing="syncing" class="btn btn-primary ml-1">Borrow</ajax-button>
       </div>
     </ajax-form>
+    <div class="modal-body" v-else>
+      <p>We let the owner of <strong class="text-success">{{selectedThing.label || 'item'}}</strong> know when you could drop by.</p>
+      <p>Stay in touch with {{selectedThing.owner.fullName}} to confirm pickup details: <strong>{{selectedThing.owner.emailAddress}}</strong></p>
+    </div>
+    <div class="modal-footer" v-if="borrowFormSuccess">
+      <button data-dismiss="modal" class="btn btn-outline-success">Got it</button>
+    </div>
   </modal>
   <%/* For virtual pages */%>
   <router-view></router-view>
