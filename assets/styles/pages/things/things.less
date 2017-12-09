@@ -36,7 +36,7 @@
           cursor: pointer;
           font-size: 22px;
           color: @accent-white;
-          background-color: rgba(255,255,255,0.4);
+          background-color: rgba(255,255,255,0.5);
           border-radius: 3px;
           opacity: 0;
           transition: all 250ms;
@@ -44,7 +44,7 @@
             font-size: 18px;
           }
           &:hover {
-            background-color: rgba(255,255,255,0.6);
+            background-color: rgba(255,255,255,0.7);
           }
         }
         .dropdown-menu {
@@ -121,6 +121,14 @@
       img {
         width: 100%;
         height: auto;
+      }
+    }
+  }
+
+  @media (max-width: 550px) {
+    .listings .card .card-options {
+      .options-toggle, .options-button {
+        opacity: 1;
       }
     }
   }
