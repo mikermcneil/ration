@@ -22,12 +22,12 @@
         position: relative;
         z-index: 10;
       }
-      .card-options.dropdown {
+      .card-options {
         position: absolute;
         top: 15px;
         right: 15px;
         z-index: 50;
-        .options-toggle {
+        .options-toggle, .options-button {
           width: 30px;
           height: 30px;
           line-height: 30px;
@@ -36,12 +36,15 @@
           cursor: pointer;
           font-size: 22px;
           color: @accent-white;
-          background-color: rgba(0,0,0,0.3);
+          background-color: rgba(255,255,255,0.4);
           border-radius: 3px;
           opacity: 0;
           transition: all 250ms;
+          &.borrow {
+            font-size: 18px;
+          }
           &:hover {
-            background-color: rgba(0,0,0,0.5);
+            background-color: rgba(255,255,255,0.6);
           }
         }
         .dropdown-menu {
@@ -52,7 +55,7 @@
       }
       &:hover {
         .card-options {
-          .options-toggle {
+          .options-toggle, .options-button {
             opacity: 1;
           }
         }

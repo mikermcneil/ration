@@ -10,7 +10,7 @@
     </div>
     <div class="listings">
       <div class="card" :class="[thing.owner.id === me.id ? 'mine' : '']" v-for="thing in things">
-        <div class="card-options dropdown">
+        <div class="card-options dropdown" v-if="thing.borrowedBy">
           <span class="options-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="fa fa-ellipsis-v"></span></span>
           <div class="dropdown-menu dropdown-menu-right" v-if="thing.owner.id === me.id">
             <span class="dropdown-item" @click="clickDeleteThing(thing.id)">Delete</span>
@@ -24,6 +24,10 @@
           <div class="dropdown-menu dropdown-menu-right" v-else>
             <span class="dropdown-item" @click="clickBorrow(thing.id)">Borrow</span>
           </div>
+        </div>
+        <div class="card-options" v-else>
+          <span class="options-button" data-toggle="tooltip" data-placement="top" title="Delete" @click="clickDeleteThing(thing.id)" v-if="thing.owner.id === me.id"><span class="fa fa-trash-o text-danger"></span></span>
+          <span class="options-button borrow" data-toggle="tooltip" data-placement="top" title="Borrow" @click="clickBorrow(thing.id)" v-else><span class="fa fa-handshake-o text-dark"></span></span>
         </div>
         <img :alt="thing.label ? thing.label : 'A mysterious item'" :src="thing.imageSrc"/>
         <span class="label" v-if="thing.label">{{thing.label}}<br/></span>

@@ -45,6 +45,10 @@ parasails.registerPage('things', {
     _.extend(this, SAILS_LOCALS);
   },
 
+  mounted: function() {
+    this.$find('[data-toggle="tooltip"]').tooltip();
+  },
+
   //  ╦╔╗╔╔╦╗╔═╗╦═╗╔═╗╔═╗╔╦╗╦╔═╗╔╗╔╔═╗
   //  ║║║║ ║ ║╣ ╠╦╝╠═╣║   ║ ║║ ║║║║╚═╗
   //  ╩╝╚╝ ╩ ╚═╝╩╚═╩ ╩╚═╝ ╩ ╩╚═╝╝╚╝╚═╝
