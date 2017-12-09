@@ -221,7 +221,7 @@ parasails.registerPage('things', {
 
       // Update the borrowed item in the UI.
       var borrowedItem = _.find(this.things, {id: this.selectedThing.id});
-      borrowedItem.borrowedBy = this.me.id;
+      borrowedItem.borrowedBy = this.me;
     },
 
     clickDeleteThing: function(thingId) {

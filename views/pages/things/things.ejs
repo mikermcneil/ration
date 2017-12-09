@@ -9,13 +9,13 @@
       </div>
     </div>
     <div class="listings">
-      <div class="card" :class="[thing.owner.id === me.id ? 'mine' : '', thing.unavailable ? 'not-available' : '']" v-for="thing in things">
+      <div class="card" :key="'thing'+thing.id" :class="[thing.owner.id === me.id ? 'mine' : '', thing.unavailable ? 'not-available' : '']" v-for="thing in things">
         <div class="card-options dropdown" v-if="thing.borrowedBy && thing.owner.id === me.id">
           <span class="options-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="fa fa-ellipsis-v"></span></span>
           <div class="dropdown-menu dropdown-menu-right">
             <span class="dropdown-item" @click="clickDeleteThing(thing.id)">Delete</span>
             <span class="dropdown-item" @click="clickMarkReturned(thing.id)">Mark as returned</span>
-            <span class="dropdown-item" @click="clickContactBorrower(thing.id)">Contact {{thing.borrowedBy.fullname}}</span>
+            <span class="dropdown-item" @click="clickContactBorrower(thing.id)">Contact {{thing.borrowedBy.fullName}}</span>
           </div>
         </div>
         <div class="card-options dropdown" v-else-if="thing.borrowedBy && thing.borrowedBy.id === me.id">
