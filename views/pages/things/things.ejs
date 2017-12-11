@@ -148,6 +148,25 @@
       </div>
     </ajax-form>
   </modal>
+
+  <% /* "Schedule return" modal */ %>
+  <modal v-if="scheduleReturnModalOpen" v-cloak key="new" @close="closeScheduleReturnModal()">
+    <div class="modal-header">
+      <h5 class="modal-title">Remove this item?</h5>
+      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <span>&times;</span>
+      </button>
+    </div>
+    <ajax-form action="scheduleReturn" :syncing.sync="syncing" :cloud-error.sync="cloudError" :handle-parsing="handleParsingScheduleReturnForm" @submitted="submittedScheduleReturnForm($event)">
+      <div class="modal-body">
+
+      </div>
+      <div class="modal-footer">
+        <button data-dismiss="modal" class="btn btn-outline-primary mr-1">Cancel</button>
+        <ajax-button type="submit" :syncing="syncing" class="btn btn-primary ml-1">Return</ajax-button>
+      </div>
+    </ajax-form>
+  </modal>
   <%/* For virtual pages */%>
   <router-view></router-view>
 </div>

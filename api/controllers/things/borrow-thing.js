@@ -57,11 +57,8 @@ module.exports = {
     // Format our text for the notification email.
     var itemLabel = borrowing.label || 'item';
     var formattedReturnDate = moment(inputs.returnDate).format('dddd, MMMM Do');
-    console.log('formattedReturnDate',formattedReturnDate);
     var formattedPickupInfoText = inputs.pickupInfo.charAt(0).toLowerCase() + inputs.pickupInfo.slice(1);
     formattedPickupInfoText = formattedPickupInfoText.replace(/\.$/, '');
-    console.log('pickup info (raw)',inputs.pickupInfo);
-    console.log('pickup info (formatted)',formattedPickupInfoText);
 
     // Send the owner a notification email.
     await sails.helpers.sendTemplateEmail({
