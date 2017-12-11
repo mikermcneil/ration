@@ -10,7 +10,6 @@ module.exports = {
   inputs: {
 
     id: {
-      id: {
       description: 'The id of the thing being borrowed',
       type: 'number',
       required: true
