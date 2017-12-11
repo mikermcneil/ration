@@ -20,6 +20,10 @@ parasails.registerPage('things', {
       pickupInfo: undefined
     },
 
+    // Modals which aren't linkable:
+    borrowThingModalOpen: false,
+    confirmDeleteThingModalOpen: false,
+
     // For tracking client-side validation errors in our form.
     // > Has property set to `true` for each invalid property in `formData`.
     formErrors: { /* … */ },
@@ -62,10 +66,7 @@ parasails.registerPage('things', {
       return _.map(entries, (entry)=>{
 
         var isBorrowed = !_.isNull(entry.borrowedBy);
-        // if(isBorrowed) {
-        //   console.log('borrowed by',entry.borrowedBy.id);
-        //   console.log('is me?',entry.borrowedBy.id === this.me.id);
-        // }
+
         if(entry.owner.id === this.me.id) {
           entry.unavailable = false;
         }
@@ -98,7 +99,7 @@ parasails.registerPage('things', {
 
     _clearBorrowThingModal: function() {
       // Close modal
-      this.goto('/things');
+      this.borrowThingModalOpen = false;
       // Reset form data
       this.borrowFormData = {
         returnDate: undefined,
@@ -179,7 +180,7 @@ parasails.registerPage('things', {
       this.selectedThing = _.find(this.things, {id: thingId});
 
       // Open the modal.
-      this.goto('/things/borrow');
+      this.borrowThingModalOpen = true;
     },
 
     closeBorrowThingModal: function() {
@@ -225,7 +226,33 @@ parasails.registerPage('things', {
     },
 
     clickDeleteThing: function(thingId) {
-      // ...
+      this.selectedThing = _.find(this.things, {id: thingId});
+
+      // Open the modal.
+      this.confirmDeleteThingModalOpen = true;
+    },
+
+    closeDeleteThingModal: function() {
+      this.selectedThing = undefined;
+      this.confirmDeleteThingModalOpen = false;
+      this.cloudError = '';
+    },
+
+    handleParsingDeleteThingForm: function() {
+      return {
+        id: this.selectedThing.id
+      };
+    },
+
+    submittedDeleteThingForm: function() {
+
+      // Remove the thing from the list
+      _.remove(this.things, {id: this.selectedThing.id});
+
+      // Close the modal.
+      this.selectedThing = undefined;
+      this.confirmDeleteThingModalOpen = false;
+      this.cloudError = '';
     },
 
     clickMarkReturned: function(thingId) {

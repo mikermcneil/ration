@@ -4,7 +4,7 @@ module.exports = {
   friendlyName: 'Destroy one thing',
 
 
-  description: '',
+  description: 'Delete a thing that is no longer borrowable.',
 
 
   inputs: {

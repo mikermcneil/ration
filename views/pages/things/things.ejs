@@ -85,7 +85,7 @@
   </modal>
 
   <% /* "Borrow thing" modal */ %>
-  <modal v-if="virtualPageSlug === 'borrow' && selectedThing" v-cloak key="borrow" @close="closeBorrowThingModal()">
+  <modal v-if="borrowThingModalOpen" v-cloak key="borrow" @close="closeBorrowThingModal()">
     <div class="modal-header">
       <h5 class="modal-title">Borrow this {{selectedThing.label || 'item'}}</h5>
       <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -125,6 +125,28 @@
     <div class="modal-footer" v-if="borrowFormSuccess">
       <button data-dismiss="modal" class="btn btn-outline-success">Got it</button>
     </div>
+  </modal>
+
+  <% /* "Delete thing" modal */ %>
+  <modal v-if="confirmDeleteThingModalOpen" v-cloak key="new" @close="closeDeleteThingModal()">
+    <div class="modal-header">
+      <h5 class="modal-title">Remove this item?</h5>
+      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <span>&times;</span>
+      </button>
+    </div>
+    <ajax-form action="destroyOneThing" :syncing.sync="syncing" :cloud-error.sync="cloudError" :handle-parsing="handleParsingDeleteThingForm" @submitted="submittedDeleteThingForm($event)">
+      <div class="modal-body">
+        <p>Are you sure you want to remove this {{selectedThing.label || 'item'}}?</p>
+        <p class="text-muted" v-if="selectedThing.borrowedBy">We will no longer be able to assist with the return of this item, so you will need to contact {{selectedThing.borrowedBy.fullName}} directly to coordinate.</p>
+        <p v-else>This item will no longer be available to share with friends.</p>
+        <p class="text-danger" v-if="cloudError"><small>An error occured while processing your request. Please check your information and try again, or <a href="/contact">contact support</a> if the error persists.</small></p>
+      </div>
+      <div class="modal-footer">
+        <button data-dismiss="modal" class="btn btn-outline-secondary mr-1">Nevermind</button>
+        <ajax-button type="submit" :syncing="syncing" class="btn btn-danger ml-1">Remove</ajax-button>
+      </div>
+    </ajax-form>
   </modal>
   <%/* For virtual pages */%>
   <router-view></router-view>
