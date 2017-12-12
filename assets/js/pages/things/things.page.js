@@ -19,10 +19,15 @@ parasails.registerPage('things', {
       returnDate: undefined,
       pickupInfo: undefined
     },
+    scheduleReturnFormData: {
+      dropoffInfo: undefined
+    },
 
     // Modals which aren't linkable:
     borrowThingModalOpen: false,
     confirmDeleteThingModalOpen: false,
+    scheduleReturnModalOpen: false,
+    confirmReturnModalOpen: false,
 
     // For tracking client-side validation errors in our form.
     // > Has property set to `true` for each invalid property in `formData`.
@@ -36,7 +41,8 @@ parasails.registerPage('things', {
 
     selectedThing: undefined,
 
-    borrowFormSuccess: false
+    borrowFormSuccess: false,
+    scheduleReturnFormSuccess: false
   },
 
   virtualPages: true,
@@ -104,6 +110,19 @@ parasails.registerPage('things', {
       this.borrowFormData = {
         returnDate: undefined,
         pickupInfo: undefined
+      };
+      this.selectedThing = undefined;
+      // Clear error states
+      this.formErrors = {};
+      this.cloudError = '';
+    },
+
+    _clearScheduleReturnModal: function() {
+      // Close modal
+      this.scheduleReturnModalOpen = false;
+      // Reset form data
+      this.scheduleReturnFormData = {
+        dropoffInfo: undefined
       };
       this.selectedThing = undefined;
       // Clear error states
@@ -255,20 +274,84 @@ parasails.registerPage('things', {
       this.cloudError = '';
     },
 
+    clickReturn: function(thingId) {
+      this.selectedThing = _.find(this.things, {id: thingId});
+
+      // Open the modal
+      this.scheduleReturnModalOpen = true;
+    },
+
+    closeScheduleReturnModal: function() {
+      this._clearBorrowThingModal();
+    },
+
+    handleParsingScheduleReturnForm: function() {
+      // Clear out any pre-existing error messages.
+      this.formErrors = {};
+
+      var argins = _.extend({ id: this.selectedThing.id }, this.scheduleReturnFormData);
+
+      if(!argins.dropoffInfo) {
+        this.formErrors.dropoffInfo = true;
+      }
+
+      // If there were any issues, they've already now been communicated to the user,
+      // so simply return undefined.  (This signifies that the submission should be
+      // cancelled.)
+      if (Object.keys(this.formErrors).length > 0) {
+        return;
+      }
+
+      return argins;
+    },
+
+    submittedScheduleReturnForm: function() {
+
+      // Show success message.
+      this.scheduleReturnFormSuccess = true;
+    },
+
     clickMarkReturned: function(thingId) {
-      // ...
+      this.selectedThing = _.find(this.things, {id: thingId});
+
+      // Open the modal.
+      this.confirmReturnModalOpen = true;
+    },
+
+    closeConfirmReturnModal: function() {
+      this.selectedThing = undefined;
+      this.confirmReturnModalOpen = false;
+      this.cloudError = '';
+    },
+
+    handleParsingConfirmReturnForm: function() {
+      return {
+        id: this.selectedThing.id,
+        borrowedBy: null,
+        expectedReturnAt: 0
+      };
+    },
+
+    submittedConfirmReturnForm: function() {
+      // Update the prevously-borrowed item in the UI.
+      var borrowedItem = _.find(this.things, {id: this.selectedThing.id});
+      borrowedItem.borrowedBy = null;
+
+      // Close the modal.
+      this.selectedThing = undefined;
+      this.confirmDeleteThingModalOpen = false;
+      this.cloudError = '';
     },
 
     clickContactBorrower: function(thingId) {
-      // ...
-    },
-
-    clickReturn: function(thingId) {
-      // ...
+      // Future: This is where we can add a modal
+      // with a space to write a message to the borrower of the item.
     },
 
     clickContactOwner: function(thingId) {
-      // ...
+      // Future: This is where we can add a modal
+      // with a space to write a message to the owner of the item.
     },
+
   }
 });

@@ -38,13 +38,13 @@ module.exports = {
     }
 
     // If we're not borrowing this item, we can't return it.
-    if(borrowedBy !== this.req.me.id) {
+    if(borrowing.borrowedBy !== this.req.me.id) {
       throw 'forbidden';
     }
 
     // Format our text for the notification email.
     var itemLabel = borrowing.label || 'item';
-    var formatteddropoffInfoText = inputs.dropoffInfo.charAt(0).toLowerCase() + inputs.dropoffInfo.slice(1);
+    var formattedDropoffInfoText = inputs.dropoffInfo.charAt(0).toLowerCase() + inputs.dropoffInfo.slice(1);
     formattedDropoffInfoText = formattedDropoffInfoText.replace(/\.$/, '');
 
     // Send the owner a notification email.
