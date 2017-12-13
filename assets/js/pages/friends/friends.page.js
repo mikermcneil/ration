@@ -10,7 +10,7 @@ parasails.registerPage('friends', {
     virtualPageSlug: '',
 
     // Form data
-    formData: {
+    inviteFriendsFormData: {
       friends: [
         {
           fullName: '',
@@ -28,7 +28,7 @@ parasails.registerPage('friends', {
     },
 
     // For tracking client-side validation errors in our form.
-    // > Has property set to `true` for each invalid property in `formData`.
+    // > Has property set to `true` for each invalid property in `inviteFriendsFormData`.
     formErrors: { /* … */ },
 
     // Syncing / loading state
@@ -40,6 +40,8 @@ parasails.registerPage('friends', {
     // Success state when form has been submitted
     cloudSuccess: false,
 
+    selectedFriend: undefined,
+    confirmRemoveFriendModalOpen: false,
   },
 
   virtualPages: true,
@@ -76,7 +78,7 @@ parasails.registerPage('friends', {
       // Clear out any pre-existing error messages.
       this.formErrors = {};
 
-      var argins = this.formData;
+      var argins = this.inviteFriendsFormData;
 
       // Check whether there are any rows with a name but not an email.
       var isValidEmailAddress = parasails.require('isValidEmailAddress');
@@ -109,6 +111,37 @@ parasails.registerPage('friends', {
     submittedInviteFriendsForm: function() {
       // Add the new friends to the list
       // TODO
+    },
+
+    clickRemoveFriend: function(friendId) {
+      this.selectedFriend = _.find(this.me.friends, {id: friendId});
+      console.log('selectedFriend',this.selectedFriend);
+
+      // Open the modal.
+      this.confirmRemoveFriendModalOpen = true;
+    },
+
+    closeRemoveFriendModal: function() {
+      this.selectedFriend = undefined;
+      this.confirmRemoveFriendModalOpen = false;
+      this.cloudError = '';
+    },
+
+    handleParsingRemoveFriendForm: function() {
+      return {
+        id: this.selectedFriend.id
+      };
+    },
+
+    submittedRemoveFriendForm: function() {
+
+      // Remove this user from our friends list.
+      _.remove(this.me.friends, {id: this.selectedFriend.id});
+
+      // Close the modal.
+      this.selectedFriend = undefined;
+      this.confirmRemoveFriendModalOpen = false;
+      this.cloudError = '';
     },
 
 

@@ -8,7 +8,7 @@
         <button class="btn btn-outline-primary" @click="clickAddButton()">Add an item</button>
       </div>
     </div>
-    <div class="listings">
+    <div class="listings" v-if="things.length > 0">
       <div class="card" :key="'thing'+thing.id" :class="[thing.owner.id === me.id ? 'mine' : '', thing.unavailable ? 'not-available' : '']" v-for="thing in things">
         <div class="card-options dropdown" v-if="thing.borrowedBy && thing.owner.id === me.id">
           <span class="options-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="fa fa-ellipsis-v"></span></span>
@@ -36,7 +36,7 @@
         <small class="owner text-primary" v-else>{{thing.owner.fullName}}</small>
       </div>
     </div>
-    <div class="empty text-center" v-if="things.length === 0"><p>You and your friends have not uploaded any items. <a href="" @click="clickAddButton()">Add something</a> to get started!</p></div>
+    <div class="empty text-center" v-else><p>You and your friends have not uploaded any items. <a href="/things/new" @click="clickAddButton()">Add something</a> to get started!</p></div>
   </div>
 
   <% /* "Add thing" modal */ %>

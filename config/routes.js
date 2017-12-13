@@ -56,6 +56,7 @@ module.exports.routes = {
   'GET   /api/v1/things/:id/photo':                   { action: 'things/download-photo', skipAssets: false },
   'PUT   /api/v1/things/:id/schedule-return':         { action: 'things/schedule-return', skipAssets: false },
   'PATCH /api/v1/things/:id':                         { action: 'things/update-one-thing', skipAssets: false },
+  'DELETE  /api/v1/friends/:id':                      { action: 'friends/remove-friend' },
 
 
   //  ╦ ╦╔═╗╔╗ ╦ ╦╔═╗╔═╗╦╔═╔═╗

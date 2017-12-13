@@ -15,7 +15,7 @@ module.exports.bootstrap = async function(done) {
   var path = require('path');
 
   // This bootstrap version indicates what version of fake data we're dealing with here.
-  var HARD_CODED_DATA_VERSION = 3;
+  var HARD_CODED_DATA_VERSION = 4;
 
   // This path indicates where to store/look for the JSON file that tracks the "last run bootstrap info"
   // locally on this development computer (if we happen to be on a development computer).
@@ -60,15 +60,17 @@ module.exports.bootstrap = async function(done) {
   // By convention, this is a good place to set up fake data during development.
 
   // Create some fake users, fetching the records so we can do more stuff below.
-  var Admin = await User.create({ emailAddress: 'admin@example.com', fullName: 'Ryan Dahl', isSuperAdmin: true, password: await sails.stdlib('passwords').hashPassword('abc123') }).fetch();
-  var Rory = await User.create({ emailAddress: 'rory@example.com', fullName: 'Rory Milliard', password: await sails.stdlib('passwords').hashPassword('abc123') }).fetch();
-  var Raquel = await User.create({ emailAddress: 'raquel@example.com', fullName: 'Raquel Estevez', password: await sails.stdlib('passwords').hashPassword('abc123') }).fetch();
-  var Rachael = await User.create({ emailAddress: 'rachael@example.com', fullName: 'Rachael Shaw', password: await sails.stdlib('passwords').hashPassword('abc123') }).fetch();
+  await User.create({ emailAddress: 'admin@example.com', fullName: 'Ryan Dahl', isSuperAdmin: true, password: await sails.stdlib('passwords').hashPassword('abc123') }).fetch();
+  var rory = await User.create({ emailAddress: 'rory@example.com', fullName: 'Rory Milliard', password: await sails.stdlib('passwords').hashPassword('abc123') }).fetch();
+  var raquel = await User.create({ emailAddress: 'raquel@example.com', fullName: 'Raquel Estevez', password: await sails.stdlib('passwords').hashPassword('abc123') }).fetch();
+  var rachael = await User.create({ emailAddress: 'rachael@example.com', fullName: 'Rachael Shaw', password: await sails.stdlib('passwords').hashPassword('abc123') }).fetch();
+  var mike = await User.create({ emailAddress: 'mike@example.com', fullName: 'Mike McNeil', password: await sails.stdlib('passwords').hashPassword('abc123') }).fetch();
 
   // Start some friendships.
-  await User.addToCollection(Rory.id, 'friends').members([Raquel.id, Rachael.id]);
-  await User.addToCollection(Raquel.id, 'friends').members([Rory.id, Rachael.id]);
-  await User.addToCollection(Rachael.id, 'friends').members([Rory.id, Raquel.id]);
+  await User.addToCollection(rory.id, 'friends').members([raquel.id, rachael.id, mike.id]);
+  await User.addToCollection(raquel.id, 'friends').members([rory.id, rachael.id, mike.id]);
+  await User.addToCollection(rachael.id, 'friends').members([rory.id, raquel.id, mike.id]);
+  await User.addToCollection(mike.id, 'friends').members([rory.id, raquel.id, rachael.id]);
 
   // Save new bootstrap version
   await sails.stdlib('fs').writeJson(bootstrapLastRunInfoPath, {

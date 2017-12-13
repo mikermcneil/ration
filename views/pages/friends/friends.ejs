@@ -2,11 +2,28 @@
   <div class="container">
     <div class="page-header text-center">
       <h1>Friends</h1>
-      <h2>Add people you want to share stuff with.</h2>
+      <h2>View and add people to share stuff with.</h2>
       <div class="header-buttons">
         <button class="btn btn-outline-primary" @click="clickInviteButton()">Invite friends</button>
       </div>
     </div>
+    <div class="friends-list" v-if="me.friends.length > 0">
+      <table class="table table-striped">
+        <thead>
+          <th>Name</th>
+          <th>Email</th>
+          <th class="actions-column">Actions</th>
+        </thead>
+        <tbody>
+          <tr v-for="friend in me.friends">
+            <td><strong>{{friend.fullName}}</strong></td>
+            <td>{{friend.emailAddress}}</td>
+            <td class="actions-column"><button class="btn btn-sm btn-outline-danger" @click="clickRemoveFriend(friend.id)">Remove friend</button></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="empty text-center" v-else><p>You don't have any friends on Ration! In order to upload and borrow items, you'll need to <a href="/friends/new" @click="clickAddButton()">invite people</a> to join or add you as a friend.</p></div>
   </div>
   <% /* "Add friends" modal */ %>
   <modal v-if="virtualPageSlug === 'new'" v-cloak key="new" @close="closeInviteFriendsModal()" @opened="openedInviteFriendsModal()">
@@ -18,15 +35,15 @@
     </div>
     <ajax-form action="inviteFriends" :syncing.sync="syncing" :cloud-error.sync="cloudError" :handle-parsing="handleParsingInviteFriendsForm" @submitted="submittedInviteFriendsForm()">
       <div class="modal-body">
-        <div class="form-group" v-for="(friend, index) in formData.friends">
+        <div class="form-group" v-for="(friend, index) in inviteFriendsFormData.friends">
           <div class="row">
             <div class="col">
               <label v-if="index === 0">Name</label>
-              <input class="form-control" type="text" v-model="formData.friends[index].fullName">
+              <input class="form-control" type="text" v-model="inviteFriendsFormData.friends[index].fullName">
             </div>
             <div class="col">
               <label v-if="index === 0">Email Address</label>
-              <input class="form-control" type="email" v-model="formData.friends[index].emailAddress">
+              <input class="form-control" type="email" v-model="inviteFriendsFormData.friends[index].emailAddress">
             </div>
           </div>
         </div>
@@ -34,6 +51,27 @@
       <div class="modal-footer">
         <button data-dismiss="modal" class="btn btn-outline-secondary mr-1">Cancel</button>
         <ajax-button type="submit" :syncing="syncing" class="btn btn-primary ml-1">Add</ajax-button>
+      </div>
+    </ajax-form>
+  </modal>
+
+  <% /* "Delete thing" modal */ %>
+  <modal v-if="confirmRemoveFriendModalOpen && selectedFriend" v-cloak key="remove" @close="closeRemoveFriendModal()">
+    <div class="modal-header">
+      <h5 class="modal-title">Unfriend {{selectedFriend.fullName}}?</h5>
+      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <span>&times;</span>
+      </button>
+    </div>
+    <ajax-form action="removeFriend" :syncing.sync="syncing" :cloud-error.sync="cloudError" :handle-parsing="handleParsingRemoveFriendForm" @submitted="submittedRemoveFriendForm($event)">
+      <div class="modal-body">
+        <p>Are you sure you want to remove {{selectedFriend.fullName}} from your friends?</p>
+        <p>You will no longer be able to borrow items from this person.</p>
+        <p class="text-danger" v-if="cloudError"><small>An error occured while processing your request. Please check your information and try again, or <a href="/contact">contact support</a> if the error persists.</small></p>
+      </div>
+      <div class="modal-footer">
+        <button data-dismiss="modal" class="btn btn-outline-secondary mr-1">Nevermind</button>
+        <ajax-button type="submit" :syncing="syncing" class="btn btn-danger ml-1">Remove Friend</ajax-button>
       </div>
     </ajax-form>
   </modal>
