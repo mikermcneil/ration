@@ -15,6 +15,7 @@ module.exports = {
     photo: {
       description: 'Upstream for an incoming file upload.',
       type: 'ref',
+      required: true
     },
 
     label: {
