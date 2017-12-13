@@ -1,4 +1,4 @@
-<div id="things" v-cloak>
+<div id="available-things" v-cloak>
 
   <div class="container">
     <div class="page-header text-center">
@@ -8,7 +8,7 @@
         <button class="btn btn-outline-primary" @click="clickAddButton()">Add an item</button>
       </div>
     </div>
-    <div class="listings">
+    <div class="listings" v-if="things.length > 0">
       <div class="card" :key="'thing'+thing.id" :class="[thing.owner.id === me.id ? 'mine' : '', thing.unavailable ? 'not-available' : '']" v-for="thing in things">
         <div class="card-options dropdown" v-if="thing.borrowedBy && thing.owner.id === me.id">
           <span class="options-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="fa fa-ellipsis-v"></span></span>
@@ -36,7 +36,7 @@
         <small class="owner text-primary" v-else>{{thing.owner.fullName}}</small>
       </div>
     </div>
-    <div class="empty text-center" v-if="things.length === 0"><p>You and your friends have not uploaded any items. <a href="" @click="clickAddButton()">Add something</a> to get started!</p></div>
+    <div class="empty text-center" v-else><p>You and your friends have not uploaded any items. <a href="/things/new" @click="clickAddButton()">Add something</a> to get started!</p></div>
   </div>
 
   <% /* "Add thing" modal */ %>
@@ -85,7 +85,7 @@
   </modal>
 
   <% /* "Borrow thing" modal */ %>
-  <modal v-if="virtualPageSlug === 'borrow' && selectedThing" v-cloak key="borrow" @close="closeBorrowThingModal()">
+  <modal v-if="borrowThingModalOpen && selectedThing" v-cloak key="borrow" @close="closeBorrowThingModal()">
     <div class="modal-header">
       <h5 class="modal-title">Borrow this {{selectedThing.label || 'item'}}</h5>
       <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -125,6 +125,82 @@
     <div class="modal-footer" v-if="borrowFormSuccess">
       <button data-dismiss="modal" class="btn btn-outline-success">Got it</button>
     </div>
+  </modal>
+
+  <% /* "Delete thing" modal */ %>
+  <modal v-if="confirmDeleteThingModalOpen && selectedThing" v-cloak key="delete" @close="closeDeleteThingModal()">
+    <div class="modal-header">
+      <h5 class="modal-title">Remove this item?</h5>
+      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <span>&times;</span>
+      </button>
+    </div>
+    <ajax-form action="destroyOneThing" :syncing.sync="syncing" :cloud-error.sync="cloudError" :handle-parsing="handleParsingDeleteThingForm" @submitted="submittedDeleteThingForm($event)">
+      <div class="modal-body">
+        <p>Are you sure you want to remove this {{selectedThing.label || 'item'}}?</p>
+        <p class="text-muted" v-if="selectedThing.borrowedBy">We will no longer be able to assist with the return of this item, so you will need to contact {{selectedThing.borrowedBy.fullName}} directly to coordinate.</p>
+        <p v-else>This item will no longer be available to share with friends.</p>
+        <p class="text-danger" v-if="cloudError"><small>An error occured while processing your request. Please check your information and try again, or <a href="/contact">contact support</a> if the error persists.</small></p>
+      </div>
+      <div class="modal-footer">
+        <button data-dismiss="modal" class="btn btn-outline-secondary mr-1">Nevermind</button>
+        <ajax-button type="submit" :syncing="syncing" class="btn btn-danger ml-1">Remove</ajax-button>
+      </div>
+    </ajax-form>
+  </modal>
+
+  <% /* "Schedule return" modal */ %>
+  <modal v-if="scheduleReturnModalOpen && selectedThing" v-cloak key="scheduleReturn" @close="closeScheduleReturnModal()">
+    <div class="modal-header">
+      <h5 class="modal-title">Return {{selectedThing.label || 'this item'}}</h5>
+      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <span>&times;</span>
+      </button>
+    </div>
+    <ajax-form action="scheduleReturn" :syncing.sync="syncing" :cloud-error.sync="cloudError" :handle-parsing="handleParsingScheduleReturnForm" @submitted="submittedScheduleReturnForm($event)" v-if="!scheduleReturnFormSuccess">
+      <div class="modal-body">
+        <div class="item-preview d-flex justify-content-center">
+          <div class="card">
+            <img :alt="selectedThing.label ? selectedThing.label : 'A mysterious item'" :src="selectedThing.imageSrc"/>
+          </div>
+        </div>
+        <div class="form-group mt-4">
+          <label>When can you drop it off?</label>
+          <input class="form-control" type="text" placeholder="e.g. This afternoon or anytime tomorrow" v-model="scheduleReturnFormData.dropoffInfo" :class="[formErrors.dropoffInfo ? 'is-invalid' : '']">
+          <div class="invalid-feedback" v-if="formErrors.dropoffInfo">Please add your drop-off availability.</div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button data-dismiss="modal" class="btn btn-outline-primary mr-1">Cancel</button>
+        <ajax-button type="submit" :syncing="syncing" class="btn btn-primary ml-1">Return</ajax-button>
+      </div>
+    </ajax-form>
+    <div class="modal-body" v-else>
+      <p>We let the owner of <strong class="text-success">{{selectedThing.label || 'item'}}</strong> know when you could drop by.</p>
+      <p>Stay in touch with {{selectedThing.owner.fullName}} to confirm dropoff details: <strong>{{selectedThing.owner.emailAddress}}</strong></p>
+    </div>
+    <div class="modal-footer" v-if="scheduleReturnFormSuccess">
+      <button data-dismiss="modal" class="btn btn-outline-success">Got it</button>
+    </div>
+  </modal>
+
+  <% /* "Confirm return" modal */ %>
+  <modal v-if="confirmReturnModalOpen && selectedThing" v-cloak key="confirmReturn" @close="closeConfirmReturnModal()">
+    <div class="modal-header">
+      <h5 class="modal-title">Mark {{selectedThing.label || 'item'}} returned</h5>
+      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <span>&times;</span>
+      </button>
+    </div>
+    <ajax-form action="updateOneThing" :syncing.sync="syncing" :cloud-error.sync="cloudError" :handle-parsing="handleParsingConfirmReturnForm" @submitted="submittedConfirmReturnForm($event)">
+      <div class="modal-body">
+        <p>Has <strong>{{selectedThing.borrowedBy.fullName}}</strong> returned this <strong v-if="selectedThing.label">{{selectedThing.label}}</strong><span v-else>item</span>?</p>
+      </div>
+      <div class="modal-footer">
+        <button data-dismiss="modal" class="btn btn-outline-secondary mr-1">No</button>
+        <ajax-button type="submit" :syncing="syncing" class="btn btn-primary ml-1">Yes</ajax-button>
+      </div>
+    </ajax-form>
   </modal>
   <%/* For virtual pages */%>
   <router-view></router-view>

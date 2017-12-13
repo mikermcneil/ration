@@ -1,5 +1,5 @@
 /**
- * File upload settings
+ * File Upload Settings
  * (sails.config.uploads)
  *
  * These options tell Sails where (and how) to store uploaded files.

@@ -6,7 +6,9 @@ module.exports = {
 
   description: 'Upload info about an item that will be visible for friends to borrow.',
 
+
   files: ['photo'],
+
 
   inputs: {
 

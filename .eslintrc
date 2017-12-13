@@ -38,6 +38,7 @@
     "_": true,
     "async": true,
     "moment": true,
+    "Promise": true,
     "User": true,
     "Thing": true
     // ...and any other backend globals (e.g. `"Organization": true`)

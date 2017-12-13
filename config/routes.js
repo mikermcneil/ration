@@ -16,7 +16,7 @@ module.exports.routes = {
   //  ╚╩╝╚═╝╚═╝╩  ╩ ╩╚═╝╚═╝╚═╝
   'GET /':                   { action: 'view-homepage-or-redirect' },
   'GET /friends/:virtualPageSlug?':   { action: 'friends/view-friends' },
-  'GET /things/:virtualPageSlug?':     { action: 'things/view-things' },
+  'GET /things/:virtualPageSlug?':     { action: 'things/view-available-things' },
 
   'GET /faq':                { view:   'pages/faq' },
   'GET /legal/terms':        { view:   'pages/legal/terms' },
@@ -51,8 +51,12 @@ module.exports.routes = {
   'POST  /api/v1/entrance/update-password-and-login':    { action: 'entrance/update-password-and-login' },
   'POST  /api/v1/deliver-contact-form-message':          { action: 'deliver-contact-form-message' },
   'POST  /api/v1/things':                             { action: 'things/upload-thing' },
-  'PUT   /api/v1/things/:id/borrow':                    { action: 'things/borrow-thing' },
+  'DELETE  /api/v1/things/:id':                       { action: 'things/destroy-one-thing' },
+  'PUT   /api/v1/things/:id/borrow':                  { action: 'things/borrow-thing' },
   'GET   /api/v1/things/:id/photo':                   { action: 'things/download-photo', skipAssets: false },
+  'PUT   /api/v1/things/:id/schedule-return':         { action: 'things/schedule-return', skipAssets: false },
+  'PATCH /api/v1/things/:id':                         { action: 'things/update-one-thing', skipAssets: false },
+  'DELETE  /api/v1/friends/:id':                      { action: 'friends/remove-friend' },
 
 
   //  ╦ ╦╔═╗╔╗ ╦ ╦╔═╗╔═╗╦╔═╔═╗
