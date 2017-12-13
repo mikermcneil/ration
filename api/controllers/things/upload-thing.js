@@ -43,11 +43,12 @@ module.exports = {
 
     var url = require('url');
 
-    // console.log('photo', inputs.photo);
-
     // Upload the image.
     var uploadedFile = await sails.uploadOne(inputs.photo)
-    .intercept(()=>'imageUploadFailed');
+    .intercept((err)=>{
+      sails.log.error('Upload failed:',err);
+      return 'imageUploadFailed';
+    });
 
     // Create a new "thing" record.
     var newThing = await Thing.create({

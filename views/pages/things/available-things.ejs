@@ -39,7 +39,7 @@
     <div class="empty text-center" v-else><p>You and your friends have not uploaded any items. <a href="/things/new" @click="clickAddButton()">Add something</a> to get started!</p></div>
   </div>
 
-  <% /* "Add thing" modal */ %>
+  <% /* "Upload thing" modal */ %>
   <modal v-if="virtualPageSlug === 'new'" v-cloak key="new" @close="closeUploadThingModal()">
     <div class="modal-header">
       <h5 class="modal-title">Upload a new thing</h5>
@@ -63,7 +63,7 @@
                 <span class="file-upload-button btn btn-sm" :class="[formErrors.photo ? 'btn-outline-danger' : !uploadFormData.previewImageSrc ? 'btn-outline-success' : 'btn-outline-secondary mr-3']">
                   <span class="button-text" v-if="!uploadFormData.previewImageSrc">Select image</span>
                   <span class="button-text" v-else>Change image</span>
-                  <input type="file" name="design-image-upload" :disabled="syncing" accept="image/*" class="file-input" @change="changeFileInput($event.target.files)"/>
+                  <input type="file" :disabled="syncing" accept="image/*" class="file-input" @change="changeFileInput($event.target.files)"/>
                 </span>
                 <p class="image-advice text-muted" v-if="!formErrors.photo"><strong>Tip</strong>: Make sure the item is front and center in the photo, so people know exactly what you're offering to share.</p>
                 <p class="image-advice text-danger" v-if="formErrors.photo">A photo is required in order to add a new item.</p>
@@ -135,7 +135,7 @@
         <span>&times;</span>
       </button>
     </div>
-    <ajax-form action="destroyOneThing" :syncing.sync="syncing" :cloud-error.sync="cloudError" :handle-parsing="handleParsingDeleteThingForm" @submitted="submittedDeleteThingForm($event)">
+    <ajax-form action="destroyOneThing" :syncing.sync="syncing" :cloud-error.sync="cloudError" :handle-parsing="handleParsingDeleteThingForm" @submitted="submittedDeleteThingForm()">
       <div class="modal-body">
         <p>Are you sure you want to remove this {{selectedThing.label || 'item'}}?</p>
         <p class="text-muted" v-if="selectedThing.borrowedBy">We will no longer be able to assist with the return of this item, so you will need to contact {{selectedThing.borrowedBy.fullName}} directly to coordinate.</p>
