@@ -1,7 +1,7 @@
 module.exports = {
 
 
-  friendlyName: 'View things',
+  friendlyName: 'View available things',
 
 
   description: 'Display "Things" page.',
@@ -10,7 +10,7 @@ module.exports = {
   exits: {
 
     success: {
-      viewTemplatePath: 'pages/things/things'
+      viewTemplatePath: 'pages/things/available-things'
     }
 
   },
