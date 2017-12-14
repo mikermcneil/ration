@@ -66,12 +66,15 @@ parasails.registerPage('friends', {
       this.goto('/friends/new');
     },
 
-    openedInviteFriendsModal: function() {
-      // TODO: focus first field
-    },
-
     closeInviteFriendsModal: function() {
       this.goto('/friends');
+    },
+
+    clickAddMoreButton: function() {
+      this.inviteFriendsFormData.friends.push({
+        fullName: '',
+        emailAddress: ''
+      });
     },
 
     handleParsingInviteFriendsForm: function() {
@@ -143,7 +146,6 @@ parasails.registerPage('friends', {
       this.confirmRemoveFriendModalOpen = false;
       this.cloudError = '';
     },
-
 
   },
 });
