@@ -15,7 +15,7 @@
     "sails-hook-grunt": "^2.0.0",
     "sails-hook-orm": "^2.0.0-16",
     "sails-hook-sockets": "^1.4.0",
-    "sails-hook-uploads": "0.0.2",
+    "sails-hook-uploads": "^0.0.3",
     "sails-stdlib": "^0.11.0",
     "socket.io-redis": "4.0.0"
   },
