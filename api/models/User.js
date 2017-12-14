@@ -164,8 +164,6 @@ email status until they click the link in the confirmation email.`
     //  ╩ ╩╚═╝╚═╝╚═╝╚═╝╩╩ ╩ ╩ ╩╚═╝╝╚╝╚═╝
     friends: { collection: 'User', description: 'All of the other users this user can share things with.' },
 
-    ownedThings: { collection: 'Thing', via: 'owner', description: 'All of the things this user has uploaded.' },
-
   },
 
 
