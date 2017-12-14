@@ -31,10 +31,8 @@ module.exports = {
     await User.removeFromCollection(inputs.id, 'outboundFriendRequests')
     .members([this.req.me.id]);
 
-    // Add this user to the logged-in user's friends, and remove from their inbound requests.
+    // Add this user to the logged-in user's friends.
     await User.addToCollection(this.req.me.id, 'friends')
-    .members([inputs.id]);
-    await User.removeFromCollection(this.req.me.id, 'inboundFriendRequests')
     .members([inputs.id]);
 
     return exits.success();
