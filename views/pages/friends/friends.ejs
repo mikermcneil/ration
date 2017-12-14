@@ -39,9 +39,7 @@
             <td><strong>{{potentialFriend.fullName}}</strong></td>
             <td>{{potentialFriend.emailAddress}}</td>
             <td class="actions-column">
-              <ajax-form action="approveFriend" :syncing.sync="syncing" :cloud-error.sync="cloudError" :handle-parsing="handleParsingApproveFriendForm" @submitted="submittedApproveFriendForm()">
-                <ajax-button type="submit" :syncing="syncing" class="btn btn-sm btn-outline-primary" @click="clickApproveFriend(potentialFriend.id)">Confirm</ajax-button>
-              </ajax-form>
+              <button :disabled="syncing" class="btn btn-sm btn-outline-primary" @click="clickApproveFriend(potentialFriend.id)">Confirm</button>
             </td>
           </tr>
           <tr v-for="potentialFriend in me.outboundFriendRequests" class="pending">

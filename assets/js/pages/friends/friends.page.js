@@ -27,10 +27,6 @@ parasails.registerPage('friends', {
       ]
     },
 
-    approveFriendFormData: {
-      id: undefined
-    },
-
     // For tracking client-side validation errors in our form.
     // > Has property set to `true` for each invalid property in `addFriendsFormData`.
     formErrors: { /* … */ },
@@ -180,28 +176,24 @@ parasails.registerPage('friends', {
       this.cloudError = '';
     },
 
-    clickApproveFriend: function(userId) {
-      this.approveFriendFormData.id = userId;
-      console.log('approving',this.approveFriendFormData.id);
-    },
-
-    handleParsingApproveFriendForm: function() {
-      return {
-        id: this.approveFriendFormData.id
-      };
-    },
-
-    submittedApproveFriendForm: function() {
-
-      // Remove this user from our friends list.
-      _.remove(this.me.inboundFriendRequests, {id: this.approveFriendFormData.id});
+    clickApproveFriend: async function(userId) {
+      // Prevent double-posting
+      if(this.syncing) {
+        return;
+      }
+      this.syncing = true;
+      await Cloud.approveFriend({ id: userId });
       // Add this user to our approved friends list.
-      var approvedFriend = _.find(this.me.inboundFriendRequests, {id: this.approveFriendFormData.id});
-      this.me.friends.unshift(approvedFriend);
-
-      // Clear the form data.
-      this.approveFriendFormData.id = undefined;
+      var approvedFriend =_.find(this.me.inboundFriendRequests, {id: userId});
+      this.me.friends.unshift({
+        id: approvedFriend.id,
+        fullName: approvedFriend.fullName,
+        emailAddress: approvedFriend.emailAddress
+      });
+      // Remove this user from our friends list.
+      _.remove(this.me.inboundFriendRequests, {id: userId});
+      // Clear loading state
+      this.syncing = false;
     },
-
   },
 });
