@@ -387,10 +387,10 @@ module.exports = {
     *                                                                          *
     ***************************************************************************/
     adapter: 'skipper-s3',
-    key: 'fake-aws-keyagsd8agsdagsdhagsd',
-    secret: 'fake-aws-secretasdg8asgd8gsd8asgd8',
-    bucket: 'uploaded_photos_of_things_prod',
-    region: 'us-east-1',
+    // key: 'fake-aws-keyagsd8agsdagsdhagsd',
+    // secret: 'fake-aws-secretasdg8asgd8gsd8asgd8',
+    // bucket: 'uploaded_photos_of_things_prod',
+    // region: 'us-east-1',
     //--------------------------------------------------------------------------
     //  /\   To avoid checking them in to version control, you might opt to set
     //  ||   sensitive credentials like `s3Secret` using an environment variable.
