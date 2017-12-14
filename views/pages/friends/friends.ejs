@@ -23,6 +23,22 @@
         </tbody>
       </table>
     </div>
+    <div class="requests-list" v-else-if="me.inboundFriendRequests.length > 0">
+      <table class="table table-striped">
+        <thead>
+          <th>Name</th>
+          <th>Email</th>
+          <th class="actions-column">Actions</th>
+        </thead>
+        <tbody>
+          <tr v-for="potentialFriend in me.inboundFriendRequests">
+            <td><strong>{{potentialFriend.fullName}}</strong></td>
+            <td>{{potentialFriend.emailAddress}}</td>
+            <td class="actions-column"><button class="btn btn-sm btn-outline-primary" @click="clickApproveFriend(potentialFriend.id)">Confirm</button></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
     <div class="empty text-center" v-else><p>You don't have any friends on Ration! In order to upload and borrow items, you'll need to <a href="/friends/new" @click="clickAddButton()">invite people</a> to join or add you as a friend.</p></div>
   </div>
   <% /* "Add friends" modal */ %>

@@ -147,5 +147,9 @@ parasails.registerPage('friends', {
       this.cloudError = '';
     },
 
+    clickApproveFriend: function(userId) {
+      // TODO
+    },
+
   },
 });

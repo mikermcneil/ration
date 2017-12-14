@@ -164,6 +164,10 @@ email status until they click the link in the confirmation email.`
     //  ╩ ╩╚═╝╚═╝╚═╝╚═╝╩╩ ╩ ╩ ╩╚═╝╝╚╝╚═╝
     friends: { collection: 'User', description: 'All of the other users this user can share things with.' },
 
+    outboundFriendRequests: { collection: 'User', via: 'inboundFriendRequests', description: 'The friend requests this user has sent.' },
+
+    inboundFriendRequests: { collection: 'User', via: 'outboundFriendRequests', description: 'The friend requests this user has received.' },
+
   },
 
 
