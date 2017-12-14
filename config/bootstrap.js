@@ -15,7 +15,7 @@ module.exports.bootstrap = async function(done) {
   var path = require('path');
 
   // This bootstrap version indicates what version of fake data we're dealing with here.
-  var HARD_CODED_DATA_VERSION = 4;
+  var HARD_CODED_DATA_VERSION = 5;
 
   // This path indicates where to store/look for the JSON file that tracks the "last run bootstrap info"
   // locally on this development computer (if we happen to be on a development computer).
@@ -71,6 +71,19 @@ module.exports.bootstrap = async function(done) {
   await User.addToCollection(raquel.id, 'friends').members([rory.id, rachael.id, mike.id]);
   await User.addToCollection(rachael.id, 'friends').members([rory.id, raquel.id, mike.id]);
   await User.addToCollection(mike.id, 'friends').members([rory.id, raquel.id, rachael.id]);
+
+  // Add some things
+  // var stargazingTentInfo = await sails.uploadOne(
+  //   await sails.stdlib('fs').readStream(
+  //     path.resolve(__dirname, 'images/wilson-ye-201705.jpg')
+  //   )
+  // );
+  // await Thing.create({
+  //   imageUploadFd: stargazingTentInfo.fd,
+  //   imageUploadMime: stargazingTentInfo.type,
+  //   label: 'Stargazing Tent',
+  //   owner: rory.id
+  // });
 
   // Save new bootstrap version
   await sails.stdlib('fs').writeJson(bootstrapLastRunInfoPath, {
