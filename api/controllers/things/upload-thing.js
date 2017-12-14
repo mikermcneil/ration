@@ -14,8 +14,7 @@ module.exports = {
 
     photo: {
       description: 'Upstream for an incoming file upload.',
-      type: 'ref',
-      required: true
+      type: 'ref'
     },
 
     label: {
@@ -33,8 +32,8 @@ module.exports = {
       outputExample: {}
     },
 
-    imageUploadFailed: {
-      description: 'The provided photo failed to upload.'
+    badRequest: {
+      description: 'No photo upload was attached'
     },
 
   },
@@ -45,24 +44,27 @@ module.exports = {
     var url = require('url');
 
     // Upload the image.
-    var uploadedFile = await sails.uploadOne(inputs.photo)
+    var info = await sails.uploadOne(inputs.photo)
     .intercept((err)=>{
       sails.log.error('Upload failed:',err);
-      return 'imageUploadFailed';
+      return 'badRequest';
     });
 
     // Create a new "thing" record.
     var newThing = await Thing.create({
-      imageUploadFd: uploadedFile.fd,
-      imageUploadMime: uploadedFile.type,
+      imageUploadFd: info.fd,
+      imageUploadMime: info.type,
       label: inputs.label,
       owner: this.req.me.id
     }).fetch();
 
-    newThing.imageSrc = url.resolve(sails.config.custom.baseUrl, '/api/v1/things/'+newThing.id+'/photo');
+    var imageSrc = url.resolve(sails.config.custom.baseUrl, '/api/v1/things/'+newThing.id+'/photo');
 
     // Return the newly-created thing, with its `imageSrc`
-    return exits.success(newThing);
+    return exits.success({
+      id: newThing.id,
+      imageSrc
+    });
 
   }
 
