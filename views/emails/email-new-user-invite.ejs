@@ -1,0 +1,8 @@
+<% /* Note: This is injected into `views/layouts/layout-email.ejs` */ %>
+<div style="padding: 15px; margin-top:10px; background-color: #14acc2; border-top-left-radius: 6px; border-top-right-radius: 6px; border: 1px solid #0c8da0;">
+  <h2 style="text-align: center; color: #ffffff; margin:0px; font-size: 34px;"><%= potentialFriendFullName %> wants to share their stuff.</h2>
+</div>
+<div style="background-color: #ffffff; padding: 15px; margin-bottom: 25px; color: #303030; border-bottom-left-radius: 6px; border-bottom-right-radius: 6px; border: 1px solid #cccccc;">
+  <p style="margin-bottom: 35px;">Dear <%= fullName %>,</p>
+  <p><%= potentialFriendFullName %> wants has invited you to sign up for Ration. <a href="url.resolve(sails.config.custom.baseUrl,'/claim')+'?token='+encodeURIComponent(token)">Click here</a> to claim your account and start sharing things with friends.</p>
+</div>
