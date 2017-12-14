@@ -386,16 +386,23 @@ module.exports = {
     *    (See https://sailsjs.com/config/uploads for help.)                    *
     *                                                                          *
     ***************************************************************************/
-    // adapter: 'skipper-s3',
-    // s3Bucket: 'profile_images',
-    // s3Secret: 'AB2g1939eaGAdeAdamdaio38103onaDs',
+    adapter: 'skipper-s3',
+    key: 'fake-aws-keyagsd8agsdagsdhagsd',
+    secret: 'fake-aws-secretasdg8asgd8gsd8asgd8',
+    bucket: 'uploaded_photos_of_things_prod',
+    region: 'us-east-1',
     //--------------------------------------------------------------------------
     //  /\   To avoid checking them in to version control, you might opt to set
     //  ||   sensitive credentials like `s3Secret` using an environment variable.
     //
     //  For example:
     //  ```
-    //  sails_uploads__s3Secret=AB2g1939eaGAdeAdamdaio38103onaDs
+    //  sails_uploads__key=AB2g1939eaGAdeAdamdaio38103onaDs
+    //  ```
+    //
+    //  To additionally allow file uploads to be viewed by the public, add:
+    //  ```
+    //  headers: { 'x-amz-acl': 'public-read' }
     //  ```
     //--------------------------------------------------------------------------
 

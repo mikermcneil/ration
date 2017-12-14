@@ -86,10 +86,15 @@ module.exports.bootstrap = async function(done) {
   // });
 
   // Save new bootstrap version
-  await sails.stdlib('fs').writeJson(bootstrapLastRunInfoPath, {
-    lastRunVersion: HARD_CODED_DATA_VERSION,
-    lastRunAt: Date.now(),
-  }).tolerate((err)=>{
+  await sails.stdlib('fs').writeJson.with({
+    destination: bootstrapLastRunInfoPath,
+    json: {
+      lastRunVersion: HARD_CODED_DATA_VERSION,
+      lastRunAt: Date.now(),
+    },
+    force: true
+  })
+  .tolerate((err)=>{
     sails.log.warn('For some reason, could not write bootstrap version .json file.  This could be a result of a problem with your configured paths, or a limitation around cwd on your hosting provider.  As a workaround, try updating app.js to explicitly use __dirname.  Current sails.config.appPath: `'+sails.config.appPath+'`.  Full error details: '+err.stack+'\n\n(Proceeding anyway this time...)');
   });
 
