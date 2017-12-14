@@ -12,7 +12,7 @@ module.exports = {
       description: 'An array of users to add as friends.',
       example: [{
         fullName: 'Rory Milliard',
-        email: 'rory@example.com'
+        emailAddress: 'rory@example.com'
       }],
       required: true
     }
