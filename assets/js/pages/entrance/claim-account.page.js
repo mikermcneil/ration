@@ -28,6 +28,8 @@ parasails.registerPage('claim-account', {
   beforeMount: function() {
     // Attach any initial data from the server.
     _.extend(this, SAILS_LOCALS);
+    this.formData.fullName = this.unclaimedAccount.fullName;
+    this.formData.token = this.unclaimedAccount.emailProofToken;
   },
 
   //  ╦╔╗╔╔╦╗╔═╗╦═╗╔═╗╔═╗╔╦╗╦╔═╗╔╗╔╔═╗

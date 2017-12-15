@@ -48,7 +48,7 @@ module.exports = {
       unclaimedAccount: {
         fullName: accountInfo.fullName,
         emailAddress: accountInfo.emailAddress,
-        token: accountInfo.emailProofToken
+        emailProofToken: accountInfo.emailProofToken
       }
     });
 
