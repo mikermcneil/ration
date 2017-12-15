@@ -42,7 +42,8 @@ module.exports = function(grunt) {
         endTag: '<!--SCRIPTS END-->',
         fileTmpl: '<script src="%s"></script>',
         appRoot: '.tmp/public',
-        relative: true
+        // relative: true
+        // ^^ Disabled because it breaks font links (and isn't necessary for our use case here.)
       },
       files: {
         '.tmp/public/**/*.html': require('../pipeline').jsFilesToInject,
@@ -71,7 +72,8 @@ module.exports = function(grunt) {
         endTag: '<!--SCRIPTS END-->',
         fileTmpl: '<script src="%s"></script>',
         appRoot: '.tmp/public',
-        relative: true
+        // relative: true
+        // ^^ Disabled because it breaks font links (and isn't necessary for our use case here.)
       },
       files: {
         '.tmp/public/**/*.html': ['.tmp/public/min/production.min.js'],
@@ -108,7 +110,8 @@ module.exports = function(grunt) {
         endTag: '<!--STYLES END-->',
         fileTmpl: '<link rel="stylesheet" href="%s">',
         appRoot: '.tmp/public',
-        relative: true
+        // relative: true
+        // ^^ Disabled because it breaks font links (and isn't necessary for our use case here.)
       },
 
       files: {
@@ -138,7 +141,8 @@ module.exports = function(grunt) {
         endTag: '<!--STYLES END-->',
         fileTmpl: '<link rel="stylesheet" href="%s">',
         appRoot: '.tmp/public',
-        relative: true
+        // relative: true
+        // ^^ Disabled because it breaks font links (and isn't necessary for our use case here.)
       },
       files: {
         '.tmp/public/index.html': ['.tmp/public/min/production.min.css'],
@@ -173,7 +177,8 @@ module.exports = function(grunt) {
         endTag: '<!--TEMPLATES END-->',
         fileTmpl: '<script type="text/javascript" src="%s"></script>',
         appRoot: '.tmp/public',
-        relative: true
+        // relative: true
+        // ^^ Disabled because it breaks font links (and isn't necessary for our use case here.)
       },
       files: {
         '.tmp/public/index.html': ['.tmp/public/jst.js'],
