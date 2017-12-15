@@ -10,7 +10,7 @@ parasails.registerPage('friends', {
     virtualPageSlug: '',
 
     // Form data
-    inviteFriendsFormData: {
+    addFriendsFormData: {
       friends: [
         {
           fullName: '',
@@ -28,7 +28,7 @@ parasails.registerPage('friends', {
     },
 
     // For tracking client-side validation errors in our form.
-    // > Has property set to `true` for each invalid property in `inviteFriendsFormData`.
+    // > Has property set to `true` for each invalid property in `addFriendsFormData`.
     formErrors: { /* … */ },
 
     // Syncing / loading state
@@ -66,24 +66,51 @@ parasails.registerPage('friends', {
       this.goto('/friends/new');
     },
 
-    openedInviteFriendsModal: function() {
-      // TODO: focus first field
-    },
-
-    closeInviteFriendsModal: function() {
+    _clearAddFriendsModal: function() {
       this.goto('/friends');
+      // Reset form data.
+      this.addFriendsFormData = {
+        friends: [
+          {
+            fullName: '',
+            emailAddress: ''
+          },
+          {
+            fullName: '',
+            emailAddress: ''
+          },
+          {
+            fullName: '',
+            emailAddress: ''
+          }
+        ]
+      };
+      this.formErrors = {};
+      this.cloudError = '';
     },
 
-    handleParsingInviteFriendsForm: function() {
+    closeAddFriendsModal: function() {
+      this._clearAddFriendsModal();
+    },
+
+    clickAddMoreButton: function() {
+      this.addFriendsFormData.friends.push({
+        fullName: '',
+        emailAddress: ''
+      });
+    },
+
+    handleParsingAddFriendsForm: function() {
+      console.log('can you handle this?');
       // Clear out any pre-existing error messages.
       this.formErrors = {};
 
-      var argins = this.inviteFriendsFormData;
+      var argins = _.cloneDeep(this.addFriendsFormData);
 
       // Check whether there are any rows with a name but not an email.
       var isValidEmailAddress = parasails.require('isValidEmailAddress');
-      var hasAtLeastOneInvalidFriend = !_.isUndefined(_.find(this.argins.friends, (friend)=> {
-        if(friend.fullName === '' && (friend.emailAddress !== '' || !isValidEmailAddress(friend.emailAddress))) {
+      var hasAtLeastOneInvalidFriend = !_.isUndefined(_.find(argins.friends, (friend)=> {
+        if((friend.fullName !== '' || friend.emailAddress !== '') && !isValidEmailAddress(friend.emailAddress)) {
           return true;
         }
         return false;
@@ -94,7 +121,6 @@ parasails.registerPage('friends', {
         return;
       }
 
-
       // If there were any issues, they've already now been communicated to the user,
       // so simply return undefined.  (This signifies that the submission should be
       // cancelled.)
@@ -103,14 +129,20 @@ parasails.registerPage('friends', {
       }
 
       // Otherwise, trim out any empty rows before submitting.
-      _.remove(argins.friends, {fullName: '', email: ''});
+      _.remove(argins.friends, {fullName: '', emailAddress: ''});
 
       return argins;
     },
 
-    submittedInviteFriendsForm: function() {
-      // Add the new friends to the list
-      // TODO
+    submittedAddFriendsForm: function() {
+      var invitedFriends = _.filter(this.addFriendsFormData.friends, (friend)=>{
+        return friend.fullName !== '' && friend.emailAddress !== '';
+      });
+      console.log('invited friends:',invitedFriends);
+      // Add the new friends to the requests list
+      this.me.outboundFriendRequests = this.me.outboundFriendRequests.concat(invitedFriends);
+      this.$forceUpdate();
+      this._clearAddFriendsModal();
     },
 
     clickRemoveFriend: function(friendId) {
@@ -144,6 +176,24 @@ parasails.registerPage('friends', {
       this.cloudError = '';
     },
 
-
+    clickApproveFriend: async function(userId) {
+      // Prevent double-posting
+      if(this.syncing) {
+        return;
+      }
+      this.syncing = true;
+      await Cloud.approveFriend({ id: userId });
+      // Add this user to our approved friends list.
+      var approvedFriend =_.find(this.me.inboundFriendRequests, {id: userId});
+      this.me.friends.unshift({
+        id: approvedFriend.id,
+        fullName: approvedFriend.fullName,
+        emailAddress: approvedFriend.emailAddress
+      });
+      // Remove this user from our friends list.
+      _.remove(this.me.inboundFriendRequests, {id: userId});
+      // Clear loading state
+      this.syncing = false;
+    },
   },
 });

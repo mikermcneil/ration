@@ -1,7 +1,7 @@
 {
   "name": "ration",
   "private": true,
-  "version": "0.0.1",
+  "version": "0.0.4",
   "description": "a Sails application",
   "keywords": [],
   "dependencies": {
@@ -15,6 +15,8 @@
     "sails-hook-grunt": "^2.0.0",
     "sails-hook-orm": "^2.0.0-16",
     "sails-hook-sockets": "^1.4.0",
+    "sails-hook-uploads": "^0.0.3",
+    "sails-mysql": "^1.0.0-15",
     "sails-stdlib": "^0.11.0",
     "socket.io-redis": "4.0.0"
   },

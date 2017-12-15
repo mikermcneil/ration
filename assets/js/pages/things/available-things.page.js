@@ -161,6 +161,8 @@ parasails.registerPage('available-things', {
 
     submittedUploadThingForm: function(result) {
       var newItem = _.extend(result, {
+        label: this.uploadFormData.label,
+        isBorrowed: false,
         owner: {
           id: this.me.id,
           fullName: this.me.fullName
@@ -175,10 +177,18 @@ parasails.registerPage('available-things', {
     },
 
     changeFileInput: function(files) {
-      if (files.length !== 1) {
-        throw new Error('Consistency violation: `changeFileInput` was somehow called with an empty array of files, or with more than one file in the array!');
+      if (files.length !== 1 && !this.uploadFormData.photo) {
+        throw new Error('Consistency violation: `changeFileInput` was somehow called with an empty array of files, or with more than one file in the array!  This should never happen unless there is already an uploaded file tracked.');
       }
       var selectedFile = files[0];
+
+      // If you cancel from the native upload window when you already
+      // have a photo tracked, then we just avast (return early).
+      // In this case, we just leave whatever you had there before.
+      if (!selectedFile && this.uploadFormData.photo) {
+        return;
+      }
+
       this.uploadFormData.photo = selectedFile;
 
       // Set up the file preview for the UI:
@@ -271,7 +281,6 @@ parasails.registerPage('available-things', {
       // Close the modal.
       this.selectedThing = undefined;
       this.confirmDeleteThingModalOpen = false;
-      this.cloudError = '';
     },
 
     clickReturn: function(thingId) {

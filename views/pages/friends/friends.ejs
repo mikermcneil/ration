@@ -8,54 +8,88 @@
       </div>
     </div>
     <div class="friends-list" v-if="me.friends.length > 0">
+      <h5 class="text-muted">My friends</h5>
       <table class="table table-striped">
         <thead>
           <th>Name</th>
           <th>Email</th>
-          <th class="actions-column">Actions</th>
+          <th class="actions-column"></th>
         </thead>
         <tbody>
           <tr v-for="friend in me.friends">
             <td><strong>{{friend.fullName}}</strong></td>
             <td>{{friend.emailAddress}}</td>
-            <td class="actions-column"><button class="btn btn-sm btn-outline-danger" @click="clickRemoveFriend(friend.id)">Remove friend</button></td>
+            <td class="actions-column">
+              <button class="btn btn-sm btn-outline-danger" @click="clickRemoveFriend(friend.id)">Remove friend</button>
+            </td>
           </tr>
         </tbody>
       </table>
     </div>
-    <div class="empty text-center" v-else><p>You don't have any friends on Ration! In order to upload and borrow items, you'll need to <a href="/friends/new" @click="clickAddButton()">invite people</a> to join or add you as a friend.</p></div>
+    <div class="requests-list mt-4" v-if="me.inboundFriendRequests.length > 0 || me.outboundFriendRequests.length > 0">
+      <h5 class="text-muted">Friend requests</h5>
+      <table class="table table-striped">
+        <thead>
+          <th>Name</th>
+          <th>Email</th>
+          <th class="actions-column"></th>
+        </thead>
+        <tbody>
+          <tr v-for="potentialFriend in me.inboundFriendRequests">
+            <td><strong>{{potentialFriend.fullName}}</strong></td>
+            <td>{{potentialFriend.emailAddress}}</td>
+            <td class="actions-column">
+              <button :disabled="syncing" class="btn btn-sm btn-outline-primary" @click="clickApproveFriend(potentialFriend.id)">Confirm</button>
+            </td>
+          </tr>
+          <tr v-for="potentialFriend in me.outboundFriendRequests" class="pending">
+            <td><strong>{{potentialFriend.fullName}}</strong></td>
+            <td>{{potentialFriend.emailAddress}}</td>
+            <td class="actions-column">
+              <span class="badge badge-secondary">Pending approval</span>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="empty text-center" v-if="me.inboundFriendRequests.length === 0 && me.outboundFriendRequests.length === 0 && me.friends.length === 0"><p>You don't have any friends on Ration! In order to upload and borrow items, you'll need to <a href="/friends/new" @click="clickAddButton()">invite people</a> to join or add you as a friend.</p></div>
   </div>
   <% /* "Add friends" modal */ %>
-  <modal v-if="virtualPageSlug === 'new'" v-cloak key="new" @close="closeInviteFriendsModal()" @opened="openedInviteFriendsModal()">
+  <modal v-if="virtualPageSlug === 'new'" v-cloak key="new" @close="closeAddFriendsModal()">
     <div class="modal-header">
       <h5 class="modal-title">Invite friends</h5>
       <button type="button" class="close" data-dismiss="modal" aria-label="Close">
         <span>&times;</span>
       </button>
     </div>
-    <ajax-form action="inviteFriends" :syncing.sync="syncing" :cloud-error.sync="cloudError" :handle-parsing="handleParsingInviteFriendsForm" @submitted="submittedInviteFriendsForm()">
+    <ajax-form action="addFriends" :syncing.sync="syncing" :cloud-error.sync="cloudError" :handle-parsing="handleParsingAddFriendsForm" @submitted="submittedAddFriendsForm()">
       <div class="modal-body">
-        <div class="form-group" v-for="(friend, index) in inviteFriendsFormData.friends">
+        <div class="form-group" v-for="(friend, index) in addFriendsFormData.friends">
           <div class="row">
             <div class="col">
               <label v-if="index === 0">Name</label>
-              <input class="form-control" type="text" v-model="inviteFriendsFormData.friends[index].fullName">
+              <input class="form-control" type="text" v-model="addFriendsFormData.friends[index].fullName" :placeholder="index === 0 ? 'Ralph' : index === 1 ? 'Donny' : index === 2 ? 'Leo' : 'Full name'">
             </div>
             <div class="col">
               <label v-if="index === 0">Email Address</label>
-              <input class="form-control" type="email" v-model="inviteFriendsFormData.friends[index].emailAddress">
+              <input class="form-control" type="email" v-model="addFriendsFormData.friends[index].emailAddress" :placeholder="index === 0 ? 'raphael@example.com' : index === 1 ? 'donatello@example.com' : index === 2 ? 'leonardo@example.com' : 'Email address'">
             </div>
           </div>
         </div>
+        <div class="form-group">
+          <span class="add-more-button" @click="clickAddMoreButton()"><span class="fa fa-plus text-info mr-1"></span> Add more</span>
+        </div>
+         <p class="text-danger" v-if="formErrors.friends"><small>Please make sure all your invitees have a name and an email address.</small></p>
+         <p class="text-danger" v-if="cloudError"><small>An error occured while processing your request. Please check your information and try again, or <a href="/contact">contact support</a> if the error persists.</small></p>
       </div>
-      <div class="modal-footer">
-        <button data-dismiss="modal" class="btn btn-outline-secondary mr-1">Cancel</button>
+      <div class="modal-footer flex-row-reverse justify-content-start">
         <ajax-button type="submit" :syncing="syncing" class="btn btn-primary ml-1">Add</ajax-button>
+        <button data-dismiss="modal" class="btn btn-outline-secondary mr-1">Cancel</button>
       </div>
     </ajax-form>
   </modal>
 
-  <% /* "Delete thing" modal */ %>
+  <% /* "Remove friend" modal */ %>
   <modal v-if="confirmRemoveFriendModalOpen && selectedFriend" v-cloak key="remove" @close="closeRemoveFriendModal()">
     <div class="modal-header">
       <h5 class="modal-title">Unfriend {{selectedFriend.fullName}}?</h5>
