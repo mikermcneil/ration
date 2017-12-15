@@ -1,0 +1,38 @@
+<div id="claim-account" v-cloak>
+  <div class="container">
+    <h1 class="text-center">Claim your account</h1>
+    <div class="signup-form">
+      <p class="text-center">We just need a little more info to finish setting up the account for <strong>{{unclaimedAccount.emailAddress}}</strong>.</p>
+      <hr/>
+      <ajax-form action="claimAccountAndLogin" :syncing.sync="syncing" :cloud-error.sync="cloudError" @submitted="submittedForm()" :handle-parsing="handleParsingForm">
+        <div class="form-group">
+          <label for="full-name">Full name</label>
+          <input class="form-control" id="full-name" autofocus type="text"  :class="[formErrors.fullName ? 'is-invalid' : '']" v-model.trim="formData.fullName" placeholder="Sturgis P. Sturgeon">
+          <div class="invalid-feedback" v-if="formErrors.fullName">Please enter your full name.</div>
+        </div>
+        <div class="form-group">
+          <label for="password">Choose a password</label>
+          <input class="form-control" id="password" type="password"  :class="[formErrors.password ? 'is-invalid' : '']" v-model.trim="formData.password" placeholder="••••••••">
+          <div class="invalid-feedback" v-if="formErrors.password">Please enter a password.</div>
+        </div>
+        <div class="form-group">
+          <label for="confirm-password">Confirm password</label>
+          <input class="form-control" id="confirm-password" type="password"  :class="[formErrors.confirmPassword ? 'is-invalid' : '']" v-model.trim="formData.confirmPassword" placeholder="••••••••">
+          <div class="invalid-feedback" v-if="formErrors.confirmPassword">Your password and confirmation do not match.</div>
+        </div>
+        <div class="form-group">
+          <label for="terms-agreement" class="form-check-label" :class="[formErrors.agreed ? 'text-danger' : '']">
+            <input class="form-check-input" id="terms-agreement" type="checkbox" v-model="formData.agreed"> I have read &amp; agree to the <a target="_blank" href="/terms">terms of service</a>.
+          </label>
+        </div>
+        <p class="text-danger" v-else-if="cloudError"><small>An error occured while processing your request. Please check your information and try again, or <a href="/support">contact support</a> if the error persists.</small></p>
+        <div class="form-group">
+          <ajax-button type="submit" :syncing="syncing" class="btn-dark btn-lg btn-block">Create account</ajax-button>
+        </div>
+      </ajax-form>
+      <p class="text-center">Already have an account? <a href="/login">Sign in</a></p>
+    </div>
+  </div>
+
+</div>
+<%- /* Expose server-rendered data as window.SAILS_LOCALS :: */ exposeLocalsToBrowser() %>
