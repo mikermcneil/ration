@@ -14,7 +14,7 @@
     "sails-hook-apianalytics": "^2.0.0",
     "sails-hook-orm": "^2.0.0-16",
     "sails-hook-sockets": "^1.5.2-0",
-    "sails-hook-uploads": "^0.1.0",
+    "sails-hook-uploads": "^0.1.1",
     "sails-mysql": "^1.0.0-15",
     "sails-stdlib": "^0.11.0",
     "socket.io-redis": "5.2.0"
