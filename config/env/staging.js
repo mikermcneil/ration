@@ -70,7 +70,7 @@ module.exports = Object.assign({}, PRODUCTION_CONFIG, {
   }),
 
   uploads: Object.assign({}, PRODUCTION_CONFIG.uploads, {
-    adapter: 'skipper-disk'
+    // adapter: 'skipper-disk'
     //--------------------------------------------------------------------------
     // /\  This just uploads files to the local server disk in staging.
     // ||  Comment this out if you want to use the same solution as production.

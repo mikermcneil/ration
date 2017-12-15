@@ -385,7 +385,7 @@ module.exports = {
     *    (See https://sailsjs.com/config/uploads for help.)                    *
     *                                                                          *
     ***************************************************************************/
-    adapter: 'skipper-s3',
+    // adapter: 'skipper-s3',
     // key: 'fake-aws-keyagsd8agsdagsdhagsd',
     // secret: 'fake-aws-secretasdg8asgd8gsd8asgd8',
     // bucket: 'uploaded_photos_of_things_prod',
