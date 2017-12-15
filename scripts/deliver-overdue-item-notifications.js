@@ -9,8 +9,6 @@ module.exports = {
   fn: async function(inputs, exits){
     var moment = require('moment');
 
-    sails.log('sails.config.custom.foo:', sails.config.custom.foo);
-
     var overdueThings = await Thing.find({
       // Check for items that are 12 hrs away from being overdue.
       expectedReturnAt: { '<=': Date.now() -  1000*60*60*12 },
