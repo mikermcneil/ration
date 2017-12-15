@@ -185,7 +185,7 @@ module.exports = {
     * > (For a full list, see https://sailsjs.com/plugins/sessions)            *
     *                                                                          *
     ***************************************************************************/
-    // adapter: 'connect-redis',
+    adapter: 'connect-redis',
     // url: 'redis://user:password@localhost:6379/dbname',
     //--------------------------------------------------------------------------
     // /\   OR, to avoid checking it in to version control, you might opt to
@@ -222,7 +222,7 @@ module.exports = {
     *                                                                          *
     ***************************************************************************/
     cookie: {
-      // secure: true,
+      secure: true,
       maxAge: 24 * 60 * 60 * 1000,  // 24 hours
     },
 
@@ -269,7 +269,7 @@ module.exports = {
     * (https://sailsjs.com/docs/concepts/deployment/scaling)                   *
     *                                                                          *
     ***************************************************************************/
-    // adapter: 'socket.io-redis',
+    adapter: 'socket.io-redis',
     // url: 'redis://user:password@bigsquid.redistogo.com:9562/dbname',
     //--------------------------------------------------------------------------
     // /\   OR, to avoid checking it in to version control, you might opt to
@@ -323,7 +323,7 @@ module.exports = {
     * (https://sailsjs.com/config/http)                                        *
     *                                                                          *
     ***************************************************************************/
-    // trustProxy: true,
+    trustProxy: true,
 
   },
 
@@ -386,7 +386,7 @@ module.exports = {
     *    (See https://sailsjs.com/config/uploads for help.)                    *
     *                                                                          *
     ***************************************************************************/
-    adapter: 'skipper-s3',
+    // adapter: 'skipper-s3',
     // key: 'fake-aws-keyagsd8agsdagsdhagsd',
     // secret: 'fake-aws-secretasdg8asgd8gsd8asgd8',
     // bucket: 'uploaded_photos_of_things_prod',
