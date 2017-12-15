@@ -73,7 +73,8 @@ module.exports = Object.assign({}, PRODUCTION_CONFIG, {
     // adapter: 'skipper-disk'
     //--------------------------------------------------------------------------
     // /\  This just uploads files to the local server disk in staging.
-    // ||  Comment this out if you want to use the same solution as production.
+    // ||  Leave this commented out if you want to use the same solution in
+    // ||  staging as you are using in production.
     // ||  (You should prbly also add an override for the S3 bucket in use, etc.)
     //--------------------------------------------------------------------------
   }),
