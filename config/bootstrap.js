@@ -36,8 +36,6 @@ module.exports.bootstrap = async function(done) {
       return done();
     }//•
 
-
-
     // Compare bootstrap version from code base to the version that was last run
     var lastRunBootstrapInfo = await sails.stdlib('fs').readJson(bootstrapLastRunInfoPath)
     .tolerate('doesNotExist');// (it's ok if the file doesn't exist yet-- just keep going.)
