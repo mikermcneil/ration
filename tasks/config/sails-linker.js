@@ -46,6 +46,8 @@ module.exports = function(grunt) {
       },
       files: {
         '.tmp/public/**/*.html': require('../pipeline').jsFilesToInject,
+        'views/**/*.html': require('../pipeline').jsFilesToInject,
+        'views/**/*.ejs': require('../pipeline').jsFilesToInject
       }
     },
 
@@ -73,6 +75,8 @@ module.exports = function(grunt) {
       },
       files: {
         '.tmp/public/**/*.html': ['.tmp/public/min/production.min.js'],
+        'views/**/*.html': ['.tmp/public/min/production.min.js'],
+        'views/**/*.ejs': ['.tmp/public/min/production.min.js']
       }
     },
 
@@ -109,6 +113,8 @@ module.exports = function(grunt) {
 
       files: {
         '.tmp/public/**/*.html': require('../pipeline').cssFilesToInject,
+        'views/**/*.html': require('../pipeline').cssFilesToInject,
+        'views/**/*.ejs': require('../pipeline').cssFilesToInject
       }
     },
 
@@ -136,6 +142,8 @@ module.exports = function(grunt) {
       },
       files: {
         '.tmp/public/index.html': ['.tmp/public/min/production.min.css'],
+        'views/**/*.html': ['.tmp/public/min/production.min.css'],
+        'views/**/*.ejs': ['.tmp/public/min/production.min.css']
       }
     },
 
@@ -169,6 +177,8 @@ module.exports = function(grunt) {
       },
       files: {
         '.tmp/public/index.html': ['.tmp/public/jst.js'],
+        'views/**/*.html': ['.tmp/public/jst.js'],
+        'views/**/*.ejs': ['.tmp/public/jst.js']
       }
     },
 
