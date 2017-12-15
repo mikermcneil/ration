@@ -64,16 +64,19 @@ html, body {
 }
 
 @media (max-width: 800px) {
-  #page-footer {
-    height: 75px;
-    .copy, .nav {
-      width: 100%;
-      display: block;
-      text-align: center;
-      .nav-item {
-        display: inline-block;
-        a {
+  #page-wrap {
+    padding-bottom: 75px;
+    #page-footer {
+      height: 75px;
+      .copy, .nav {
+        width: 100%;
+        display: block;
+        text-align: center;
+        .nav-item {
           display: inline-block;
+          a {
+            display: inline-block;
+          }
         }
       }
     }
@@ -81,10 +84,13 @@ html, body {
 }
 
 @media (max-width: 450px) {
-  #page-footer {
-    height: 85px;
-    .xs-only {
-      display: block;
+  #page-wrap {
+    padding-bottom: 85px;
+    #page-footer {
+      height: 85px;
+      .xs-only {
+        display: block;
+      }
     }
   }
 }
