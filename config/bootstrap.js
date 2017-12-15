@@ -29,11 +29,14 @@ module.exports.bootstrap = async function(done) {
   // (i.e. `--drop` or `--environment=test` was set), then run the meat of this
   // bootstrap script to wipe all existing data and rebuild hard-coded data.
   if (sails.config.models.migrate !== 'drop' && sails.config.environment !== 'test') {
-    // If this is _actually_ a production environment (real or simulated), prevent accidentally removing all data!
-    if (process.env.NODE_ENV==='production') {
-      sails.log.warn('Since we are running with NODE_ENV=production (& with the "'+sails.config.environment+'" Sails environment, to be precise), skipping the rest of the bootstrap to avoid data loss...');
+    // If this is _actually_ a production environment (real or simulated), or we have
+    // `migrate: safe` enabled, then prevent accidentally removing all data!
+    if (process.env.NODE_ENV==='production' || sails.config.models.migrate === 'safe') {
+      sails.log.warn('Since we are running with migrate: \'safe\' and/or NODE_ENV=production (in the "'+sails.config.environment+'" Sails environment, to be precise), skipping the rest of the bootstrap to avoid data loss...');
       return done();
     }//•
+
+
 
     // Compare bootstrap version from code base to the version that was last run
     var lastRunBootstrapInfo = await sails.stdlib('fs').readJson(bootstrapLastRunInfoPath)
@@ -51,7 +54,7 @@ module.exports.bootstrap = async function(done) {
     sails.log('Running bootstrap script because it was forced...  (either `--drop` or `--environment=test` was used)');
   }
 
-  // Since the hard-coded data version has been incremented, and we're running in a safe environment,
+  // Since the hard-coded data version has been incremented, and we're running in a "trashable" environment,
   // delete all records from all models.
   for (let identity in sails.models) {
     await sails.models[identity].destroy({});
