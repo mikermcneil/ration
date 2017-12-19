@@ -17,18 +17,18 @@ module.exports = {
       description: 'The unencrypted password to use for the new account.'
     },
 
-    token: {
-      required: true,
-      description: 'The confirmation token from the email.',
-      example: '4-32fad81jdaf$329'
-    },
-
     fullName:  {
       required: true,
       type: 'string',
       example: 'Frida Kahlo de Rivera',
       description: 'The user\'s full name.',
-    }
+    },
+
+    token: {
+      required: true,
+      description: 'The confirmation token from the email.',
+      example: '4-32fad81jdaf$329'
+    },
 
   },
 
