@@ -92,7 +92,7 @@ module.exports = {
     // Smash and rewrite the `cloud.setup.js` file in the assets folder to
     // reflect the latest set of available cloud actions exposed by this Sails
     // app (as determined by its routes above)
-    await sails.stdlib('fs').write.with({
+    await sails.helpers.fs.write.with({
       destination: path.resolve(sails.config.appPath, 'assets/js/cloud.setup.js'),
       string: jsCode,
       force: true
@@ -100,9 +100,9 @@ module.exports = {
 
     // Also, if a `test/` folder exists, set up a barebones bounce of this data
     // as a JSON file inside of it, for testing purposes:
-    var hasTestFolder = await sails.stdlib('fs').exists(path.resolve(sails.config.appPath, 'tests/'));
+    var hasTestFolder = await sails.helpers.fs.exists(path.resolve(sails.config.appPath, 'tests/'));
     if (hasTestFolder) {
-      await sails.stdlib('fs').write.with({
+      await sails.helpers.fs.write.with({
         destination: path.resolve(sails.config.appPath, 'test/private/CLOUD_SDK_METHODS.json'),
         string: JSON.stringify(_.extend(endpointsByMethodName, extraEndpointsOnlyForTestsByMethodName)),
         force: true

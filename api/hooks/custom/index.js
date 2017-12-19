@@ -1,12 +1,4 @@
 /**
- * Module dependencies
- */
-
-var stdlib = require('sails-stdlib');
-
-
-
-/**
  * custom hook
  *
  * @description :: A hook definition.  Extends Sails by adding shadow routes, implicit actions, and/or initialization logic.
@@ -25,9 +17,6 @@ module.exports = function defineCustomHook(sails) {
     initialize: async function (done) {
 
       sails.log.info('Initializing hook... (`api/hooks/custom`)');
-
-      // Attach the `sails-stdlib` dependency on the app instance (`sails`), for convenience.
-      sails.stdlib = stdlib;
 
       // Check Stripe/Mailgun configuration (for billing and emails).
       var MANDATORY_STRIPE_CONFIG = ['stripeSecret', 'stripePublishableKey'];
@@ -89,12 +78,12 @@ will be disabled and/or hidden in the UI.
       sails.config.custom.enableBillingFeatures = !isMissingStripeConfig;
 
       // Always set up Stripe credentials on load, no matter what.
-      sails.stdlib('stripe').configure({
+      sails.helpers.stripe.configure({
         secret: sails.config.custom.stripeSecret
       });
 
       // Always set up Mailgun credentials on load, no matter what.
-      sails.stdlib('mailgun').configure({
+      sails.helpers.mailgun.configure({
         secret: sails.config.custom.mailgunSecret,
         domain: sails.config.custom.mailgunDomain,
         from: sails.config.custom.fromEmailAddress,

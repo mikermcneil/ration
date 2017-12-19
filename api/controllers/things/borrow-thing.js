@@ -61,7 +61,7 @@ module.exports = {
     formattedPickupInfoText = formattedPickupInfoText.replace(/\.$/, '');
 
     // Send the owner a notification email.
-    await sails.helpers.sendTemplateEmail({
+    await sails.helpers.sendTemplateEmail.with({
       to: borrowing.owner.emailAddress,
       subject: 'Will you share your '+itemLabel,
       template: 'email-borrow-item',

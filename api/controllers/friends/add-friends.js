@@ -50,7 +50,7 @@ module.exports = {
       }
       else {
         // Otherwise, we need to create a new user.
-        var token = await sails.stdlib('strings').random('url-friendly');
+        var token = await sails.helpers.strings.random('url-friendly');
         var newUser = await User.create({
           fullName: friend.fullName,
           emailAddress: friend.emailAddress,

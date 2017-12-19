@@ -50,7 +50,7 @@ module.exports = {
     }
 
     // Hash the new password.
-    var hashed = await sails.stdlib('passwords').hashPassword(inputs.password);
+    var hashed = await sails.helpers.passwords.hashPassword(inputs.password);
 
     // Store the user's new password and clear their reset token so it can't be used again.
     await User.update({ id: userRecord.id }).set({

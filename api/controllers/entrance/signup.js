@@ -68,11 +68,11 @@ the account verification message.)`,
     // (Also use `fetch` to retrieve the new ID so that we can use it below.)
     var newUserRecord = await User.create(Object.assign({
       emailAddress: inputs.emailAddress.toLowerCase(),
-      password: await sails.stdlib('passwords').hashPassword(inputs.password),
+      password: await sails.helpers.passwords.hashPassword(inputs.password),
       fullName: inputs.fullName,
       tosAcceptedByIp: this.req.ip
     }, sails.config.custom.verifyEmailAddresses? {
-      emailProofToken: await sails.stdlib('strings').random('url-friendly'),
+      emailProofToken: await sails.helpers.strings.random('url-friendly'),
       emailProofTokenExpiresAt: Date.now() + sails.config.custom.emailProofTokenTTL,
       emailStatus: 'unconfirmed'
     }:{}))
@@ -83,7 +83,7 @@ the account verification message.)`,
     // If billing feaures are enabled, save a new customer entry in the Stripe API.
     // Then persist the Stripe customer id in the database.
     if (sails.config.custom.enableBillingFeatures) {
-      let stripeCustomerId = await sails.stdlib('stripe').saveBillingInfo.with({
+      let stripeCustomerId = await sails.helpers.stripe.saveBillingInfo.with({
         emailAddress: inputs.emailAddress
       });
       await User.update(newUserRecord.id).set({
@@ -96,7 +96,7 @@ the account verification message.)`,
 
     if (sails.config.custom.verifyEmailAddresses) {
       // Send "confirm account" email
-      await sails.helpers.sendTemplateEmail({
+      await sails.helpers.sendTemplateEmail.with({
         to: inputs.emailAddress.toLowerCase(),
         subject: 'Please confirm your account',
         template: 'email-verify-account',

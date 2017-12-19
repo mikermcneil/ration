@@ -108,7 +108,7 @@ then redirect to either a special landing page (for newly-signed up users), or t
       // > at the time this user was originally created.)
       if(sails.config.custom.enableBillingFeatures) {
         let didNotAlreadyHaveCustomerId = (! user.stripeCustomerId);
-        let stripeCustomerId = await sails.stdlib('stripe').saveBillingInfo.with({
+        let stripeCustomerId = await sails.helpers.stripe.saveBillingInfo.with({
           stripeCustomerId: user.stripeCustomerId,
           emailAddress: user.emailChangeCandidate
         });
