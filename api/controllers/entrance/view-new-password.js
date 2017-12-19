@@ -24,7 +24,7 @@ module.exports = {
     },
 
     invalidOrExpiredToken: {
-      viewTemplatePath: '498',
+      responseType: 'expired',
       description: 'The provided token is expired, invalid, or has already been used.',
     }
 
