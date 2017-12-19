@@ -8,14 +8,24 @@ module.exports = {
 
 
   inputs: {
+
     friends: {
       description: 'An array of users to add as friends.',
-      example: [{
-        fullName: 'Rory Milliard',
-        emailAddress: 'rory@example.com'
-      }],
+      type: [
+        {
+          fullName: 'string',
+          emailAddress: 'string'
+        }
+      ],
+      example: [
+        {
+          fullName: 'Rory Milliard',
+          emailAddress: 'rory@example.com'
+        }
+      ],
       required: true
     }
+
   },
 
 
