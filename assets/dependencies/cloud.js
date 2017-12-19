@@ -1645,6 +1645,11 @@
 
       };//</ definition of this Cloud.* method()>
 
+      // Escape hatch that always allows using named parameters.
+      // (TODO: replace this temporary hack with the new version of cloud.js)
+      memo[methodName].with = function (argins) {
+        return memo[methodName](argins);
+      };//ƒ
 
       return memo;
     }, {});//</ _.reduce() :: each defined endpoint method >

@@ -71,10 +71,10 @@ parasails.registerPage('account-overview', {
       // Now that payment info has been successfully added, update the billing
       // info for this user in our backend.
       this.syncingUpdateCard = true;
-      await Cloud.updateBillingCard(billingCardInfo)
+      await Cloud.updateBillingCard.with(billingCardInfo)
       .tolerate(()=>{
         this.cloudError = true;
-      })
+      });
       this.syncingUpdateCard = false;
 
       // Upon success, update billing info in the UI.

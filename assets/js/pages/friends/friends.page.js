@@ -182,7 +182,7 @@ parasails.registerPage('friends', {
         return;
       }
       this.syncing = true;
-      await Cloud.approveFriend({ id: userId });
+      await Cloud.approveFriend.with({ id: userId });
       // Add this user to our approved friends list.
       var approvedFriend =_.find(this.me.inboundFriendRequests, {id: userId});
       this.me.friends.unshift({
