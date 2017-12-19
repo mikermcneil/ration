@@ -77,18 +77,22 @@ will be disabled and/or hidden in the UI.
       // This will determine whether or not to enable various billing features.
       sails.config.custom.enableBillingFeatures = !isMissingStripeConfig;
 
-      // Always set up Stripe credentials on load, no matter what.
-      sails.helpers.stripe.configure({
-        secret: sails.config.custom.stripeSecret
-      });
+      // After "sails-hook-organics" finishes initializing, configure Stripe
+      // and Mailgun packs with any available credentials.
+      sails.after('hook:organics:loaded', ()=>{
 
-      // Always set up Mailgun credentials on load, no matter what.
-      sails.helpers.mailgun.configure({
-        secret: sails.config.custom.mailgunSecret,
-        domain: sails.config.custom.mailgunDomain,
-        from: sails.config.custom.fromEmailAddress,
-        fromName: sails.config.custom.fromName,
-      });
+        sails.helpers.stripe.configure({
+          secret: sails.config.custom.stripeSecret
+        });
+
+        sails.helpers.mailgun.configure({
+          secret: sails.config.custom.mailgunSecret,
+          domain: sails.config.custom.mailgunDomain,
+          from: sails.config.custom.fromEmailAddress,
+          fromName: sails.config.custom.fromName,
+        });
+
+      });//_∏_
 
       // ... Any other app-specific setup code that needs to run on lift,
       // even in production, goes here ...
