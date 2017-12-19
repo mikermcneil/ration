@@ -12,13 +12,13 @@
       <table class="table table-striped">
         <thead>
           <th>Name</th>
-          <th>Email</th>
+          <th class="d-none d-md-table-cell">Email</th>
           <th class="actions-column"></th>
         </thead>
         <tbody>
           <tr v-for="friend in me.friends">
             <td><strong>{{friend.fullName}}</strong></td>
-            <td>{{friend.emailAddress}}</td>
+            <td class="d-none d-md-table-cell">{{friend.emailAddress}}</td>
             <td class="actions-column">
               <button class="btn btn-sm btn-outline-danger" @click="clickRemoveFriend(friend.id)">Remove friend</button>
             </td>
@@ -31,20 +31,20 @@
       <table class="table table-striped">
         <thead>
           <th>Name</th>
-          <th>Email</th>
+          <th class="d-none d-md-table-cell">Email</th>
           <th class="actions-column"></th>
         </thead>
         <tbody>
           <tr v-for="potentialFriend in me.inboundFriendRequests">
             <td><strong>{{potentialFriend.fullName}}</strong></td>
-            <td>{{potentialFriend.emailAddress}}</td>
+            <td class="d-none d-md-table-cell">{{potentialFriend.emailAddress}}</td>
             <td class="actions-column">
               <button :disabled="syncing" class="btn btn-sm btn-outline-primary" @click="clickApproveFriend(potentialFriend.id)">Confirm</button>
             </td>
           </tr>
           <tr v-for="potentialFriend in me.outboundFriendRequests" class="pending">
             <td><strong>{{potentialFriend.fullName}}</strong></td>
-            <td>{{potentialFriend.emailAddress}}</td>
+            <td class="d-none d-md-table-cell">{{potentialFriend.emailAddress}}</td>
             <td class="actions-column">
               <span class="badge badge-secondary">Pending approval</span>
             </td>
