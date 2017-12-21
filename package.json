@@ -7,7 +7,6 @@
   "dependencies": {
     "async": "2.0.1",
     "connect-redis": "3.2.0",
-    "grunt": "1.0.1",
     "lodash": "3.10.1",
     "moment": "^2.19.3",
     "sails": "^1.0.0-44",
@@ -21,6 +20,7 @@
   },
   "devDependencies": {
     "eslint": "4.11.0",
+    "grunt": "1.0.1",
     "sails-hook-grunt": "^2.0.0"
   },
   "scripts": {
