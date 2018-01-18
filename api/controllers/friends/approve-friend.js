@@ -34,7 +34,7 @@ module.exports = {
     var otherUser = await User.findOne({
       id: inputs.id
     })
-    .populate('outboundFriendRequests', { id: this.req.user.me.id });
+    .populate('outboundFriendRequests', { id: this.req.me.id });
 
     if (!otherUser || otherUser.outboundFriendRequests.length === 0) {
       throw 'notFound';
