@@ -31,17 +31,19 @@
   },
 
   "globals": {
-    // If "no-undef" is enabled below and your app uses globals, be sure to list all
-    // relevant globals below (including the globalIds of models, if appropriate):
+    // If "no-undef" is enabled below, be sure to list all global variables that
+    // are used in this app's backend code (including the globalIds of models):
     // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
     "sails": true,
     "_": true,
     "async": true,
-    "moment": true,
     "Promise": true,
+    "moment": true,
+
+    // Models:
     "User": true,
     "Thing": true
-    // ...and any other backend globals (e.g. `"Organization": true`)
+    // ...and any others (e.g. `"Organization": true`)
     // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   },
 

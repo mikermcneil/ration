@@ -120,7 +120,7 @@ Cloud.setup({
 
     // Also, if a `test/` folder exists, set up a barebones bounce of this data
     // as a JSON file inside of it, for testing purposes:
-    var hasTestFolder = await sails.helpers.fs.exists(path.resolve(sails.config.appPath, 'tests/'));
+    var hasTestFolder = await sails.helpers.fs.exists(path.resolve(sails.config.appPath, 'test/'));
     if (hasTestFolder) {
       await sails.helpers.fs.write.with({
         destination: path.resolve(sails.config.appPath, 'test/private/CLOUD_SDK_METHODS.json'),

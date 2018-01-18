@@ -5,6 +5,7 @@ a [Sails v1](https://sailsjs.com) application
 
 ### Links
 
++ [Get started](https://sailsjs.com/get-started)
 + [Sails framework documentation](https://sailsjs.com/documentation)
 + [Version notes / upgrading](https://sailsjs.com/documentation/upgrading)
 + [Deployment tips](https://sailsjs.com/documentation/concepts/deployment)
@@ -14,7 +15,9 @@ a [Sails v1](https://sailsjs.com) application
 
 ### Version info
 
-This app was originally generated on Thu Dec 07 2017 23:58:48 GMT-0600 (CST) using Sails v1.0.0-41 _(internally: `sails-generate@1.12.3`)_.
+This app was originally generated on Thu Dec 07 2017 23:58:48 GMT-0600 (CST) using Sails v1.0.0-41.
+
+<!-- Internally, Sails used [`sails-generate@1.12.3`](https://github.com/balderdashy/sails-generate/tree/v1.0.0-41/lib/core-generators/new).-->
 
 
 This project's boilerplate is based on an expanded seed app provided by the [Sails core team](https://sailsjs.com/about) to make it easier for you to build on top of ready-made features like authentication, enrollment, email verification, and billing.  For more information, [drop us a line](https://sailsjs.com/support).

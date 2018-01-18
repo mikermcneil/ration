@@ -1,0 +1,27 @@
+{
+  //   ╔═╗╔═╗╦  ╦╔╗╔╔╦╗┬─┐┌─┐  ┌─┐┬  ┬┌─┐┬─┐┬─┐┬┌┬┐┌─┐
+  //   ║╣ ╚═╗║  ║║║║ ║ ├┬┘│    │ │└┐┌┘├┤ ├┬┘├┬┘│ ││├┤
+  //  o╚═╝╚═╝╩═╝╩╝╚╝ ╩ ┴└─└─┘  └─┘ └┘ └─┘┴└─┴└─┴─┴┘└─┘
+  //  ┌─  ┌─┐┌─┐┬─┐  ┌─┐┬ ┬┌┬┐┌─┐┌┬┐┌─┐┌┬┐┌─┐┌┬┐  ┌┬┐┌─┐┌─┐┌┬┐┌─┐  ─┐
+  //  │   ├┤ │ │├┬┘  ├─┤│ │ │ │ ││││├─┤ │ ├┤  ││   │ ├┤ └─┐ │ └─┐   │
+  //  └─  └  └─┘┴└─  ┴ ┴└─┘ ┴ └─┘┴ ┴┴ ┴ ┴ └─┘─┴┘   ┴ └─┘└─┘ ┴ └─┘  ─┘
+  // > An .eslintrc configuration override for use with the tests in this directory.
+  //
+  // (See .eslintrc in the root directory of this package for more info.)
+
+  "extends": [
+    "../.eslintrc"
+  ],
+
+  "env": {
+    "mocha": true
+  },
+
+  // For convenience, some additional globals:
+  "globals": {
+    "assert": true,
+    "util": true,
+    "Cloud": true
+  }
+
+}

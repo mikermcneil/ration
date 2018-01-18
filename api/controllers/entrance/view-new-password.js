@@ -46,7 +46,7 @@ module.exports = {
       throw 'invalidOrExpiredToken';
     }
 
-    // Grab token input and include it in view locals
+    // Grab token and include it in view locals
     return exits.success({
       token: inputs.token
     });

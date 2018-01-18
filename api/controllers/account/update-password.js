@@ -8,11 +8,13 @@ module.exports = {
 
 
   inputs: {
+
     password: {
       description: 'The new, unencrypted password.',
       example: 'abc123v2',
       required: true
     }
+
   },
 
 

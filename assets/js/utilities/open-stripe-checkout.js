@@ -38,7 +38,7 @@ parasails.registerUtility('openStripeCheckout', async function openStripeCheckou
 
   // Build a Promise & send it back as our "thenable" (AsyncFunction's return value).
   // (this is necessary b/c we're wrapping an api that isn't `await`-compatible)
-  return new Promise(function(resolve, reject){
+  return new Promise((resolve, reject)=>{
     try {
       // Open Stripe checkout.
       // (https://stripe.com/docs/checkout#integration-custom)

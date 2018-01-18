@@ -43,7 +43,8 @@ module.exports = function(grunt) {
         fileTmpl: '<script src="%s"></script>',
         appRoot: '.tmp/public',
         // relative: true
-        // ^^ Disabled because it breaks font links (and isn't necessary for our use case here.)
+        // ^^ Uncomment this if compiling assets for use in PhoneGap, CDN, etc.
+        //    (but be note that this can break custom font URLs)
       },
       files: {
         '.tmp/public/**/*.html': require('../pipeline').jsFilesToInject,
@@ -73,7 +74,8 @@ module.exports = function(grunt) {
         fileTmpl: '<script src="%s"></script>',
         appRoot: '.tmp/public',
         // relative: true
-        // ^^ Disabled because it breaks font links (and isn't necessary for our use case here.)
+        // ^^ Uncomment this if compiling assets for use in PhoneGap, CDN, etc.
+        //    (but be note that this can break custom font URLs)
       },
       files: {
         '.tmp/public/**/*.html': ['.tmp/public/min/production.min.js'],
@@ -111,7 +113,8 @@ module.exports = function(grunt) {
         fileTmpl: '<link rel="stylesheet" href="%s">',
         appRoot: '.tmp/public',
         // relative: true
-        // ^^ Disabled because it breaks font links (and isn't necessary for our use case here.)
+        // ^^ Uncomment this if compiling assets for use in PhoneGap, CDN, etc.
+        //    (but be note that this can break custom font URLs)
       },
 
       files: {
@@ -142,7 +145,8 @@ module.exports = function(grunt) {
         fileTmpl: '<link rel="stylesheet" href="%s">',
         appRoot: '.tmp/public',
         // relative: true
-        // ^^ Disabled because it breaks font links (and isn't necessary for our use case here.)
+        // ^^ Uncomment this if compiling assets for use in PhoneGap, CDN, etc.
+        //    (but be note that this can break custom font URLs)
       },
       files: {
         '.tmp/public/index.html': ['.tmp/public/min/production.min.css'],
@@ -178,7 +182,8 @@ module.exports = function(grunt) {
         fileTmpl: '<script type="text/javascript" src="%s"></script>',
         appRoot: '.tmp/public',
         // relative: true
-        // ^^ Disabled because it breaks font links (and isn't necessary for our use case here.)
+        // ^^ Uncomment this if compiling assets for use in PhoneGap, CDN, etc.
+        //    (but be note that this can break custom font URLs)
       },
       files: {
         '.tmp/public/index.html': ['.tmp/public/jst.js'],

@@ -150,7 +150,6 @@ module.exports = {
     cors: {
       // allowOrigins: [
       //   'https://example.com',
-      //   'https://staging.example.com',
       // ]
     },
 

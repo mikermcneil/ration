@@ -3,7 +3,7 @@
  *
  * ---------------------------------------------------------------
  *
- * Minify client-side JavaScript files using UglifyJS.
+ * Minify client-side JavaScript files using UglifyES.
  *
  * For more information, see:
  *   https://sailsjs.com/anatomy/tasks/config/uglify.js
@@ -12,21 +12,25 @@
 module.exports = function(grunt) {
 
   grunt.config.set('uglify', {
+    dist: {
+      src: ['.tmp/public/concat/production.js'],
+      dest: '.tmp/public/min/production.min.js'
+    },
     options: {
       mangle: {
-        except: [
+        reserved: [
           'AsyncFunction',
           'SailsSocket',
           'Promise',
           'File',
           'Location',
-          'RttcRefPlaceholder'
-        ]
+          'RttcRefPlaceholder',
+        ],
+        keep_fnames: true//eslint-disable-line
+      },
+      compress: {
+        keep_fnames: true//eslint-disable-line
       }
-    },
-    dist: {
-      src: ['.tmp/public/concat/production.js'],
-      dest: '.tmp/public/min/production.min.js'
     }
   });
 

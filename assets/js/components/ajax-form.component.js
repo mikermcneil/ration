@@ -105,7 +105,7 @@ parasails.registerComponent('ajaxForm', {
       this.$emit('update:syncing', true);
 
       var didResponseIndicateFailure;
-      var result = await Cloud[this.action](argins)
+      var result = await Cloud[this.action].with(argins)
       .tolerate((err)=>{
         // When a cloud error occurs, tolerate it, but set the userland "cloudError" prop accordingly.
         this.$emit('update:cloudError', err.exit || 'error');
