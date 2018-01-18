@@ -48,7 +48,7 @@ module.exports = {
     formattedDropoffInfoText = formattedDropoffInfoText.replace(/\.$/, '');
 
     // Send the owner a notification email.
-    await sails.helpers.sendTemplateEmail({
+    await sails.helpers.sendTemplateEmail.with({
       to: borrowing.owner.emailAddress,
       subject: this.req.me.fullName+' wants to return your '+itemLabel,
       template: 'email-schedule-return',

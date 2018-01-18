@@ -29,14 +29,15 @@ module.exports.bootstrap = async function(done) {
   // (i.e. `--drop` or `--environment=test` was set), then run the meat of this
   // bootstrap script to wipe all existing data and rebuild hard-coded data.
   if (sails.config.models.migrate !== 'drop' && sails.config.environment !== 'test') {
-    // If this is _actually_ a production environment (real or simulated), prevent accidentally removing all data!
-    if (process.env.NODE_ENV==='production') {
-      sails.log.warn('Since we are running with NODE_ENV=production (& with the "'+sails.config.environment+'" Sails environment, to be precise), skipping the rest of the bootstrap to avoid data loss...');
+    // If this is _actually_ a production environment (real or simulated), or we have
+    // `migrate: safe` enabled, then prevent accidentally removing all data!
+    if (process.env.NODE_ENV==='production' || sails.config.models.migrate === 'safe') {
+      sails.log.warn('Since we are running with migrate: \'safe\' and/or NODE_ENV=production (in the "'+sails.config.environment+'" Sails environment, to be precise), skipping the rest of the bootstrap to avoid data loss...');
       return done();
     }//•
 
     // Compare bootstrap version from code base to the version that was last run
-    var lastRunBootstrapInfo = await sails.stdlib('fs').readJson(bootstrapLastRunInfoPath)
+    var lastRunBootstrapInfo = await sails.helpers.fs.readJson(bootstrapLastRunInfoPath)
     .tolerate('doesNotExist');// (it's ok if the file doesn't exist yet-- just keep going.)
 
     if (lastRunBootstrapInfo && lastRunBootstrapInfo.lastRunVersion === HARD_CODED_DATA_VERSION) {
@@ -51,7 +52,7 @@ module.exports.bootstrap = async function(done) {
     sails.log('Running bootstrap script because it was forced...  (either `--drop` or `--environment=test` was used)');
   }
 
-  // Since the hard-coded data version has been incremented, and we're running in a safe environment,
+  // Since the hard-coded data version has been incremented, and we're running in a "trashable" environment,
   // delete all records from all models.
   for (let identity in sails.models) {
     await sails.models[identity].destroy({});
@@ -60,11 +61,11 @@ module.exports.bootstrap = async function(done) {
   // By convention, this is a good place to set up fake data during development.
 
   // Create some fake users, fetching the records so we can do more stuff below.
-  await User.create({ emailAddress: 'admin@example.com', fullName: 'Ryan Dahl', isSuperAdmin: true, password: await sails.stdlib('passwords').hashPassword('abc123') }).fetch();
-  var rory = await User.create({ emailAddress: 'rory@example.com', fullName: 'Rory Milliard', password: await sails.stdlib('passwords').hashPassword('abc123') }).fetch();
-  var raquel = await User.create({ emailAddress: 'raquel@example.com', fullName: 'Raquel Estevez', password: await sails.stdlib('passwords').hashPassword('abc123') }).fetch();
-  var rachael = await User.create({ emailAddress: 'rachael@example.com', fullName: 'Rachael Shaw', password: await sails.stdlib('passwords').hashPassword('abc123') }).fetch();
-  var mike = await User.create({ emailAddress: 'mike@example.com', fullName: 'Mike McNeil', password: await sails.stdlib('passwords').hashPassword('abc123') }).fetch();
+  await User.create({ emailAddress: 'admin@example.com', fullName: 'Ryan Dahl', isSuperAdmin: true, password: await sails.helpers.passwords.hashPassword('abc123') }).fetch();
+  var rory = await User.create({ emailAddress: 'rory@example.com', fullName: 'Rory Milliard', password: await sails.helpers.passwords.hashPassword('abc123') }).fetch();
+  var raquel = await User.create({ emailAddress: 'raquel@example.com', fullName: 'Raquel Estevez', password: await sails.helpers.passwords.hashPassword('abc123') }).fetch();
+  var rachael = await User.create({ emailAddress: 'rachael@example.com', fullName: 'Rachael Shaw', password: await sails.helpers.passwords.hashPassword('abc123') }).fetch();
+  var mike = await User.create({ emailAddress: 'mike@example.com', fullName: 'Mike McNeil', password: await sails.helpers.passwords.hashPassword('abc123') }).fetch();
 
   // Start some friendships.
   await User.addToCollection(rory.id, 'friends').members([raquel.id, rachael.id, mike.id]);
@@ -74,7 +75,7 @@ module.exports.bootstrap = async function(done) {
 
   // Add some things
   // var stargazingTentInfo = await sails.uploadOne(
-  //   await sails.stdlib('fs').readStream(
+  //   await sails.helpers.fs.readStream(
   //     path.resolve(__dirname, 'images/wilson-ye-201705.jpg')
   //   )
   // );
@@ -86,7 +87,7 @@ module.exports.bootstrap = async function(done) {
   // });
 
   // Save new bootstrap version
-  await sails.stdlib('fs').writeJson.with({
+  await sails.helpers.fs.writeJson.with({
     destination: bootstrapLastRunInfoPath,
     json: {
       lastRunVersion: HARD_CODED_DATA_VERSION,

@@ -60,7 +60,7 @@ your custom config -- usually in \`config/custom.js\`, \`config/staging.js\`,
       );
     }
 
-    await sails.helpers.sendTemplateEmail({
+    await sails.helpers.sendTemplateEmail.with({
       to: sails.config.custom.internalEmailAddress,
       subject: 'New Contact Form Message',
       template: 'internal/email-contact-form',

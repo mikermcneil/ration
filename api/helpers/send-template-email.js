@@ -196,7 +196,7 @@ sign up for free at https://mailgun.com to receive sandbox credentials.)
         );
       }
 
-      await sails.stdlib('mailgun').sendHtmlEmail.with({
+      await sails.helpers.mailgun.sendHtmlEmail.with({
         htmlMessage: htmlEmailContents,
         to: inputs.to,
         subject: inputs.subject,

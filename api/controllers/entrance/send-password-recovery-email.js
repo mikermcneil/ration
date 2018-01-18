@@ -39,7 +39,7 @@ module.exports = {
 
     // Come up with a pseudorandom, probabilistically-unique token for use
     // in our password recovery email.
-    var token = await sails.stdlib('strings').random('url-friendly');
+    var token = await sails.helpers.strings.random('url-friendly');
 
     // Store the token on the user record
     // (This allows us to look up the user when the link from the email is clicked.)
@@ -49,7 +49,7 @@ module.exports = {
     });
 
     // Send recovery email
-    await sails.helpers.sendTemplateEmail({
+    await sails.helpers.sendTemplateEmail.with({
       to: inputs.emailAddress,
       subject: 'Password reset instructions',
       template: 'email-reset-password',

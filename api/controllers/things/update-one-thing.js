@@ -18,7 +18,7 @@ module.exports = {
     borrowedBy: {
       description: 'The ID of the user borrowing this item, or `null` if no one is borrowing this item.',
       type: 'number',
-      // allowNull: true
+      allowNull: true
     },
 
     expectedReturnAt: {
@@ -54,12 +54,12 @@ module.exports = {
       throw 'forbidden';
     }
 
-    // Strip off id.
-    var valuesToSet = _.omit(inputs, 'id');
-    console.log(valuesToSet);
-
     // Update the `thing` record.
-    await Thing.update({ id: inputs.id }).set(valuesToSet);
+    await Thing.update({ id: inputs.id })
+    .set({
+      borrowedBy: inputs.borrowedBy,
+      expectedReturnAt: inputs.expectedReturnAt
+    });
 
     return exits.success();
 

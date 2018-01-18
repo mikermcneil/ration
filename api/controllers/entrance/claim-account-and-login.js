@@ -9,12 +9,6 @@ module.exports = {
 
   inputs: {
 
-    token: {
-      required: true,
-      description: 'The confirmation token from the email.',
-      example: '4-32fad81jdaf$329'
-    },
-
     password: {
       required: true,
       type: 'string',
@@ -28,7 +22,13 @@ module.exports = {
       type: 'string',
       example: 'Frida Kahlo de Rivera',
       description: 'The user\'s full name.',
-    }
+    },
+
+    token: {
+      required: true,
+      description: 'The confirmation token from the email.',
+      example: '4-32fad81jdaf$329'
+    },
 
   },
 
@@ -53,7 +53,7 @@ module.exports = {
     // Update the existing user with the provided account information,
     // and clear out the emailProofToken and its friends.
     await User.update({ id: userRecord.id }).set({
-      password: await sails.stdlib('passwords').hashPassword(inputs.password),
+      password: await sails.helpers.passwords.hashPassword(inputs.password),
       fullName: inputs.fullName,
       tosAcceptedByIp: this.req.ip,
       emailStatus: 'confirmed',
@@ -61,7 +61,7 @@ module.exports = {
       emailProofTokenExpiresAt: 0
     });
 
-    // Log the user in.
+    // Log the user in for subsequent requests.
     this.req.session.userId = userRecord.id;
 
     return exits.success();

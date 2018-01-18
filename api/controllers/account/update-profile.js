@@ -95,7 +95,7 @@ module.exports = {
       case 'modifyPendingChange':
         Object.assign(valuesToSet, {
           emailChangeCandidate: newEmailAddress,
-          emailProofToken: await sails.stdlib('strings').random('url-friendly'),
+          emailProofToken: await sails.helpers.strings.random('url-friendly'),
           emailProofTokenExpiresAt: Date.now() + sails.config.custom.emailProofTokenTTL,
           emailStatus: 'changeRequested'
         });
@@ -121,7 +121,7 @@ module.exports = {
     // If an email address change was requested, and re-confirmation is required,
     // send the "confirm account" email.
     if (desiredEffectReEmail === 'beginChange' || desiredEffectReEmail === 'modifyPendingChange') {
-      await sails.helpers.sendTemplateEmail({
+      await sails.helpers.sendTemplateEmail.with({
         to: newEmailAddress,
         subject: 'Your account has been updated',
         template: 'email-verify-new-email',

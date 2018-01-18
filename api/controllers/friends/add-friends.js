@@ -8,14 +8,24 @@ module.exports = {
 
 
   inputs: {
+
     friends: {
       description: 'An array of users to add as friends.',
-      example: [{
-        fullName: 'Rory Milliard',
-        emailAddress: 'rory@example.com'
-      }],
+      type: [
+        {
+          fullName: 'string',
+          emailAddress: 'string'
+        }
+      ],
+      example: [
+        {
+          fullName: 'Rory Milliard',
+          emailAddress: 'rory@example.com'
+        }
+      ],
       required: true
     }
+
   },
 
 
@@ -50,7 +60,7 @@ module.exports = {
       }
       else {
         // Otherwise, we need to create a new user.
-        var token = await sails.stdlib('strings').random('url-friendly');
+        var token = await sails.helpers.strings.random('url-friendly');
         var newUser = await User.create({
           fullName: friend.fullName,
           emailAddress: friend.emailAddress,

@@ -54,7 +54,7 @@ module.exports = {
 
     // Add, update, or remove the default payment source for the logged-in user's
     // customer entry in Stripe.
-    var stripeCustomerId = await sails.stdlib('stripe').saveBillingInfo.with({
+    var stripeCustomerId = await sails.helpers.stripe.saveBillingInfo.with({
       stripeCustomerId: this.req.me.stripeCustomerId,
       token: inputs.stripeToken || '',
     });
