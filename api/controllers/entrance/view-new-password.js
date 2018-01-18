@@ -4,7 +4,7 @@ module.exports = {
   friendlyName: 'View new password',
 
 
-  description: 'Display "New password" page.',
+  description: 'Display "New password" page. (For choosing a new password after a password reset.)',
 
 
   inputs: {

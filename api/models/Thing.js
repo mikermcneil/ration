@@ -44,13 +44,9 @@ module.exports = {
     //  ╔═╗╔═╗╔═╗╔═╗╔═╗╦╔═╗╔╦╗╦╔═╗╔╗╔╔═╗
     //  ╠═╣╚═╗╚═╗║ ║║  ║╠═╣ ║ ║║ ║║║║╚═╗
     //  ╩ ╩╚═╝╚═╝╚═╝╚═╝╩╩ ╩ ╩ ╩╚═╝╝╚╝╚═╝
-    owner: {
-      model: 'User'
-    },
+    owner: { model: 'User', description: 'The user who uploaded this item.' },
 
-    borrowedBy: {
-      model: 'User'
-    },
+    borrowedBy: { model: 'User', description: 'The user who has requested to borrow this item.' },
 
   },
 

@@ -14,6 +14,7 @@ module.exports = {
 
     emailAddress: {
       type: 'string',
+      description: 'The email address for this user.',
       required: true,
       unique: true,
       isEmail: true,

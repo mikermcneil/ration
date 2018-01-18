@@ -4,7 +4,7 @@ module.exports = {
   friendlyName: 'Schedule return',
 
 
-  description: '',
+  description: 'Notify a borrowed item\'s owner of a potential return time.',
 
 
   inputs: {

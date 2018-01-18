@@ -4,13 +4,15 @@ module.exports = {
   friendlyName: 'Update one thing',
 
 
-  description: '',
+  description:
+  `Update a thing, either adding information about a borrower and expected return time,
+  or clearing out that information if the item has been returned.`,
 
 
   inputs: {
 
     id: {
-      description: 'The id of the member to update.',
+      description: 'The id of the thing to update.',
       type: 'number',
       required: true
     },

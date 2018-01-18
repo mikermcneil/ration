@@ -4,7 +4,7 @@ module.exports = {
   friendlyName: 'Download photo',
 
 
-  description: '',
+  description: 'Download a photo of a borrowable thing.',
 
 
   inputs: {
