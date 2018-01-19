@@ -47,7 +47,7 @@ module.exports = {
     *                                                                          *
     ***************************************************************************/
     default: {
-      // adapter: 'sails-mysql',
+      adapter: 'sails-mysql',
       // url: 'mysql://user:password@host:port/database',
       //--------------------------------------------------------------------------
       //  /\   To avoid checking it in to version control, you might opt to set
@@ -250,9 +250,10 @@ module.exports = {
     * > Be sure to use the right protocol!  ("http://" vs. "https://")         *
     *                                                                          *
     ***************************************************************************/
-    // onlyAllowOrigins: [
-    //   'https://example.com',
-    // ],
+    onlyAllowOrigins: [
+      'https://ration.herokuapp.com',
+      'https://ration.io'
+    ],
 
 
     /***************************************************************************
@@ -384,7 +385,7 @@ module.exports = {
     *    (See https://sailsjs.com/config/uploads for help.)                    *
     *                                                                          *
     ***************************************************************************/
-    // adapter: 'skipper-s3',
+    adapter: 'skipper-s3',
     // key: 'fake-aws-keyagsd8agsdagsdhagsd',
     // secret: 'fake-aws-secretasdg8asgd8gsd8asgd8',
     // bucket: 'uploaded_photos_of_things_prod',
@@ -417,7 +418,7 @@ module.exports = {
   *                                                                         *
   ***************************************************************************/
   custom: {
-    baseUrl: 'https://example.com',
+    baseUrl: 'https://ration.io',
     internalEmailAddress: 'support@example.com',
 
     // mailgunDomain: 'mg.example.com',
