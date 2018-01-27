@@ -22,7 +22,7 @@
   "devDependencies": {
     "eslint": "4.11.0",
     "grunt": "1.0.1",
-    "sails-hook-grunt": "^2.2.1"
+    "sails-hook-grunt": "^3.0.2"
   },
   "scripts": {
     "start": "NODE_ENV=production node app.js",
