@@ -36,8 +36,8 @@
     "type": "git",
     "url": "git://github.com/shawrizard/ration-2.git"
   },
-  "author": "shawrizard",
-  "license": "",
+  "author": "Rachael Shaw and Mike McNeil",
+  "license": "MIT",
   "engines": {
     "node": "8"
   }
