@@ -32,9 +32,10 @@ module.exports = {
       outputExample: {}
     },
 
-    badRequest: {
-      description: 'No photo upload was attached'
-    },
+    noFileAttached: {
+      description: 'No file was attached.',
+      responseType: 'badRequest`'
+    }
 
   },
 
@@ -44,11 +45,14 @@ module.exports = {
     var url = require('url');
 
     // Upload the image.
-    var info = await sails.uploadOne(inputs.photo)
-    .intercept((err)=>{
-      sails.log.error('Upload failed:',err);
-      return 'badRequest';
-    });
+    var info = await sails.uploadOne(inputs.photo, {
+      maxBytes: 500000
+    })
+    .intercept((err)=>new Error('The photo upload failed: '+err.stack));
+
+    if(!info) {
+      throw 'noFileAttached';
+    }
 
     // Create a new "thing" record.
     var newThing = await Thing.create({
