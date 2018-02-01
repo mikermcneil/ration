@@ -34,8 +34,13 @@ module.exports = {
 
     noFileAttached: {
       description: 'No file was attached.',
-      responseType: 'badRequest`'
-    }
+      responseType: 'badRequest'
+    },
+
+    tooBig: {
+      description: 'The file is too big.',
+      responseType: 'badRequest'
+    },
 
   },
 
@@ -43,12 +48,16 @@ module.exports = {
   fn: async function (inputs, exits) {
 
     var url = require('url');
+    var util = require('util');
 
     // Upload the image.
     var info = await sails.uploadOne(inputs.photo, {
       maxBytes: 500000
-    });
-    // .intercept((err)=>new Error('The photo upload failed: '+err.stack));
+    })
+    // Note: E_EXCEEDS_UPLOAD_LIMIT is the error code for exceeding
+    // `maxBytes` for both skipper-disk and skipper-s3.
+    .intercept('E_EXCEEDS_UPLOAD_LIMIT', 'tooBig')
+    .intercept((err)=>new Error('The photo upload failed: '+util.inspect(err)));
 
     if(!info) {
       throw 'noFileAttached';
