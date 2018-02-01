@@ -47,7 +47,7 @@ parasails.registerPage('available-things', {
 
   virtualPages: true,
   html5HistoryMode: 'history',
-  virtualPagesRegExp: new RegExp(/^\/things\/?([^\/]+)?/),
+  virtualPagesRegExp: /^\/things\/?([^\/]+)?/,
 
   //  ╦  ╦╔═╗╔═╗╔═╗╦ ╦╔═╗╦  ╔═╗
   //  ║  ║╠╣ ║╣ ║  ╚╦╝║  ║  ║╣
