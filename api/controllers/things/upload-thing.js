@@ -47,8 +47,8 @@ module.exports = {
     // Upload the image.
     var info = await sails.uploadOne(inputs.photo, {
       maxBytes: 500000
-    })
-    .intercept((err)=>new Error('The photo upload failed: '+err.stack));
+    });
+    // .intercept((err)=>new Error('The photo upload failed: '+err.stack));
 
     if(!info) {
       throw 'noFileAttached';
