@@ -352,13 +352,13 @@ parasails.registerPage('available-things', {
       this.cloudError = '';
     },
 
-    clickContactBorrower: function(thingId) {
-      // Future: This is where we can add a modal
+    clickContactBorrower: function(thingId) {//eslint-disable-line no-unused-vars
+      // FUTURE: This is where we can add a modal
       // with a space to write a message to the borrower of the item.
     },
 
-    clickContactOwner: function(thingId) {
-      // Future: This is where we can add a modal
+    clickContactOwner: function(thingId) {//eslint-disable-line no-unused-vars
+      // FUTURE: This is where we can add a modal
       // with a space to write a message to the owner of the item.
     },
 
