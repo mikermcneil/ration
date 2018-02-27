@@ -15,7 +15,7 @@ module.exports = {
       required: true
     },
 
-    returnDate: {
+    returnDate: {// TODO change this to end in "At"
       type: 'number',
       description: 'A JS timestamp (epoch ms) representing the requested return time.',
       example: 1502844074211,
