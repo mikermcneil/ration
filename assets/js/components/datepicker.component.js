@@ -52,7 +52,7 @@ parasails.registerComponent('datepicker', {
   mounted: function (){
 
     this.$find('[datepicker-el]').datepicker({
-      onSelect: (dateText, datepicker)=> {
+      onSelect: (dateText, datepicker)=> {//eslint-disable-line no-unused-vars
         this.$emit('input', dateText);
       }
     });
