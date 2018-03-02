@@ -40,7 +40,7 @@ parasails.registerComponent('datepicker', {
   //  ╩ ╩ ╩ ╩ ╩╩═╝
   template: `
   <div class="datepicker-wrapper">
-    <div v-else datepicker-el v-if="!popup"></div>
+    <div datepicker-el v-if="!popup"></div>
     <input class="form-control" v-else :value="value" type="text" :class="[invalid ? 'is-invalid' : '']"  :placeholder="placeholderText || 'Choose return date'" datepicker-el/>
     <div class="invalid-feedback" v-if="invalid">{{validationErrorMessage}}</div>
   </div>
