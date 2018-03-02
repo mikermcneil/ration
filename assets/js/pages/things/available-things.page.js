@@ -231,7 +231,7 @@ parasails.registerPage('available-things', {
       }
 
       // Convert the return time into a real date.
-      argins.returnDate = new Date(this.$refs.datepickerref.doParseDate()).getTime();
+      argins.returnDate = this.$refs.datepickerref.doParseDate().getTime();
       // console.log('returnDate', argins.returnDate);
 
       // If there were any issues, they've already now been communicated to the user,
