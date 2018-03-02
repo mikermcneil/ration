@@ -21,7 +21,7 @@ module.exports = {
 
       // Format our text for the notification email.
       var itemLabel = overdueThing.label || 'your borrowed item';
-      var formattedReturnDate = moment(overdueThing.expectedReturnAt).format('dddd, MMMM Do');
+      var formattedExpectedReturnAt = moment(overdueThing.expectedReturnAt).format('dddd, MMMM Do');
 
       // Send the owner a notification email.
       await sails.helpers.sendTemplateEmail.with({
@@ -33,7 +33,7 @@ module.exports = {
           ownerEmail: overdueThing.owner.emailAddress,
           itemLabel: itemLabel,
           fullName: overdueThing.borrowedBy.fullName,
-          returnDate: formattedReturnDate,
+          expectedReturnAt: formattedExpectedReturnAt,
           baseUrl: sails.config.custom.baseUrl
         }
       });

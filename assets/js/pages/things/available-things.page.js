@@ -16,7 +16,7 @@ parasails.registerPage('available-things', {
       previewImageSrc: ''
     },
     borrowFormData: {
-      returnDate: undefined,
+      expectedReturnAt: undefined,
       pickupInfo: undefined
     },
     scheduleReturnFormData: {
@@ -108,7 +108,7 @@ parasails.registerPage('available-things', {
       this.borrowThingModalOpen = false;
       // Reset form data
       this.borrowFormData = {
-        returnDate: undefined,
+        expectedReturnAt: undefined,
         pickupInfo: undefined
       };
       this.selectedThing = undefined;
@@ -222,8 +222,8 @@ parasails.registerPage('available-things', {
 
       var argins = _.extend({ id: this.selectedThing.id }, this.borrowFormData);
 
-      if(!argins.returnDate) {
-        this.formErrors.returnDate = true;
+      if(!argins.expectedReturnAt) {
+        this.formErrors.expectedReturnAt = true;
       }
 
       if(!argins.pickupInfo) {
@@ -231,8 +231,8 @@ parasails.registerPage('available-things', {
       }
 
       // Convert the return time into a real date.
-      argins.returnDate = this.$refs.datepickerref.doParseDate().getTime();
-      // console.log('returnDate', argins.returnDate);
+      argins.expectedReturnAt = this.$refs.datepickerref.doParseDate().getTime();
+      // console.log('expectedReturnAt', argins.expectedReturnAt);
 
       // If there were any issues, they've already now been communicated to the user,
       // so simply return undefined.  (This signifies that the submission should be

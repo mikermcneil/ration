@@ -15,7 +15,7 @@ module.exports = {
       required: true
     },
 
-    returnDate: {// TODO change this to end in "At"
+    expectedReturnAt: {// TODO change this to end in "At"
       type: 'number',
       description: 'A JS timestamp (epoch ms) representing the requested return time.',
       example: 1502844074211,
@@ -56,7 +56,7 @@ module.exports = {
 
     // Format our text for the notification email.
     var itemLabel = borrowing.label || 'item';
-    var formattedReturnDate = moment(inputs.returnDate).format('dddd, MMMM Do');
+    var formattedExpectedReturnAt = moment(inputs.expectedReturnAt).format('dddd, MMMM Do');
     var formattedPickupInfoText = inputs.pickupInfo.charAt(0).toLowerCase() + inputs.pickupInfo.slice(1);
     formattedPickupInfoText = formattedPickupInfoText.replace(/\.$/, '');
 
@@ -71,14 +71,14 @@ module.exports = {
         itemLabel: itemLabel,
         fullName: borrowing.owner.fullName,
         pickupInfo: formattedPickupInfoText,
-        returnDate: formattedReturnDate
+        expectedReturnAt: formattedExpectedReturnAt
       }
     });
 
     // Update the `thing` record to show it is being borrowed.
     await Thing.update({ id: inputs.id }).set({
       borrowedBy: this.req.me.id,
-      expectedReturnAt: inputs.returnDate
+      expectedReturnAt: inputs.expectedReturnAt
     });
 
     return exits.success();
