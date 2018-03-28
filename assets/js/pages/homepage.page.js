@@ -29,8 +29,8 @@ parasails.registerPage('homepage', {
       var $hero = this.$find('[full-page-hero]');
       var headerHeight = $('#page-header').outerHeight();
       var heightToSet = $(window).height();
-      heightToSet = Math.max(heightToSet, 600);
-      heightToSet = Math.min(heightToSet, 1000);
+      heightToSet = Math.max(heightToSet, 500);//« ensure min height of 500px - header height
+      heightToSet = Math.min(heightToSet, 1000);//« ensure max height of 1000px - header height
       $hero.css('min-height', heightToSet - headerHeight+'px');
       this.heroHeightSet = true;
     },
