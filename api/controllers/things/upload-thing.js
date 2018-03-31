@@ -45,13 +45,13 @@ module.exports = {
   },
 
 
-  fn: async function (inputs, exits) {
+  fn: async function ({photo, label}, exits) {
 
     var url = require('url');
     var util = require('util');
 
     // Upload the image.
-    var info = await sails.uploadOne(inputs.photo, {
+    var info = await sails.uploadOne(photo, {
       maxBytes: 500000
     })
     // Note: E_EXCEEDS_UPLOAD_LIMIT is the error code for exceeding
@@ -67,7 +67,7 @@ module.exports = {
     var newThing = await Thing.create({
       imageUploadFd: info.fd,
       imageUploadMime: info.type,
-      label: inputs.label,
+      label,
       owner: this.req.me.id
     }).fetch();
 
