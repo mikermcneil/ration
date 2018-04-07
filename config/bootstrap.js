@@ -73,19 +73,6 @@ module.exports.bootstrap = async function(done) {
   await User.addToCollection(rachael.id, 'friends').members([rory.id, raquel.id, mike.id]);
   await User.addToCollection(mike.id, 'friends').members([rory.id, raquel.id, rachael.id]);
 
-  // Add some things
-  // var stargazingTentInfo = await sails.uploadOne(
-  //   await sails.helpers.fs.readStream(
-  //     path.resolve(__dirname, 'images/wilson-ye-201705.jpg')
-  //   )
-  // );
-  // await Thing.create({
-  //   imageUploadFd: stargazingTentInfo.fd,
-  //   imageUploadMime: stargazingTentInfo.type,
-  //   label: 'Stargazing Tent',
-  //   owner: rory.id
-  // });
-
   // Save new bootstrap version
   await sails.helpers.fs.writeJson.with({
     destination: bootstrapLastRunInfoPath,
