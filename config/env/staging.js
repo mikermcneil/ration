@@ -40,9 +40,9 @@ module.exports = Object.assign({}, PRODUCTION_CONFIG, {
   sockets: Object.assign({}, PRODUCTION_CONFIG.sockets, {
 
     onlyAllowOrigins: [
-      'http://localhost:1337',
+      'https://staging.ration.io',
       'https://ration-staging.herokuapp.com',
-      'https://staging.ration.io'
+      'http://localhost:1337',
     ],
     //--------------------------------------------------------------------------
     // /\  Hard-code a staging-only override for allowed origins.

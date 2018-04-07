@@ -251,8 +251,7 @@ module.exports = {
     *                                                                          *
     ***************************************************************************/
     onlyAllowOrigins: [
-      'https://ration.herokuapp.com',
-      'https://ration.io'
+      'https://ration.io',
     ],
 
 
