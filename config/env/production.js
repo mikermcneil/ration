@@ -418,7 +418,7 @@ module.exports = {
   ***************************************************************************/
   custom: {
     baseUrl: 'https://ration.io',
-    internalEmailAddress: 'support@example.com',
+    internalEmailAddress: 'solosoyjs@gmail.com',
 
     // mailgunDomain: 'mg.example.com',
     // mailgunSecret: 'key-prod_fake_bd32301385130a0bafe030c',
