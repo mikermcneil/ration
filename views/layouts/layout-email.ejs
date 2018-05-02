@@ -1,16 +1,22 @@
 <% /* Default layout for email templates */ %>
-<div style="width: 100%; background-color: #efefef; font-family: 'Helvetica Neue', 'Helvetica', sans-serif; box-sizing: border-box; padding-bottom: 25px; padding-top: 25px;" >
-  <div style="width: 90%; max-width: 800px; margin: 0px auto;">
-    <%- body %>
-    <div style="text-align: center;">
-      <nav style="color: #cccccc; font-size: 14px;">
-        <a style="color: #0c8da0;" href="<%= url.resolve(sails.config.custom.baseUrl, '/contact') %>">Help</a> &nbsp;|&nbsp;
-        <a style="color: #0c8da0;" href="<%= url.resolve(sails.config.custom.baseUrl, '/faq') %>">FAQ</a> &nbsp;|&nbsp;
-        <a style="color: #0c8da0;" href="<%= url.resolve(sails.config.custom.baseUrl, '/legal/terms') %>">Terms of Service</a> &nbsp;|&nbsp;
-        <a style="color: #0c8da0;" href="<%= url.resolve(sails.config.custom.baseUrl, '/legal/privacy') %>">Privacy Policy</a>
-      </nav>
-      <p style="color: #787878; font-size: 11px;">Please do not reply to this email. To get in touch with us, visit our <a style="color: #0c8da0;" href="<%= url.resolve(sails.config.custom.baseUrl, '/contact') %>"> help center.</a> <br>If you have not signed up for an account with us, please disregard this message.</p>
-      <p style="color: #9f9f9f; font-size: 10px; text-align: center;"><em>(built with <a href="https://sailsjs.com">Sails.js</a>)</em></p>
-    </div>
+<div style="background-color: #FAFAFA; font-family: 'Arial', 'Helvetica Neue', 'Helvetica', sans-serif; box-sizing: border-box; padding-bottom: 25px;">
+  <div style="background: transparent; padding-top: 30px; padding-bottom: 20px; text-align: center;">
+    <img style="display: block; height: 30px; margin-left: auto; margin-right: auto;" alt="Ration" src="https://ration.io/images/ration-logo.png"/>
   </div>
+  <div style="background-color: #fff; color: #000; font-size: 1em; border-top: 2px solid #EE964B; border-bottom: 1px solid #E6E6E6; box-sizing: border-box; padding: 25px; width: 100%; max-width: 600px; margin-left: auto; margin-right: auto;">
+
+    <%- body %>
+
+  </div>
+  <div style="text-align: center; padding-top: 15px; margin-bottom: 15px; font-size: 12px;">
+    <a style="color: #28AFB0;" href="<%= url.resolve(sails.config.custom.baseUrl, '/contact') %>">Help</a>
+    <span style="color: #ccc;">&nbsp;&nbsp;|&nbsp;&nbsp;</span>
+    <a style="color: #28AFB0;" href="<%= url.resolve(sails.config.custom.baseUrl, '/faq') %>">FAQ</a>
+    <span style="color: #ccc;">&nbsp;&nbsp;|&nbsp;&nbsp;</span>
+    <a style="color: #28AFB0;" href="<%= url.resolve(sails.config.custom.baseUrl, '/legal/terms') %>">Terms of Service</a>
+    <span style="color: #ccc;">&nbsp;&nbsp;|&nbsp;&nbsp;</span>
+    <a style="color: #28AFB0;" href="<%= url.resolve(sails.config.custom.baseUrl, '/legal/privacy') %>">Privacy Policy</a>
+  </div>
+  <p style="color: #777777; max-width: 350px; margin-left: auto; margin-right: auto; font-size: 10px;">Please do not reply to this email. To get in touch with us, visit our <a style="color: #28AFB0;" href="<%= url.resolve(sails.config.custom.baseUrl, '/contact') %>"> help center.</a> If you have not signed up for an account with us, please disregard this message.</p>
+  <p style="color: #777777; max-width: 350px; margin-left: auto; margin-right: auto; font-size: 10px; text-align: center;"><em>(built with <a style="color: #28AFB0; href="https://sailsjs.com">Sails.js</a>)</em></p>
 </div>

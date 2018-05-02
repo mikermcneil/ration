@@ -1,9 +1,11 @@
 <% /* Note: This is injected into `views/layouts/layout-email.ejs` */ %>
-<div style="padding: 15px; margin-top:10px; background-color: #14acc2; border-top-left-radius: 6px; border-top-right-radius: 6px; border: 1px solid #0c8da0;">
-  <h2 style="text-align: center; color: #ffffff; margin:0px; font-size: 34px;">Time to return <%itemLabel %></h2>
+<h2 style="text-align: center; color: #aaa; margin:0px; font-size: 1.2em;max-width: 280px; margin-left: auto; margin-right: auto;">Time to return <%itemLabel %>.</h2>
+<div style="background-color: #77BE69; margin-top: 25px; margin-bottom: 35px;height: 2px; width: 100px; margin-left: auto; margin-right: auto;"></div>
+<p style="margin-bottom: 25px;">Dear <%= fullName %>,</p>
+<p style="margin-bottom: 15px;">The item you borrowed from <%= ownerName %> is due back by <%= expectedReturnAt %>.</p>
+<p style="margin-bottom: 25px;"><p>You can coordinate a dropoff time with this person <a style="color: #28AFB0;" href="<%=baseUrl%>/things">in Ration</a> by choosing "Give this back" in the menu for <%= itemLabel %>.</p>
+<div style="margin-bottom: 25px; text-align: center;">
+  <a style="background-color: #28AFB0; display: inline-block; font-size: 1.1em; color: #fff; padding: 10px 35px 10px; font-weight: 500; text-decoration: none; border-radius: 7px;" href="<%=baseUrl%>">Go to Ration</a>
 </div>
-<div style="background-color: #ffffff; padding: 15px; margin-bottom: 25px; color: #303030; border-bottom-left-radius: 6px; border-bottom-right-radius: 6px; border: 1px solid #cccccc;">
-  <p style="margin-bottom: 35px;">Dear <%= fullName %>,</p>
-  <p>The item you borrowed from <%= ownerName %> is due back by <%= expectedReturnAt %>.</p>
-  <p>You can coordinate a dropoff time with this person <a href="<%=baseUrl%>/things">in Ration</a> and choosing "Give this back" in the menu for <%= itemLabel %>.</p>
-</div>
+<p style="margin-bottom: 5px;">Sincerely,</p>
+<p style="margin-top: 0px;">The Ration Team</p>

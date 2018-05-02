@@ -1,9 +1,8 @@
 <% /* Note: This is injected into `views/layouts/layout-email.ejs` */ %>
-<div style="padding: 15px; margin-top:10px; background-color: #14acc2; border-top-left-radius: 6px; border-top-right-radius: 6px; border: 1px solid #0c8da0;">
-  <h2 style="text-align: center; color: #ffffff; margin:0px; font-size: 34px;"><%= borrowerName %> wants to borrow your <%= itemLabel %>.</h2>
-</div>
-<div style="background-color: #ffffff; padding: 15px; margin-bottom: 25px; color: #303030; border-bottom-left-radius: 6px; border-bottom-right-radius: 6px; border: 1px solid #cccccc;">
-  <p style="margin-bottom: 35px;">Dear <%= fullName %>,</p>
-  <p><%= borrowerName %> has requested to borrow the <%= itemLabel %> you listed on Ration. They are available to pick it up <%= pickupInfo %>, and expect to return it in perfect condition on <%= expectedReturnAt %>.</p>
-  <p>To coordinate with this person send them a note at: <span style="font-weight: bold"><%= borrowerEmail %></span>.</p>
-</div>
+<h2 style="text-align: center; color: #aaa; margin:0px; font-size: 1.2em;max-width: 280px; margin-left: auto; margin-right: auto;"><%= borrowerName %> wants to borrow your <%= itemLabel %>.</h2>
+<div style="background-color: #77BE69; margin-top: 25px; margin-bottom: 35px;height: 2px; width: 100px; margin-left: auto; margin-right: auto;"></div>
+<p style="margin-bottom: 25px;">Dear <%= fullName %>,</p>
+<p style="margin-bottom: 15px;"><%= borrowerName %> has requested to borrow the <%= itemLabel %> you listed on Ration. They are available to pick it up <%= pickupInfo %>, and expect to return it in perfect condition on <%= expectedReturnAt %>.</p>
+<p style="margin-bottom: 25px;">To coordinate with this person send them a note at: <span style="font-weight: bold"><%= borrowerEmail %></span>.</p>
+<p style="margin-bottom: 5px;">Sincerely,</p>
+<p style="margin-top: 0px;">The Ration Team</p>
