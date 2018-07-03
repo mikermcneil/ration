@@ -16,7 +16,7 @@
     "sails-hook-sockets": "^1.5.2-0",
     "sails-hook-uploads": "^0.2.1",
     "sails-mysql": "^1.0.0-15",
-    "skipper-s3": "^0.5.9",
+    "skipper-s3": "^0.6.0-0",
     "socket.io-redis": "5.2.0"
   },
   "devDependencies": {
