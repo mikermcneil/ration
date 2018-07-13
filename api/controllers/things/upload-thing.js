@@ -52,7 +52,7 @@ module.exports = {
 
     // Upload the image.
     var info = await sails.uploadOne(photo, {
-      maxBytes: 500000
+      maxBytes: 3000000
     })
     // Note: E_EXCEEDS_UPLOAD_LIMIT is the error code for exceeding
     // `maxBytes` for both skipper-disk and skipper-s3.
