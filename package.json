@@ -5,8 +5,9 @@
   "description": "a Sails application",
   "keywords": [],
   "dependencies": {
+    "@sailshq/connect-redis": "^3.2.1",
+    "@sailshq/socket.io-redis": "^5.2.0",
     "async": "2.0.1",
-    "connect-redis": "3.2.0",
     "lodash": "3.10.1",
     "moment": "^2.19.3",
     "sails": "^1.0.0-44",
@@ -16,8 +17,7 @@
     "sails-hook-sockets": "^1.5.2-0",
     "sails-hook-uploads": "^0.2.1",
     "sails-mysql": "^1.0.0-15",
-    "skipper-s3": "^0.6.0-0",
-    "socket.io-redis": "5.2.0"
+    "skipper-s3": "^0.6.0-0"
   },
   "devDependencies": {
     "eslint": "4.11.0",
