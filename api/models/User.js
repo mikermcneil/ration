@@ -6,6 +6,8 @@
 
 module.exports = {
 
+  datastore: 'legacyDb',
+
   attributes: {
 
     //  ╔═╗╦═╗╦╔╦╗╦╔╦╗╦╦  ╦╔═╗╔═╗

@@ -67,6 +67,8 @@ module.exports.routes = {
   'POST   /api/v1/friends':                           { action: 'friends/add-friends' },
   'PUT    /api/v1/approve-friend':                    { action: 'friends/approve-friend' },
 
+  'GET /api/v1/things':     { action: 'things/get-available-things', csrf: false },
+
 
   //  ╦ ╦╔═╗╔╗ ╦ ╦╔═╗╔═╗╦╔═╔═╗
   //  ║║║║╣ ╠╩╗╠═╣║ ║║ ║╠╩╗╚═╗
