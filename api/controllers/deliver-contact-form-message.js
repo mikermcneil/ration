@@ -48,7 +48,7 @@ module.exports = {
   },
 
 
-  fn: async function(inputs, exits) {
+  fn: async function({ fullName, emailAddress, topic, message }) {
 
     if (!sails.config.custom.internalEmailAddress) {
       throw new Error(
@@ -66,14 +66,12 @@ your custom config -- usually in \`config/custom.js\`, \`config/staging.js\`,
       template: 'internal/email-contact-form',
       layout: false,
       templateData: {
-        contactName: inputs.fullName,
-        contactEmail: inputs.emailAddress,
-        topic: inputs.topic,
-        message: inputs.message
+        contactName: fullName,
+        contactEmail: emailAddress,
+        topic: topic,
+        message: message
       }
     });
-
-    return exits.success();
 
   }
 
