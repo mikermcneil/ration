@@ -32,7 +32,7 @@ actually logged in.  (If they weren't, then this action is just a no-op.)`,
   },
 
 
-  fn: async function (inputs, exits) {
+  fn: async function () {
 
     // Clear the `userId` property from this session.
     delete this.req.session.userId;
@@ -42,8 +42,6 @@ actually logged in.  (If they weren't, then this action is just a no-op.)`,
     // > to the underlying session store.
     if (!this.req.wantsJSON) {
       throw {redirect: '/login'};
-    } else {
-      return exits.success();
     }
 
   }
