@@ -46,7 +46,7 @@ then redirect to either a special landing page (for newly-signed up users), or t
   },
 
 
-  fn: async function (inputs, exits) {
+  fn: async function (inputs) {
 
     // If no token was provided, this is automatically invalid.
     if (!inputs.token) {
@@ -69,7 +69,7 @@ then redirect to either a special landing page (for newly-signed up users), or t
       // then just update the state of their user record in the database,
       // store their user id in the session (just in case they aren't logged
       // in already), and then redirect them to the "email confirmed" page.
-      await User.update({ id: user.id }).set({
+      await User.updateOne({ id: user.id }).set({
         emailStatus: 'confirmed',
         emailProofToken: '',
         emailProofTokenExpiresAt: 0
@@ -77,12 +77,12 @@ then redirect to either a special landing page (for newly-signed up users), or t
       this.req.session.userId = user.id;
 
       if (this.req.wantsJSON) {
-        return exits.success();
+        return;
       } else {
         throw { redirect: '/email/confirmed' };
       }
 
-    } else if (user.emailStatus === 'changeRequested') {
+    } else if (user.emailStatus === 'change-requested') {
       //  ┌─┐┌─┐┌┐┌┌─┐┬┬─┐┌┬┐┬┌┐┌┌─┐  ╔═╗╦ ╦╔═╗╔╗╔╔═╗╔═╗╔╦╗  ┌─┐┌┬┐┌─┐┬┬
       //  │  │ ││││├┤ │├┬┘││││││││ ┬  ║  ╠═╣╠═╣║║║║ ╦║╣  ║║  ├┤ │││├─┤││
       //  └─┘└─┘┘└┘└  ┴┴└─┴ ┴┴┘└┘└─┘  ╚═╝╩ ╩╩ ╩╝╚╝╚═╝╚═╝═╩╝  └─┘┴ ┴┴ ┴┴┴─┘
@@ -111,9 +111,9 @@ then redirect to either a special landing page (for newly-signed up users), or t
         let stripeCustomerId = await sails.helpers.stripe.saveBillingInfo.with({
           stripeCustomerId: user.stripeCustomerId,
           emailAddress: user.emailChangeCandidate
-        });
+        }).timeout(5000).retry();
         if (didNotAlreadyHaveCustomerId){
-          await User.update({ id: user.id }).set({
+          await User.updateOne({ id: user.id }).set({
             stripeCustomerId
           });
         }
@@ -122,7 +122,8 @@ then redirect to either a special landing page (for newly-signed up users), or t
       // Finally update the user in the database, store their id in the session
       // (just in case they aren't logged in already), then redirect them to
       // their "my account" page so they can see their updated email address.
-      await User.update({ id: user.id }).set({
+      await User.updateOne({ id: user.id })
+      .set({
         emailStatus: 'confirmed',
         emailProofToken: '',
         emailProofTokenExpiresAt: 0,
@@ -131,7 +132,7 @@ then redirect to either a special landing page (for newly-signed up users), or t
       });
       this.req.session.userId = user.id;
       if (this.req.wantsJSON) {
-        return exits.success();
+        return;
       } else {
         throw { redirect: '/account' };
       }
@@ -141,6 +142,5 @@ then redirect to either a special landing page (for newly-signed up users), or t
     }
 
   }
-
 
 };
