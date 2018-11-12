@@ -8,27 +8,33 @@ module.exports = {
 
 
   inputs: {
+
     id: {
       description: 'The id of the item whose photo we\'re downloading.',
       type: 'number',
       required: true
     }
+
   },
 
 
   exits: {
+
     success: {
       outputDescription: 'The streaming bytes of the specified thing\'s photo.',
       outputType: 'ref'
     },
+
     forbidden: { responseType: 'forbidden' },
+
     notFound: { responseType: 'notFound' }
+
   },
 
 
-  fn: async function (inputs, exits) {
+  fn: async function ({id}) {
 
-    var thing = await Thing.findOne({id: inputs.id});
+    var thing = await Thing.findOne({id});
     if (!thing) { throw 'notFound'; }
 
     // Check permissions.
@@ -43,7 +49,7 @@ module.exports = {
 
     var downloading = await sails.startDownload(thing.imageUploadFd);
 
-    return exits.success(downloading);
+    return downloading;
 
   }
 
