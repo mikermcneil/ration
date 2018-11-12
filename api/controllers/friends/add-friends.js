@@ -29,14 +29,9 @@ module.exports = {
   },
 
 
-  exits: {
+  fn: async function ({friends}) {
 
-  },
-
-
-  fn: async function (inputs, exits) {
-
-    for (let friend of inputs.friends) {
+    for (let friend of friends) {
 
       // Check for an existing account for this user.
       var existingUser = await User.findOne({ emailAddress: friend.emailAddress });
@@ -86,8 +81,6 @@ module.exports = {
       }
 
     }//∞
-
-    return exits.success();
 
   }
 
