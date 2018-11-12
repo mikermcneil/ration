@@ -16,12 +16,12 @@ module.exports = {
   },
 
 
-  fn: async function (inputs, exits) {
+  fn: async function () {
 
     // Respond with view.
-    return exits.success({
+    return {
       currentSection: 'friends'
-    });
+    };
 
   }
 

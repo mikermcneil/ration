@@ -44,9 +44,9 @@ module.exports = {
   },
 
 
-  fn: async function (inputs, exits) {
+  fn: async function ({id, borrowedBy, expectedReturnAt}) {
 
-    var thingToUpdate = await Thing.findOne({ id: inputs.id });
+    var thingToUpdate = await Thing.findOne({ id });
     // Ensure the thing still exists.
     if(!thingToUpdate) {
       throw 'notFound';
@@ -57,13 +57,11 @@ module.exports = {
     }
 
     // Update the `thing` record.
-    await Thing.update({ id: inputs.id })
+    await Thing.update({ id })
     .set({
-      borrowedBy: inputs.borrowedBy,
-      expectedReturnAt: inputs.expectedReturnAt
+      borrowedBy: borrowedBy,
+      expectedReturnAt: expectedReturnAt
     });
-
-    return exits.success();
 
   }
 

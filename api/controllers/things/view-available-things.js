@@ -16,7 +16,7 @@ module.exports = {
   },
 
 
-  fn: async function (inputs, exits) {
+  fn: async function () {
 
     var url = require('url');
 
@@ -39,10 +39,10 @@ module.exports = {
     });
 
     // Respond with view.
-    return exits.success({
+    return {
       currentSection: 'things',
       things: things,
-    });
+    };
 
   }
 

@@ -6,7 +6,7 @@ module.exports = {
   description: 'Deliver reminders to borrowers of items that are past-due to be returned.',
 
 
-  fn: async function(inputs, exits){
+  fn: async function(){
     var moment = require('moment');
 
     var overdueThings = await Thing.find({
@@ -40,8 +40,6 @@ module.exports = {
 
     }//∞
 
-
-    return exits.success();
   }
 
 };

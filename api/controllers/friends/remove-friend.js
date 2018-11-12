@@ -27,18 +27,18 @@ module.exports = {
   },
 
 
-  fn: async function (inputs, exits) {
+  fn: async function ({id}) {
 
-    var friendToRemove = await User.findOne({ id: inputs.id })
+    var friendToRemove = await User.findOne({ id })
     .populate('friends');
 
     // Ensure the friend is in our `friends`.
-    if(!_.find(this.req.me.friends, {id: inputs.id})) {
+    if(!_.find(this.req.me.friends, {id: id})) {
       throw 'notFound';
     }
     // Remove the friend from the logged-in user's friends.
     await User.removeFromCollection(this.req.me.id, 'friends')
-    .members([ inputs.id ]);
+    .members([ id ]);
 
 
     // Ensure the logged-in user is in this person's `friends`
@@ -46,11 +46,8 @@ module.exports = {
       throw 'notFound';
     }
     // Remove the logged-in user from the other user's friends.
-    await User.removeFromCollection(inputs.id, 'friends')
+    await User.removeFromCollection(id, 'friends')
     .members([ this.req.me.id ]);
-
-
-    return exits.success();
 
   }
 

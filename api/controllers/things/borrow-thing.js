@@ -41,11 +41,11 @@ module.exports = {
   },
 
 
-  fn: async function (inputs, exits) {
+  fn: async function ({id, expectedReturnAt, pickupInfo}) {
 
     var moment = require('moment');
 
-    var borrowing = await Thing.findOne({ id: inputs.id }).populate('owner');
+    var borrowing = await Thing.findOne({ id }).populate('owner');
 
     // Check permissions.
     // (You can only borrow items from friends.)
@@ -56,8 +56,8 @@ module.exports = {
 
     // Format our text for the notification email.
     var itemLabel = borrowing.label || 'item';
-    var formattedExpectedReturnAt = moment(inputs.expectedReturnAt).format('dddd, MMMM Do');
-    var formattedPickupInfoText = inputs.pickupInfo.charAt(0).toLowerCase() + inputs.pickupInfo.slice(1);
+    var formattedExpectedReturnAt = moment(expectedReturnAt).format('dddd, MMMM Do');
+    var formattedPickupInfoText = pickupInfo.charAt(0).toLowerCase() + pickupInfo.slice(1);
     formattedPickupInfoText = formattedPickupInfoText.replace(/\.$/, '');
 
     // Send the owner a notification email.
@@ -76,12 +76,10 @@ module.exports = {
     });
 
     // Update the `thing` record to show it is being borrowed.
-    await Thing.update({ id: inputs.id }).set({
+    await Thing.update({ id }).set({
       borrowedBy: this.req.me.id,
-      expectedReturnAt: inputs.expectedReturnAt
+      expectedReturnAt: expectedReturnAt
     });
-
-    return exits.success();
 
   }
 
