@@ -30,27 +30,27 @@ module.exports = {
   },
 
 
-  fn: async function (inputs, exits) {
+  fn: async function ({token}) {
 
     // If no token was provided, this is automatically invalid.
-    if (!inputs.token) {
+    if (!token) {
       throw 'invalidOrExpiredToken';
     }
 
-    var accountInfo = await User.findOne({ emailProofToken: inputs.token });
+    var accountInfo = await User.findOne({ emailProofToken: token });
     if(!accountInfo) {
       throw 'invalidOrExpiredToken';
     }
 
     // Respond with view, and the information we have
     // about this unclaimed account.
-    return exits.success({
+    return {
       unclaimedAccount: {
         fullName: accountInfo.fullName,
         emailAddress: accountInfo.emailAddress,
         emailProofToken: accountInfo.emailProofToken
       }
-    });
+    };
 
   }
 

@@ -43,9 +43,9 @@ module.exports = {
   },
 
 
-  fn: async function (inputs, exits) {
+  fn: async function ({password, fullName, token}) {
 
-    var userRecord = await User.findOne({ emailProofToken: inputs.token });
+    var userRecord = await User.findOne({ emailProofToken: token });
     if(!userRecord) {
       throw 'invalidOrExpiredToken';
     }
@@ -53,8 +53,8 @@ module.exports = {
     // Update the existing user with the provided account information,
     // and clear out the emailProofToken and its friends.
     await User.update({ id: userRecord.id }).set({
-      password: await sails.helpers.passwords.hashPassword(inputs.password),
-      fullName: inputs.fullName,
+      password: await sails.helpers.passwords.hashPassword(password),
+      fullName: fullName,
       tosAcceptedByIp: this.req.ip,
       emailStatus: 'confirmed',
       emailProofToken: '',
@@ -63,8 +63,6 @@ module.exports = {
 
     // Log the user in for subsequent requests.
     this.req.session.userId = userRecord.id;
-
-    return exits.success();
 
   }
 
