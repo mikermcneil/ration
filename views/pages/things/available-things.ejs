@@ -29,7 +29,7 @@
           <span class="options-button" data-toggle="tooltip" data-placement="top" title="Delete" @click="clickDeleteThing(thing.id)" v-if="thing.owner.id === me.id"><span class="fa fa-trash-o text-danger"></span></span>
           <span class="options-button borrow" data-toggle="tooltip" data-placement="top" title="Borrow" @click="clickBorrow(thing.id)" v-else><span class="fa fa-handshake-o text-dark"></span></span>
         </div>
-        <img :alt="thing.label ? thing.label : 'A mysterious item'" :src="thing.imageSrc"/>
+        <img alt="A mysterious item" :alt="thing.label ? thing.label : 'A mysterious item'" :src="thing.imageSrc"/>
         <span class="label" v-if="thing.label">{{thing.label}}<br/></span>
         <small class="owner text-secondary" v-if="thing.owner.id === me.id"><span class="fa fa-home mr-1"></span> Mine</small>
         <small class="owner text-success" v-else-if="thing.borrowedBy && thing.borrowedBy.id === me.id"><span class="fa fa-star-o mr-1"></span> Borrowing</small>
@@ -97,7 +97,7 @@
       <div class="modal-body">
         <div class="item-preview d-flex justify-content-center">
           <div class="card">
-            <img :alt="selectedThing.label ? selectedThing.label : 'A mysterious item'" :src="selectedThing.imageSrc"/>
+            <img alt="A mysterious item" :alt="selectedThing.label ? selectedThing.label : 'A mysterious item'" :src="selectedThing.imageSrc"/>
           </div>
         </div>
         <div class="form-group mt-4">
@@ -162,7 +162,7 @@
       <div class="modal-body">
         <div class="item-preview d-flex justify-content-center">
           <div class="card">
-            <img :alt="selectedThing.label ? selectedThing.label : 'A mysterious item'" :src="selectedThing.imageSrc"/>
+            <img alt="A mysterious item" :alt="selectedThing.label ? selectedThing.label : 'A mysterious item'" :src="selectedThing.imageSrc"/>
           </div>
         </div>
         <div class="form-group mt-4">
