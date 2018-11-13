@@ -47,6 +47,10 @@ the account verification message.)`,
 
   exits: {
 
+    success: {
+      description: 'New user account was created successfully.'
+    },
+
     invalid: {
       responseType: 'badRequest',
       description: 'The provided fullName, password and/or email address are invalid.',
@@ -62,13 +66,13 @@ the account verification message.)`,
   },
 
 
-  fn: async function (inputs, exits) {
+  fn: async function (inputs) {
 
     var newEmailAddress = inputs.emailAddress.toLowerCase();
 
     // Build up data for the new user record and save it to the database.
     // (Also use `fetch` to retrieve the new ID so that we can use it below.)
-    var newUserRecord = await User.create(Object.assign({
+    var newUserRecord = await User.create(_.extend({
       emailAddress: newEmailAddress,
       password: await sails.helpers.passwords.hashPassword(inputs.password),
       fullName: inputs.fullName,
@@ -87,8 +91,9 @@ the account verification message.)`,
     if (sails.config.custom.enableBillingFeatures) {
       let stripeCustomerId = await sails.helpers.stripe.saveBillingInfo.with({
         emailAddress: newEmailAddress
-      });
-      await User.update(newUserRecord.id).set({
+      }).timeout(5000).retry();
+      await User.updateOne(newUserRecord.id)
+      .set({
         stripeCustomerId
       });
     }
@@ -110,9 +115,6 @@ the account verification message.)`,
     } else {
       sails.log.info('Skipping new account email verification... (since `verifyEmailAddresses` is disabled)');
     }
-
-    // Since everything went ok, send our 200 response.
-    return exits.success();
 
   }
 

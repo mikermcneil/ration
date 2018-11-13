@@ -6,14 +6,15 @@ module.exports = {
   description: 'Regenerate the configuration for the "Cloud SDK" -- the JavaScript module used for AJAX and WebSockets.',
 
 
-  fn: async function(inputs, exits){
+  fn: async function(){
 
     var path = require('path');
 
     var endpointsByMethodName = {};
     var extraEndpointsOnlyForTestsByMethodName = {};
 
-    _.each(sails.config.routes, (target)=>{
+    for (let address in sails.config.routes) {
+      let target = sails.config.routes[address];
 
       // If the route target is an array, then only consider
       // the very last sub-target in the array.
@@ -25,13 +26,13 @@ module.exports = {
       // (Note that, by doing this, we also skip traditional shorthand
       // -- that's ok though.)
       if (_.isString(target)) {
-        return;
+        continue;
       }
 
       // Skip routes whose target doesn't contain `action` for any
       // other miscellaneous reason.
       if (!target.action) {
-        return;
+        continue;
       }
 
       // Just about everything else gets a Cloud SDK method.
@@ -48,7 +49,7 @@ module.exports = {
           verb: (expandedAddress.method||'get').toUpperCase(),
           url: expandedAddress.url
         };
-        return;
+        continue;
       }//•
 
       endpointsByMethodName[methodName] = {
@@ -63,7 +64,7 @@ module.exports = {
       var requestable = sails.getActions()[target.action];
       if (!requestable) {
         sails.log.warn('Skipping unrecognized action: `'+target.action+'`');
-        return;
+        continue;
       }
       var def = requestable.toJSON && requestable.toJSON();
       if (def && def.fn) {
@@ -82,10 +83,15 @@ module.exports = {
       if (target.isSocket) {
         endpointsByMethodName[methodName].protocol = 'io.socket';
       }
+    }//∞
 
-    });//∞
-
-    var jsCode =
+    // Smash and rewrite the `cloud.setup.js` file in the assets folder to
+    // reflect the latest set of available cloud actions exposed by this Sails
+    // app (as determined by its routes above)
+    await sails.helpers.fs.write.with({
+      destination: path.resolve(sails.config.appPath, 'assets/js/cloud.setup.js'),
+      force: true,
+      string: ``+
 `/**
  * cloud.setup.js
  *
@@ -94,28 +100,18 @@ module.exports = {
  * Above all, the purpose of this file is to provide endpoint definitions,
  * each of which corresponds with one particular route+action on the server.
  *
- `+//* > This file was automatically generated. `+new Date()+`
- `* > This file was automatically generated.
+ * > This file was automatically generated.
  * > (To regenerate, run \`sails run rebuild-cloud-sdk\`)
  */
 
 Cloud.setup({
 
   /* eslint-disable */
-  methods: `+JSON.stringify(endpointsByMethodName)+`
+  methods: ${JSON.stringify(endpointsByMethodName)}
   /* eslint-enable */
 
-});\n`;
-
-    jsCode = _.template(jsCode)(endpointsByMethodName);
-
-    // Smash and rewrite the `cloud.setup.js` file in the assets folder to
-    // reflect the latest set of available cloud actions exposed by this Sails
-    // app (as determined by its routes above)
-    await sails.helpers.fs.write.with({
-      destination: path.resolve(sails.config.appPath, 'assets/js/cloud.setup.js'),
-      string: jsCode,
-      force: true
+});`+
+      `\n`
     });
 
     // Also, if a `test/` folder exists, set up a barebones bounce of this data
@@ -133,7 +129,6 @@ Cloud.setup({
     sails.log.info('Successfully rebuilt Cloud SDK for use in the browser.');
     sails.log.info('(and CLOUD_SDK_METHODS.json for use in automated tests)');
 
-    return exits.success();
   }
 
 };

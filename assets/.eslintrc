@@ -40,19 +40,19 @@
     "parasails": true,
     "$": true,
     "_": true,
+    "bowser": true,
     "StripeCheckout": true,
     "Stripe": true,
     "Vue": true,
     "VueRouter": true,
-    // "moment": true,
-    // "bowser": true
+    "moment": true,
+    // "google": true,
     // ...etc.
     // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
     // Make sure backend globals aren't indadvertently tolerated in our client-side JS:
     // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
     "sails": false,
-    "async": false,
     "User": false
     // ...and any other backend globals (e.g. `"Organization": false`)
     // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -

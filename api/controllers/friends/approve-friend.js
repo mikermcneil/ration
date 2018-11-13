@@ -29,10 +29,10 @@ module.exports = {
   },
 
 
-  fn: async function (inputs, exits) {
+  fn: async function ({id}) {
 
     var otherUser = await User.findOne({
-      id: inputs.id
+      id
     })
     .populate('outboundFriendRequests', { id: this.req.me.id });
 
@@ -42,17 +42,15 @@ module.exports = {
 
     // Add the logged-in user to this person's friends, and add this person
     // to the logged-in user's friends.
-    await User.addToCollection(inputs.id, 'friends')
+    await User.addToCollection(id, 'friends')
     .members([this.req.me.id]);
     await User.addToCollection(this.req.me.id, 'friends')
-    .members([inputs.id]);
+    .members([id]);
 
     // Now remove from this person's outbound requests (which also automatically
     // removes from the logged-in user's inbound requests.)
-    await User.removeFromCollection(inputs.id, 'outboundFriendRequests')
+    await User.removeFromCollection(id, 'outboundFriendRequests')
     .members([this.req.me.id]);
-
-    return exits.success();
 
   }
 

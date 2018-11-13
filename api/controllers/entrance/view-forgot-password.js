@@ -22,13 +22,13 @@ module.exports = {
   },
 
 
-  fn: async function (inputs, exits) {
+  fn: async function () {
 
     if (this.req.me) {
       throw {redirect: '/'};
     }
 
-    return exits.success();
+    return {};
 
   }
 

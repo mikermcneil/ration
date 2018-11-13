@@ -28,13 +28,13 @@ module.exports = {
   },
 
 
-  fn: async function (inputs, exits) {
+  fn: async function (inputs) {
 
     // Find the record for this user.
     // (Even if no such user exists, pretend it worked to discourage sniffing.)
     var userRecord = await User.findOne({ emailAddress: inputs.emailAddress });
     if (!userRecord) {
-      return exits.success();
+      return;
     }//•
 
     // Come up with a pseudorandom, probabilistically-unique token for use
@@ -43,7 +43,8 @@ module.exports = {
 
     // Store the token on the user record
     // (This allows us to look up the user when the link from the email is clicked.)
-    await User.update({ id: userRecord.id }).set({
+    await User.update({ id: userRecord.id })
+    .set({
       passwordResetToken: token,
       passwordResetTokenExpiresAt: Date.now() + sails.config.custom.passwordResetTokenTTL,
     });
@@ -58,8 +59,6 @@ module.exports = {
         token: token
       }
     });
-
-    return exits.success();
 
   }
 

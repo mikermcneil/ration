@@ -50,20 +50,20 @@ module.exports = {
   },
 
 
-  fn: async function (inputs, exits) {
+  fn: async function (inputs) {
 
     // Add, update, or remove the default payment source for the logged-in user's
     // customer entry in Stripe.
     var stripeCustomerId = await sails.helpers.stripe.saveBillingInfo.with({
       stripeCustomerId: this.req.me.stripeCustomerId,
       token: inputs.stripeToken || '',
-    });
+    }).timeout(5000).retry();
 
     // Update (or clear) the card info we have stored for this user in our database.
     // > Remember, never store complete card numbers-- only the last 4 digits + expiration!
     // > Storing (or even receiving) complete, unencrypted card numbers would require PCI
     // > compliance in the U.S.
-    await User.update({ id: this.req.me.id })
+    await User.updateOne({ id: this.req.me.id })
     .set({
       stripeCustomerId,
       hasBillingCard: inputs.stripeToken ? true : false,
@@ -73,7 +73,6 @@ module.exports = {
       billingCardExpYear: inputs.stripeToken ? inputs.billingCardExpYear : ''
     });
 
-    return exits.success();
   }
 
 

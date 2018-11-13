@@ -20,19 +20,23 @@ module.exports = {
       description: 'The dropoff time information to use in the message sent to the owner.',
       example: 'Tomorrow or thursday',
       required: true
-    }
+    },
+
   },
 
 
   exits: {
+
     forbidden: { responseType: 'forbidden' },
+
     notFound: { responseType: 'notFound' }
+
   },
 
 
-  fn: async function (inputs, exits) {
+  fn: async function ({id, dropoffInfo}) {
 
-    var borrowing = await Thing.findOne({ id: inputs.id }).populate('owner');
+    var borrowing = await Thing.findOne({ id }).populate('owner');
     if(!borrowing) {
       throw 'notFound';
     }
@@ -44,7 +48,7 @@ module.exports = {
 
     // Format our text for the notification email.
     var itemLabel = borrowing.label || 'item';
-    var formattedDropoffInfoText = inputs.dropoffInfo.charAt(0).toLowerCase() + inputs.dropoffInfo.slice(1);
+    var formattedDropoffInfoText = dropoffInfo.charAt(0).toLowerCase() + dropoffInfo.slice(1);
     formattedDropoffInfoText = formattedDropoffInfoText.replace(/\.$/, '');
 
     // Send the owner a notification email.
@@ -60,8 +64,6 @@ module.exports = {
         dropoffInfo: formattedDropoffInfoText
       }
     });
-
-    return exits.success();
 
   }
 

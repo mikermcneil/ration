@@ -23,7 +23,7 @@ module.exports = {
   },
 
 
-  fn: async function (inputs, exits) {
+  fn: async function ({}) {
 
     if (this.req.me) {
       // If this user has no friends, go to the page for sending friend requests.
@@ -35,8 +35,6 @@ module.exports = {
         throw {redirect:'/things'};
       }
     }
-
-    return exits.success();
 
   }
 

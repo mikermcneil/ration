@@ -31,9 +31,9 @@ module.exports = {
   },
 
 
-  fn: async function (inputs, exits) {
+  fn: async function ({id}) {
 
-    var thingToDestroy = await Thing.findOne({ id: inputs.id });
+    var thingToDestroy = await Thing.findOne({ id });
     // Ensure the thing still exists.
     if(!thingToDestroy) {
       throw 'notFound';
@@ -43,10 +43,8 @@ module.exports = {
       throw 'forbidden';
     }
 
-    // Destroy the record.
-    await Thing.destroy({ id: inputs.id });
-
-    return exits.success();
+    // Archive the record.
+    await Thing.archiveOne({ id });
 
   }
 

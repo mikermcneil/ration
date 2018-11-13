@@ -1,4 +1,8 @@
-<!DOCTYPE html>
+<% if(typeof me === 'undefined') {
+  // In case we're displaying the 404 or 500 page and relevant code in the "custom" hook was not able to run,
+  // we make sure `me` exists.  This ensures we don't have to do `typeof` checks below.
+  var me = undefined;
+} %><!DOCTYPE html>
 <html>
   <head>
     <title>Ration</title>
@@ -6,10 +10,23 @@
     <% /* Viewport tag for sensible mobile support */ %>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
-    <% /* Script tags should normally be included further down the page- but scripts
-    that load fonts are a special exception to the rule.  (We include them up here
-    above the <body> to prevent the page flickering when fonts load.)  */ %>
+    <% /* Script tags should normally be included further down the page- but any
+    scripts that load fonts (e.g. Fontawesome ≥v5) are special exceptions to the
+    rule. (Include them up here along with any hard-coded «link» tags for Typekit,
+    Google Fonts, etc. - above the «body» to prevent the page flickering when fonts
+    load.) */ %>
     <script src="https://use.fontawesome.com/96cbd61ead.js"></script>
+
+    <% /* Certain scripts, normally analytics tools like Google Tag Manager and
+    Google Analytics, should only be included in production: */
+    if (sails.config.environment === 'production') { %>
+    <!-- Google Analytics, Google Tag Manager, etc. -->
+    <% }
+    /* Otherwise, any such scripts are excluded, and we instead inject a
+    robots/noindex meta tag to help prevent any unwanted visits from search engines. */
+    else { %>
+    <meta name="robots" content="noindex">
+    <% } %>
 
     <%/* Google Font */%>
     <link href="https://fonts.googleapis.com/css?family=Lato:400,400i,900" rel="stylesheet">
@@ -139,7 +156,7 @@
     <script src="/js/utilities/open-stripe-checkout.js"></script>
     <script src="/js/pages/498.page.js"></script>
     <script src="/js/pages/account/account-overview.page.js"></script>
-    <script src="/js/pages/account/change-password.page.js"></script>
+    <script src="/js/pages/account/edit-password.page.js"></script>
     <script src="/js/pages/account/edit-profile.page.js"></script>
     <script src="/js/pages/contact.page.js"></script>
     <script src="/js/pages/entrance/claim-account.page.js"></script>
