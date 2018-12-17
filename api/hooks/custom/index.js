@@ -11,25 +11,23 @@ module.exports = function defineCustomHook(sails) {
 
     /**
      * Runs when a Sails app loads/lifts.
-     *
-     * @param {Function} done
      */
-    initialize: async function (done) {
+    initialize: async function () {
 
       sails.log.info('Initializing hook... (`api/hooks/custom`)');
 
       // Check Stripe/Mailgun configuration (for billing and emails).
-      var MANDATORY_STRIPE_CONFIG = ['stripeSecret', 'stripePublishableKey'];
-      var MANDATORY_MAILGUN_CONFIG = ['mailgunSecret', 'mailgunDomain', 'internalEmailAddress'];
-      var isMissingStripeConfig = _.difference(MANDATORY_STRIPE_CONFIG, Object.keys(sails.config.custom)).length > 0;
-      var isMissingMailgunConfig = _.difference(MANDATORY_MAILGUN_CONFIG, Object.keys(sails.config.custom)).length > 0;
+      var IMPORTANT_STRIPE_CONFIG = ['stripeSecret', 'stripePublishableKey'];
+      var IMPORTANT_MAILGUN_CONFIG = ['mailgunSecret', 'mailgunDomain', 'internalEmailAddress'];
+      var isMissingStripeConfig = _.difference(IMPORTANT_STRIPE_CONFIG, Object.keys(sails.config.custom)).length > 0;
+      var isMissingMailgunConfig = _.difference(IMPORTANT_MAILGUN_CONFIG, Object.keys(sails.config.custom)).length > 0;
 
       if (isMissingStripeConfig || isMissingMailgunConfig) {
 
         let missingFeatureText = isMissingStripeConfig && isMissingMailgunConfig ? 'billing and email' : isMissingStripeConfig ? 'billing' : 'email';
-        let verboseSuffix = '';
-        if (_.contains(['verbose', 'silly'], sails.config.log.level)) {
-          verboseSuffix =
+        let suffix = '';
+        if (_.contains(['silly'], sails.config.log.level)) {
+          suffix =
 `
 > Tip: To exclude sensitive credentials from source control, use:
 > • config/local.js (for local development)
@@ -61,16 +59,16 @@ module.exports = function defineCustomHook(sails) {
           problems.push('No `sails.config.custom.internalEmailAddress` was configured.');
         }
 
-        sails.log.warn(
+        sails.log.verbose(
 `Some optional settings have not been configured yet:
 ---------------------------------------------------------------------
 ${problems.join('\n')}
 
-Until this is resolved, this app's ${missingFeatureText} features
+Until this is addressed, this app's ${missingFeatureText} features
 will be disabled and/or hidden in the UI.
 
  [?] If you're unsure or need advice, come by https://sailsjs.com/support
----------------------------------------------------------------------${verboseSuffix}`);
+---------------------------------------------------------------------${suffix}`);
       }//ﬁ
 
       // Set an additional config keys based on whether Stripe config is available.
@@ -97,8 +95,6 @@ will be disabled and/or hidden in the UI.
       // ... Any other app-specific setup code that needs to run on lift,
       // even in production, goes here ...
 
-      return done();
-
     },
 
 
@@ -115,6 +111,8 @@ will be disabled and/or hidden in the UI.
         '/*': {
           skipAssets: true,
           fn: async function(req, res, next){
+
+            var url = require('url');
 
             // First, if this is a GET request (and thus potentially a view),
             // attach a couple of guaranteed locals.
@@ -136,9 +134,28 @@ will be disabled and/or hidden in the UI.
                 throw new Error('Cannot attach view local `me`, because this view local already exists!  (Is it being attached somewhere else?)');
               }
               res.locals.me = undefined;
-
             }//ﬁ
 
+            // Next, if we're running in our actual "production" or "staging" Sails
+            // environment, check if this is a GET request via some other host,
+            // for example a subdomain like `webhooks.` or `click.`.  If so, we'll
+            // automatically go ahead and redirect to the corresponding path under
+            // our base URL, which is environment-specific.
+            // > Note that we DO NOT redirect virtual socket requests and we DO NOT
+            // > redirect non-GET requests (because it can confuse some 3rd party
+            // > platforms that send webhook requests.)  We also DO NOT redirect
+            // > requests in other environments to allow for flexibility during
+            // > development (e.g. so you can preview an app running locally on
+            // > your laptop using a local IP address or a tool like ngrok, in
+            // > case you want to run it on a real, physical mobile/IoT device)
+            var configuredBaseHostname;
+            try {
+              configuredBaseHostname = url.parse(sails.config.custom.baseUrl).host;
+            } catch (unusedErr) { /*…*/}
+            if ((sails.config.environment === 'staging' || sails.config.environment === 'production') && !req.isSocket && req.method === 'GET' && req.hostname !== configuredBaseHostname) {
+              sails.log.info('Redirecting GET request from `'+req.hostname+'` to configured expected host (`'+configuredBaseHostname+'`)...');
+              return res.redirect(sails.config.custom.baseUrl+req.url);
+            }//•
 
             // No session? Proceed as usual.
             // (e.g. request for a static asset)
@@ -184,7 +201,7 @@ will be disabled and/or hidden in the UI.
             var MS_TO_BUFFER = 60*1000;
             var now = Date.now();
             if (loggedInUser.lastSeenAt < now - MS_TO_BUFFER) {
-              User.update({id: loggedInUser.id})
+              User.updateOne({id: loggedInUser.id})
               .set({ lastSeenAt: now })
               .exec((err)=>{
                 if (err) {
