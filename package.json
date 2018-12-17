@@ -10,7 +10,7 @@
     "async": "2.0.1",
     "@sailshq/lodash": "^3.10.3",
     "moment": "^2.19.3",
-    "sails": "^1.1.0-3",
+    "sails": "^1.1.0",
     "sails-hook-apianalytics": "^2.0.0",
     "sails-hook-organics": "^0.15.0",
     "sails-hook-orm": "^2.1.1",
