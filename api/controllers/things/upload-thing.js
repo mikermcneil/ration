@@ -45,7 +45,7 @@ module.exports = {
   },
 
 
-  fn: async function ({photo, label}, exits) {
+  fn: async function ({photo, label}) {
 
     var url = require('url');
     var util = require('util');
@@ -74,10 +74,10 @@ module.exports = {
     var imageSrc = url.resolve(sails.config.custom.baseUrl, '/api/v1/things/'+newThing.id+'/photo');
 
     // Return the newly-created thing, with its `imageSrc`
-    return exits.success({
+    return {
       id: newThing.id,
       imageSrc
-    });
+    };
 
   }
 
