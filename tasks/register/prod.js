@@ -20,8 +20,7 @@ module.exports = function(grunt) {
     'uglify',
     'cssmin',
     'sails-linker:prodJs',
-    'sails-linker:prodStyles',
-    'sails-linker:clientSideTemplates',
+    'sails-linker:prodStyles'
   ]);
 };
 
