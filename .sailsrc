@@ -1,5 +1,1 @@
-{
-  "generators": {
-    "modules": {}
-  }
-}
+{"generators":{"modules":{}},"paths":{"public":"./.www"},"hooks":{"grunt":false}}
