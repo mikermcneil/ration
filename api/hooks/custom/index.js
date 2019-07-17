@@ -148,8 +148,6 @@ will be disabled and/or hidden in the UI.
             // > development (e.g. so you can preview an app running locally on
             // > your laptop using a local IP address or a tool like ngrok, in
             // > case you want to run it on a real, physical mobile/IoT device)
-            sails.log('`req.subdomains`:',req.subdomains);
-            sails.log('`req.subdomains[0]`:',req.subdomains[0]);
             var configuredBaseHostname;
             try {
               configuredBaseHostname = url.parse(sails.config.custom.baseUrl).host;
