@@ -9,7 +9,7 @@
     "@sailshq/socket.io-redis": "^5.2.0",
     "async": "2.0.1",
     "@sailshq/lodash": "^3.10.3",
-    "moment": "^2.19.3",
+    "moment": "^2.29.2",
     "sails": "^1.1.0",
     "sails-hook-apianalytics": "^2.0.0",
     "sails-hook-organics": "^0.16.0",
