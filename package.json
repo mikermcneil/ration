@@ -14,7 +14,7 @@
     "sails-hook-apianalytics": "^2.0.0",
     "sails-hook-organics": "^0.16.0",
     "sails-hook-orm": "^2.1.1",
-    "sails-hook-sockets": "^1.5.5",
+    "sails-hook-sockets": "^2.0.3",
     "sails-hook-uploads": "^0.3.1",
     "sails-mysql": "^1.0.1",
     "skipper-s3": "^0.6.0-7"
